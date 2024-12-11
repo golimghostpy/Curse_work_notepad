@@ -1,0 +1,9 @@
+/home/golimghost/Downloads/clion-2024.3/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/golimghost/Downloads/clion-2024.3/bin/ninja/linux/x64/ninja -G Ninja -S /home/golimghost/Desktop/CProj/Curse_work_notepad -B /home/golimghost/Desktop/CProj/Curse_work_notepad/cmake-build-debug
+-- Found PkgConfig: /usr/bin/pkg-config (found version "1.8.1")
+-- Checking for module 'libpqxx'
+--   Found libpqxx, version 7.9.1
+-- Checking for module 'libpq'
+--   Found libpq, version 17.2
+-- Configuring done (0.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/golimghost/Desktop/CProj/Curse_work_notepad/cmake-build-debug
