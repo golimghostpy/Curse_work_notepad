@@ -290,4 +290,35 @@ CMakeFiles/notebook.dir/command_handler.cpp.o.ddi: \
  /usr/include/c++/14/chrono /usr/include/c++/14/bits/chrono_io.h \
  /usr/include/c++/14/format /usr/include/c++/14/bits/unicode.h \
  /usr/include/c++/14/bits/unicode-data.h /usr/include/pqxx/transactor.hxx \
- /usr/include/pqxx/internal/header-post.hxx
+ /usr/include/pqxx/internal/header-post.hxx /usr/include/c++/14/valarray \
+ /usr/include/c++/14/cmath /usr/include/math.h \
+ /usr/include/x86_64-linux-gnu/bits/math-vector.h \
+ /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \
+ /usr/include/x86_64-linux-gnu/bits/flt-eval-method.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-logb.h \
+ /usr/include/x86_64-linux-gnu/bits/fp-fast.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-helper-functions.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls.h \
+ /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h \
+ /usr/include/x86_64-linux-gnu/bits/iscanonical.h \
+ /usr/include/c++/14/bits/specfun.h /usr/include/c++/14/tr1/gamma.tcc \
+ /usr/include/c++/14/tr1/special_function_util.h \
+ /usr/include/c++/14/tr1/bessel_function.tcc \
+ /usr/include/c++/14/tr1/beta_function.tcc \
+ /usr/include/c++/14/tr1/ell_integral.tcc \
+ /usr/include/c++/14/tr1/exp_integral.tcc \
+ /usr/include/c++/14/tr1/hypergeometric.tcc \
+ /usr/include/c++/14/tr1/legendre_function.tcc \
+ /usr/include/c++/14/tr1/modified_bessel_func.tcc \
+ /usr/include/c++/14/tr1/poly_hermite.tcc \
+ /usr/include/c++/14/tr1/poly_laguerre.tcc \
+ /usr/include/c++/14/tr1/riemann_zeta.tcc \
+ /usr/include/c++/14/bits/valarray_array.h \
+ /usr/include/c++/14/bits/valarray_array.tcc \
+ /usr/include/c++/14/bits/valarray_before.h \
+ /usr/include/c++/14/bits/slice_array.h \
+ /usr/include/c++/14/bits/valarray_after.h \
+ /usr/include/c++/14/bits/gslice.h \
+ /usr/include/c++/14/bits/gslice_array.h \
+ /usr/include/c++/14/bits/mask_array.h \
+ /usr/include/c++/14/bits/indirect_array.h

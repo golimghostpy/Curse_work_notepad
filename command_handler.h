@@ -10,6 +10,9 @@
 
 enum class CommandType {
     LOGIN,
+    REG,
+    ADD_CONTACT,
+    CHANGE_PASSWORD,
     UNKNOWN
 };
 
