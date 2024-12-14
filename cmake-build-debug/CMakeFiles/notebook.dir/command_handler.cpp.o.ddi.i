@@ -131289,18 +131289,5449 @@ inline auto perform(TRANSACTION_CALLBACK &&callback, int attempts = 3)
 # 31 "/usr/include/pqxx/pqxx" 2 3 4
 # 10 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h" 2
 
+# 1 "/usr/include/x86_64-linux-gnu/sys/socket.h" 1 3 4
+# 24 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern "C" {
 
-# 11 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h"
-enum class CommandType {
-    LOGIN,
-    REG,
-    ADD_CONTACT,
-    CHANGE_PASSWORD,
-    UNKNOWN
+# 1 "/usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h" 1 3 4
+# 23 "/usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h" 3 4
+# 1 "/usr/lib/gcc/x86_64-linux-gnu/14/include/stddef.h" 1 3 4
+# 24 "/usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h" 2 3 4
+
+
+struct iovec
+  {
+    void *iov_base;
+    size_t iov_len;
+  };
+# 27 "/usr/include/x86_64-linux-gnu/sys/socket.h" 2 3 4
+
+# 1 "/usr/lib/gcc/x86_64-linux-gnu/14/include/stddef.h" 1 3 4
+# 29 "/usr/include/x86_64-linux-gnu/sys/socket.h" 2 3 4
+
+
+
+
+# 1 "/usr/include/x86_64-linux-gnu/bits/socket.h" 1 3 4
+# 27 "/usr/include/x86_64-linux-gnu/bits/socket.h" 3 4
+# 1 "/usr/lib/gcc/x86_64-linux-gnu/14/include/stddef.h" 1 3 4
+# 28 "/usr/include/x86_64-linux-gnu/bits/socket.h" 2 3 4
+# 38 "/usr/include/x86_64-linux-gnu/bits/socket.h" 3 4
+# 1 "/usr/include/x86_64-linux-gnu/bits/socket_type.h" 1 3 4
+# 24 "/usr/include/x86_64-linux-gnu/bits/socket_type.h" 3 4
+enum __socket_type
+{
+  SOCK_STREAM = 1,
+
+
+  SOCK_DGRAM = 2,
+
+
+  SOCK_RAW = 3,
+
+  SOCK_RDM = 4,
+
+  SOCK_SEQPACKET = 5,
+
+
+  SOCK_DCCP = 6,
+
+  SOCK_PACKET = 10,
+
+
+
+
+
+
+
+  SOCK_CLOEXEC = 02000000,
+
+
+  SOCK_NONBLOCK = 00004000
+
+
+};
+# 39 "/usr/include/x86_64-linux-gnu/bits/socket.h" 2 3 4
+# 181 "/usr/include/x86_64-linux-gnu/bits/socket.h" 3 4
+# 1 "/usr/include/x86_64-linux-gnu/bits/sockaddr.h" 1 3 4
+# 28 "/usr/include/x86_64-linux-gnu/bits/sockaddr.h" 3 4
+typedef unsigned short int sa_family_t;
+# 182 "/usr/include/x86_64-linux-gnu/bits/socket.h" 2 3 4
+
+
+struct __attribute__ ((__may_alias__)) sockaddr
+  {
+    sa_family_t sa_family;
+    char sa_data[14];
+  };
+# 197 "/usr/include/x86_64-linux-gnu/bits/socket.h" 3 4
+struct __attribute__ ((__may_alias__)) sockaddr_storage
+  {
+    sa_family_t ss_family;
+    char __ss_padding[(128 - (sizeof (unsigned short int)) - sizeof (unsigned long int))];
+    unsigned long int __ss_align;
+  };
+
+
+
+enum
+  {
+    MSG_OOB = 0x01,
+
+    MSG_PEEK = 0x02,
+
+    MSG_DONTROUTE = 0x04,
+
+
+
+    MSG_TRYHARD = MSG_DONTROUTE,
+
+
+    MSG_CTRUNC = 0x08,
+
+    MSG_PROXY = 0x10,
+
+    MSG_TRUNC = 0x20,
+
+    MSG_DONTWAIT = 0x40,
+
+    MSG_EOR = 0x80,
+
+    MSG_WAITALL = 0x100,
+
+    MSG_FIN = 0x200,
+
+    MSG_SYN = 0x400,
+
+    MSG_CONFIRM = 0x800,
+
+    MSG_RST = 0x1000,
+
+    MSG_ERRQUEUE = 0x2000,
+
+    MSG_NOSIGNAL = 0x4000,
+
+    MSG_MORE = 0x8000,
+
+    MSG_WAITFORONE = 0x10000,
+
+    MSG_BATCH = 0x40000,
+
+    MSG_ZEROCOPY = 0x4000000,
+
+    MSG_FASTOPEN = 0x20000000,
+
+
+    MSG_CMSG_CLOEXEC = 0x40000000
+
+
+
+  };
+
+
+
+
+struct msghdr
+  {
+    void *msg_name;
+    socklen_t msg_namelen;
+
+    struct iovec *msg_iov;
+    size_t msg_iovlen;
+
+    void *msg_control;
+    size_t msg_controllen;
+
+
+
+
+    int msg_flags;
+  };
+
+
+struct cmsghdr
+  {
+    size_t cmsg_len;
+
+
+
+
+    int cmsg_level;
+    int cmsg_type;
+
+    __extension__ unsigned char __cmsg_data [];
+
+  };
+# 317 "/usr/include/x86_64-linux-gnu/bits/socket.h" 3 4
+extern struct cmsghdr *__cmsg_nxthdr (struct msghdr *__mhdr,
+          struct cmsghdr *__cmsg) noexcept (true);
+# 364 "/usr/include/x86_64-linux-gnu/bits/socket.h" 3 4
+enum
+  {
+    SCM_RIGHTS = 0x01
+
+
+    , SCM_CREDENTIALS = 0x02
+
+    , SCM_SECURITY = 0x03
+
+    , SCM_PIDFD = 0x04
+
+
+  };
+
+
+
+struct ucred
+{
+  pid_t pid;
+  uid_t uid;
+  gid_t gid;
 };
 
-using namespace std;
-# 2 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 2
+
+
+
+# 1 "/usr/lib/linux/uapi/x86/asm/socket.h" 1 3 4
+# 1 "/usr/include/asm-generic/socket.h" 1 3 4
+
+
+
+
+# 1 "/usr/include/linux/posix_types.h" 1 3 4
+
+
+
+
+# 1 "/usr/include/linux/stddef.h" 1 3 4
+# 6 "/usr/include/linux/posix_types.h" 2 3 4
+# 25 "/usr/include/linux/posix_types.h" 3 4
+typedef struct {
+ unsigned long fds_bits[1024 / (8 * sizeof(long))];
+} __kernel_fd_set;
+
+
+typedef void (*__kernel_sighandler_t)(int);
+
+
+typedef int __kernel_key_t;
+typedef int __kernel_mqd_t;
+
+# 1 "/usr/lib/linux/uapi/x86/asm/posix_types.h" 1 3 4
+
+
+
+
+
+
+# 1 "/usr/lib/linux/uapi/x86/asm/posix_types_64.h" 1 3 4
+# 11 "/usr/lib/linux/uapi/x86/asm/posix_types_64.h" 3 4
+typedef unsigned short __kernel_old_uid_t;
+typedef unsigned short __kernel_old_gid_t;
+
+
+typedef unsigned long __kernel_old_dev_t;
+
+
+# 1 "/usr/include/asm-generic/posix_types.h" 1 3 4
+
+
+
+
+# 1 "/usr/lib/linux/uapi/x86/asm/bitsperlong.h" 1 3 4
+# 11 "/usr/lib/linux/uapi/x86/asm/bitsperlong.h" 3 4
+# 1 "/usr/include/asm-generic/bitsperlong.h" 1 3 4
+# 12 "/usr/lib/linux/uapi/x86/asm/bitsperlong.h" 2 3 4
+# 6 "/usr/include/asm-generic/posix_types.h" 2 3 4
+# 15 "/usr/include/asm-generic/posix_types.h" 3 4
+typedef long __kernel_long_t;
+typedef unsigned long __kernel_ulong_t;
+
+
+
+typedef __kernel_ulong_t __kernel_ino_t;
+
+
+
+typedef unsigned int __kernel_mode_t;
+
+
+
+typedef int __kernel_pid_t;
+
+
+
+typedef int __kernel_ipc_pid_t;
+
+
+
+typedef unsigned int __kernel_uid_t;
+typedef unsigned int __kernel_gid_t;
+
+
+
+typedef __kernel_long_t __kernel_suseconds_t;
+
+
+
+typedef int __kernel_daddr_t;
+
+
+
+typedef unsigned int __kernel_uid32_t;
+typedef unsigned int __kernel_gid32_t;
+# 72 "/usr/include/asm-generic/posix_types.h" 3 4
+typedef __kernel_ulong_t __kernel_size_t;
+typedef __kernel_long_t __kernel_ssize_t;
+typedef __kernel_long_t __kernel_ptrdiff_t;
+
+
+
+
+typedef struct {
+ int val[2];
+} __kernel_fsid_t;
+
+
+
+
+
+typedef __kernel_long_t __kernel_off_t;
+typedef long long __kernel_loff_t;
+typedef __kernel_long_t __kernel_old_time_t;
+typedef __kernel_long_t __kernel_time_t;
+typedef long long __kernel_time64_t;
+typedef __kernel_long_t __kernel_clock_t;
+typedef int __kernel_timer_t;
+typedef int __kernel_clockid_t;
+typedef char * __kernel_caddr_t;
+typedef unsigned short __kernel_uid16_t;
+typedef unsigned short __kernel_gid16_t;
+# 19 "/usr/lib/linux/uapi/x86/asm/posix_types_64.h" 2 3 4
+# 8 "/usr/lib/linux/uapi/x86/asm/posix_types.h" 2 3 4
+# 37 "/usr/include/linux/posix_types.h" 2 3 4
+# 6 "/usr/include/asm-generic/socket.h" 2 3 4
+# 1 "/usr/lib/linux/uapi/x86/asm/sockios.h" 1 3 4
+# 1 "/usr/include/asm-generic/sockios.h" 1 3 4
+# 2 "/usr/lib/linux/uapi/x86/asm/sockios.h" 2 3 4
+# 7 "/usr/include/asm-generic/socket.h" 2 3 4
+# 2 "/usr/lib/linux/uapi/x86/asm/socket.h" 2 3 4
+# 391 "/usr/include/x86_64-linux-gnu/bits/socket.h" 2 3 4
+
+
+
+
+
+
+struct linger
+  {
+    int l_onoff;
+    int l_linger;
+  };
+# 34 "/usr/include/x86_64-linux-gnu/sys/socket.h" 2 3 4
+
+
+# 1 "/usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h" 1 3 4
+
+
+
+
+
+struct osockaddr
+{
+  unsigned short int sa_family;
+  unsigned char sa_data[14];
+};
+# 37 "/usr/include/x86_64-linux-gnu/sys/socket.h" 2 3 4
+
+
+
+
+enum
+{
+  SHUT_RD = 0,
+
+  SHUT_WR,
+
+  SHUT_RDWR
+
+};
+# 90 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+struct mmsghdr
+  {
+    struct msghdr msg_hdr;
+    unsigned int msg_len;
+
+  };
+
+
+
+
+
+
+extern int socket (int __domain, int __type, int __protocol) noexcept (true);
+
+
+
+
+
+extern int socketpair (int __domain, int __type, int __protocol,
+         int __fds[2]) noexcept (true);
+
+
+extern int bind (int __fd, const struct sockaddr * __addr, socklen_t __len)
+     noexcept (true);
+
+
+extern int getsockname (int __fd, struct sockaddr *__restrict __addr,
+   socklen_t *__restrict __len) noexcept (true);
+# 126 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern int connect (int __fd, const struct sockaddr * __addr, socklen_t __len);
+
+
+
+extern int getpeername (int __fd, struct sockaddr *__restrict __addr,
+   socklen_t *__restrict __len) noexcept (true);
+
+
+
+
+
+
+extern ssize_t send (int __fd, const void *__buf, size_t __n, int __flags);
+
+
+
+
+
+
+extern ssize_t recv (int __fd, void *__buf, size_t __n, int __flags);
+
+
+
+
+
+
+extern ssize_t sendto (int __fd, const void *__buf, size_t __n,
+         int __flags, const struct sockaddr * __addr,
+         socklen_t __addr_len);
+# 163 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern ssize_t recvfrom (int __fd, void *__restrict __buf, size_t __n,
+    int __flags, struct sockaddr *__restrict __addr,
+    socklen_t *__restrict __addr_len);
+# 174 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern ssize_t sendmsg (int __fd, const struct msghdr *__message,
+   int __flags);
+# 195 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern int sendmmsg (int __fd, struct mmsghdr *__vmessages,
+       unsigned int __vlen, int __flags);
+# 216 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern ssize_t recvmsg (int __fd, struct msghdr *__message, int __flags);
+# 235 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern int recvmmsg (int __fd, struct mmsghdr *__vmessages,
+       unsigned int __vlen, int __flags,
+       struct timespec *__tmo);
+# 255 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern int getsockopt (int __fd, int __level, int __optname,
+         void *__restrict __optval,
+         socklen_t *__restrict __optlen) noexcept (true);
+# 277 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern int setsockopt (int __fd, int __level, int __optname,
+         const void *__optval, socklen_t __optlen) noexcept (true);
+# 296 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern int listen (int __fd, int __n) noexcept (true);
+# 306 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern int accept (int __fd, struct sockaddr *__restrict __addr,
+     socklen_t *__restrict __addr_len);
+
+
+
+
+
+
+extern int accept4 (int __fd, struct sockaddr *__restrict __addr,
+      socklen_t *__restrict __addr_len, int __flags);
+# 324 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+extern int shutdown (int __fd, int __how) noexcept (true);
+
+
+
+
+extern int sockatmark (int __fd) noexcept (true);
+
+
+
+
+
+
+
+extern int isfdtype (int __fd, int __fdtype) noexcept (true);
+# 346 "/usr/include/x86_64-linux-gnu/sys/socket.h" 3 4
+}
+# 12 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h" 2
+# 1 "/usr/include/netinet/in.h" 1 3 4
+# 27 "/usr/include/netinet/in.h" 3 4
+extern "C" {
+
+
+typedef uint32_t in_addr_t;
+struct in_addr
+  {
+    in_addr_t s_addr;
+  };
+
+
+# 1 "/usr/include/x86_64-linux-gnu/bits/in.h" 1 3 4
+# 145 "/usr/include/x86_64-linux-gnu/bits/in.h" 3 4
+struct ip_opts
+  {
+    struct in_addr ip_dst;
+    char ip_opts[40];
+  };
+
+
+struct in_pktinfo
+  {
+    int ipi_ifindex;
+    struct in_addr ipi_spec_dst;
+    struct in_addr ipi_addr;
+  };
+# 38 "/usr/include/netinet/in.h" 2 3 4
+
+
+enum
+  {
+    IPPROTO_IP = 0,
+
+    IPPROTO_ICMP = 1,
+
+    IPPROTO_IGMP = 2,
+
+    IPPROTO_IPIP = 4,
+
+    IPPROTO_TCP = 6,
+
+    IPPROTO_EGP = 8,
+
+    IPPROTO_PUP = 12,
+
+    IPPROTO_UDP = 17,
+
+    IPPROTO_IDP = 22,
+
+    IPPROTO_TP = 29,
+
+    IPPROTO_DCCP = 33,
+
+    IPPROTO_IPV6 = 41,
+
+    IPPROTO_RSVP = 46,
+
+    IPPROTO_GRE = 47,
+
+    IPPROTO_ESP = 50,
+
+    IPPROTO_AH = 51,
+
+    IPPROTO_MTP = 92,
+
+    IPPROTO_BEETPH = 94,
+
+    IPPROTO_ENCAP = 98,
+
+    IPPROTO_PIM = 103,
+
+    IPPROTO_COMP = 108,
+
+    IPPROTO_L2TP = 115,
+
+    IPPROTO_SCTP = 132,
+
+    IPPROTO_UDPLITE = 136,
+
+    IPPROTO_MPLS = 137,
+
+    IPPROTO_ETHERNET = 143,
+
+    IPPROTO_RAW = 255,
+
+    IPPROTO_MPTCP = 262,
+
+    IPPROTO_MAX
+  };
+
+
+
+
+
+enum
+  {
+    IPPROTO_HOPOPTS = 0,
+
+    IPPROTO_ROUTING = 43,
+
+    IPPROTO_FRAGMENT = 44,
+
+    IPPROTO_ICMPV6 = 58,
+
+    IPPROTO_NONE = 59,
+
+    IPPROTO_DSTOPTS = 60,
+
+    IPPROTO_MH = 135
+
+  };
+
+
+
+typedef uint16_t in_port_t;
+
+
+enum
+  {
+    IPPORT_ECHO = 7,
+    IPPORT_DISCARD = 9,
+    IPPORT_SYSTAT = 11,
+    IPPORT_DAYTIME = 13,
+    IPPORT_NETSTAT = 15,
+    IPPORT_FTP = 21,
+    IPPORT_TELNET = 23,
+    IPPORT_SMTP = 25,
+    IPPORT_TIMESERVER = 37,
+    IPPORT_NAMESERVER = 42,
+    IPPORT_WHOIS = 43,
+    IPPORT_MTP = 57,
+
+    IPPORT_TFTP = 69,
+    IPPORT_RJE = 77,
+    IPPORT_FINGER = 79,
+    IPPORT_TTYLINK = 87,
+    IPPORT_SUPDUP = 95,
+
+
+    IPPORT_EXECSERVER = 512,
+    IPPORT_LOGINSERVER = 513,
+    IPPORT_CMDSERVER = 514,
+    IPPORT_EFSSERVER = 520,
+
+
+    IPPORT_BIFFUDP = 512,
+    IPPORT_WHOSERVER = 513,
+    IPPORT_ROUTESERVER = 520,
+
+
+    IPPORT_RESERVED = 1024,
+
+
+    IPPORT_USERRESERVED = 5000
+  };
+# 221 "/usr/include/netinet/in.h" 3 4
+struct in6_addr
+  {
+    union
+      {
+ uint8_t __u6_addr8[16];
+ uint16_t __u6_addr16[8];
+ uint32_t __u6_addr32[4];
+      } __in6_u;
+
+
+
+
+
+  };
+
+
+extern const struct in6_addr in6addr_any;
+extern const struct in6_addr in6addr_loopback;
+# 247 "/usr/include/netinet/in.h" 3 4
+struct __attribute__ ((__may_alias__)) sockaddr_in
+  {
+    sa_family_t sin_family;
+    in_port_t sin_port;
+    struct in_addr sin_addr;
+
+
+    unsigned char sin_zero[sizeof (struct sockaddr)
+      - (sizeof (unsigned short int))
+      - sizeof (in_port_t)
+      - sizeof (struct in_addr)];
+  };
+
+
+
+
+
+struct __attribute__ ((__may_alias__)) sockaddr_in6
+  {
+    sa_family_t sin6_family;
+    in_port_t sin6_port;
+    uint32_t sin6_flowinfo;
+    struct in6_addr sin6_addr;
+    uint32_t sin6_scope_id;
+  };
+
+
+
+
+struct ip_mreq
+  {
+
+    struct in_addr imr_multiaddr;
+
+
+    struct in_addr imr_interface;
+  };
+
+
+struct ip_mreqn
+  {
+
+    struct in_addr imr_multiaddr;
+
+
+    struct in_addr imr_address;
+
+
+    int imr_ifindex;
+  };
+
+struct ip_mreq_source
+  {
+
+    struct in_addr imr_multiaddr;
+
+
+    struct in_addr imr_interface;
+
+
+    struct in_addr imr_sourceaddr;
+  };
+
+
+
+
+struct ipv6_mreq
+  {
+
+    struct in6_addr ipv6mr_multiaddr;
+
+
+    unsigned int ipv6mr_interface;
+  };
+
+
+
+
+struct group_req
+  {
+
+    uint32_t gr_interface;
+
+
+    struct sockaddr_storage gr_group;
+  };
+
+struct group_source_req
+  {
+
+    uint32_t gsr_interface;
+
+
+    struct sockaddr_storage gsr_group;
+
+
+    struct sockaddr_storage gsr_source;
+  };
+
+
+
+struct ip_msfilter
+  {
+
+    struct in_addr imsf_multiaddr;
+
+
+    struct in_addr imsf_interface;
+
+
+    uint32_t imsf_fmode;
+
+
+    uint32_t imsf_numsrc;
+
+    struct in_addr imsf_slist[1];
+  };
+
+
+
+
+
+struct group_filter
+  {
+
+    uint32_t gf_interface;
+
+
+    struct sockaddr_storage gf_group;
+
+
+    uint32_t gf_fmode;
+
+
+    uint32_t gf_numsrc;
+
+    struct sockaddr_storage gf_slist[1];
+};
+# 399 "/usr/include/netinet/in.h" 3 4
+extern uint32_t ntohl (uint32_t __netlong) noexcept (true) __attribute__ ((__const__));
+extern uint16_t ntohs (uint16_t __netshort)
+     noexcept (true) __attribute__ ((__const__));
+extern uint32_t htonl (uint32_t __hostlong)
+     noexcept (true) __attribute__ ((__const__));
+extern uint16_t htons (uint16_t __hostshort)
+     noexcept (true) __attribute__ ((__const__));
+
+
+
+
+# 1 "/usr/include/x86_64-linux-gnu/bits/byteswap.h" 1 3 4
+# 411 "/usr/include/netinet/in.h" 2 3 4
+# 1 "/usr/include/x86_64-linux-gnu/bits/uintn-identity.h" 1 3 4
+# 412 "/usr/include/netinet/in.h" 2 3 4
+# 527 "/usr/include/netinet/in.h" 3 4
+extern int bindresvport (int __sockfd, struct sockaddr_in *__sock_in) noexcept (true);
+
+
+extern int bindresvport6 (int __sockfd, struct sockaddr_in6 *__sock_in)
+     noexcept (true);
+# 557 "/usr/include/netinet/in.h" 3 4
+struct cmsghdr;
+
+
+
+struct in6_pktinfo
+  {
+    struct in6_addr ipi6_addr;
+    unsigned int ipi6_ifindex;
+  };
+
+
+struct ip6_mtuinfo
+  {
+    struct sockaddr_in6 ip6m_addr;
+    uint32_t ip6m_mtu;
+  };
+
+
+
+extern int inet6_option_space (int __nbytes)
+     noexcept (true) __attribute__ ((__deprecated__));
+extern int inet6_option_init (void *__bp, struct cmsghdr **__cmsgp,
+         int __type) noexcept (true) __attribute__ ((__deprecated__));
+extern int inet6_option_append (struct cmsghdr *__cmsg,
+    const uint8_t *__typep, int __multx,
+    int __plusy) noexcept (true) __attribute__ ((__deprecated__));
+extern uint8_t *inet6_option_alloc (struct cmsghdr *__cmsg, int __datalen,
+        int __multx, int __plusy)
+     noexcept (true) __attribute__ ((__deprecated__));
+extern int inet6_option_next (const struct cmsghdr *__cmsg,
+         uint8_t **__tptrp)
+     noexcept (true) __attribute__ ((__deprecated__));
+extern int inet6_option_find (const struct cmsghdr *__cmsg,
+         uint8_t **__tptrp, int __type)
+     noexcept (true) __attribute__ ((__deprecated__));
+
+
+
+extern int inet6_opt_init (void *__extbuf, socklen_t __extlen) noexcept (true);
+extern int inet6_opt_append (void *__extbuf, socklen_t __extlen, int __offset,
+        uint8_t __type, socklen_t __len, uint8_t __align,
+        void **__databufp) noexcept (true);
+extern int inet6_opt_finish (void *__extbuf, socklen_t __extlen, int __offset)
+     noexcept (true);
+extern int inet6_opt_set_val (void *__databuf, int __offset, void *__val,
+         socklen_t __vallen) noexcept (true);
+extern int inet6_opt_next (void *__extbuf, socklen_t __extlen, int __offset,
+      uint8_t *__typep, socklen_t *__lenp,
+      void **__databufp) noexcept (true);
+extern int inet6_opt_find (void *__extbuf, socklen_t __extlen, int __offset,
+      uint8_t __type, socklen_t *__lenp,
+      void **__databufp) noexcept (true);
+extern int inet6_opt_get_val (void *__databuf, int __offset, void *__val,
+         socklen_t __vallen) noexcept (true);
+
+
+
+extern socklen_t inet6_rth_space (int __type, int __segments) noexcept (true);
+extern void *inet6_rth_init (void *__bp, socklen_t __bp_len, int __type,
+        int __segments) noexcept (true);
+extern int inet6_rth_add (void *__bp, const struct in6_addr *__addr) noexcept (true);
+extern int inet6_rth_reverse (const void *__in, void *__out) noexcept (true);
+extern int inet6_rth_segments (const void *__bp) noexcept (true);
+extern struct in6_addr *inet6_rth_getaddr (const void *__bp, int __index)
+     noexcept (true);
+
+
+
+
+
+extern int getipv4sourcefilter (int __s, struct in_addr __interface_addr,
+    struct in_addr __group, uint32_t *__fmode,
+    uint32_t *__numsrc, struct in_addr *__slist)
+     noexcept (true);
+
+
+extern int setipv4sourcefilter (int __s, struct in_addr __interface_addr,
+    struct in_addr __group, uint32_t __fmode,
+    uint32_t __numsrc,
+    const struct in_addr *__slist)
+     noexcept (true);
+
+
+
+extern int getsourcefilter (int __s, uint32_t __interface_addr,
+       const struct sockaddr *__group,
+       socklen_t __grouplen, uint32_t *__fmode,
+       uint32_t *__numsrc,
+       struct sockaddr_storage *__slist) noexcept (true);
+
+
+extern int setsourcefilter (int __s, uint32_t __interface_addr,
+       const struct sockaddr *__group,
+       socklen_t __grouplen, uint32_t __fmode,
+       uint32_t __numsrc,
+       const struct sockaddr_storage *__slist) noexcept (true);
+
+
+}
+# 13 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h" 2
+# 1 "/usr/include/arpa/inet.h" 1 3 4
+# 30 "/usr/include/arpa/inet.h" 3 4
+extern "C" {
+
+
+
+extern in_addr_t inet_addr (const char *__cp) noexcept (true);
+
+
+extern in_addr_t inet_lnaof (struct in_addr __in) noexcept (true);
+
+
+
+extern struct in_addr inet_makeaddr (in_addr_t __net, in_addr_t __host)
+     noexcept (true);
+
+
+extern in_addr_t inet_netof (struct in_addr __in) noexcept (true);
+
+
+
+extern in_addr_t inet_network (const char *__cp) noexcept (true);
+
+
+
+extern char *inet_ntoa (struct in_addr __in) noexcept (true);
+
+
+
+
+extern int inet_pton (int __af, const char *__restrict __cp,
+        void *__restrict __buf) noexcept (true);
+
+
+
+
+extern const char *inet_ntop (int __af, const void *__restrict __cp,
+         char *__restrict __buf, socklen_t __len)
+     noexcept (true);
+
+
+
+
+
+
+extern int inet_aton (const char *__cp, struct in_addr *__inp) noexcept (true);
+
+
+
+extern char *inet_neta (in_addr_t __net, char *__buf, size_t __len) noexcept (true)
+  __attribute__ ((__deprecated__ ("Use inet_ntop instead")));
+
+
+
+
+extern char *inet_net_ntop (int __af, const void *__cp, int __bits,
+       char *__buf, size_t __len) noexcept (true);
+
+
+
+
+extern int inet_net_pton (int __af, const char *__cp,
+     void *__buf, size_t __len) noexcept (true);
+
+
+
+
+extern unsigned int inet_nsap_addr (const char *__cp,
+        unsigned char *__buf, int __len) noexcept (true);
+
+
+
+extern char *inet_nsap_ntoa (int __len, const unsigned char *__cp,
+        char *__buf) noexcept (true);
+
+
+}
+# 14 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h" 2
+
+# 1 "/usr/include/c++/14/thread" 1 3
+# 32 "/usr/include/c++/14/thread" 3
+       
+# 33 "/usr/include/c++/14/thread" 3
+# 42 "/usr/include/c++/14/thread" 3
+# 1 "/usr/include/c++/14/stop_token" 1 3
+# 35 "/usr/include/c++/14/stop_token" 3
+# 1 "/usr/include/c++/14/bits/version.h" 1 3
+# 47 "/usr/include/c++/14/bits/version.h" 3
+       
+# 48 "/usr/include/c++/14/bits/version.h" 3
+# 36 "/usr/include/c++/14/stop_token" 2 3
+
+
+
+# 1 "/usr/include/c++/14/atomic" 1 3
+# 35 "/usr/include/c++/14/atomic" 3
+       
+# 36 "/usr/include/c++/14/atomic" 3
+# 48 "/usr/include/c++/14/atomic" 3
+# 1 "/usr/include/c++/14/bits/version.h" 1 3
+# 47 "/usr/include/c++/14/bits/version.h" 3
+       
+# 48 "/usr/include/c++/14/bits/version.h" 3
+# 49 "/usr/include/c++/14/atomic" 2 3
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+
+
+
+
+  template<typename _Tp>
+    struct atomic;
+
+
+
+  template<>
+  struct atomic<bool>
+  {
+    using value_type = bool;
+
+  private:
+    __atomic_base<bool> _M_base;
+
+  public:
+    atomic() noexcept = default;
+    ~atomic() noexcept = default;
+    atomic(const atomic&) = delete;
+    atomic& operator=(const atomic&) = delete;
+    atomic& operator=(const atomic&) volatile = delete;
+
+    constexpr atomic(bool __i) noexcept : _M_base(__i) { }
+
+    bool
+    operator=(bool __i) noexcept
+    { return _M_base.operator=(__i); }
+
+    bool
+    operator=(bool __i) volatile noexcept
+    { return _M_base.operator=(__i); }
+
+    operator bool() const noexcept
+    { return _M_base.load(); }
+
+    operator bool() const volatile noexcept
+    { return _M_base.load(); }
+
+    bool
+    is_lock_free() const noexcept { return _M_base.is_lock_free(); }
+
+    bool
+    is_lock_free() const volatile noexcept { return _M_base.is_lock_free(); }
+
+
+    static constexpr bool is_always_lock_free = 2 == 2;
+
+
+    void
+    store(bool __i, memory_order __m = memory_order_seq_cst) noexcept
+    { _M_base.store(__i, __m); }
+
+    void
+    store(bool __i, memory_order __m = memory_order_seq_cst) volatile noexcept
+    { _M_base.store(__i, __m); }
+
+    bool
+    load(memory_order __m = memory_order_seq_cst) const noexcept
+    { return _M_base.load(__m); }
+
+    bool
+    load(memory_order __m = memory_order_seq_cst) const volatile noexcept
+    { return _M_base.load(__m); }
+
+    bool
+    exchange(bool __i, memory_order __m = memory_order_seq_cst) noexcept
+    { return _M_base.exchange(__i, __m); }
+
+    bool
+    exchange(bool __i,
+      memory_order __m = memory_order_seq_cst) volatile noexcept
+    { return _M_base.exchange(__i, __m); }
+
+    bool
+    compare_exchange_weak(bool& __i1, bool __i2, memory_order __m1,
+     memory_order __m2) noexcept
+    { return _M_base.compare_exchange_weak(__i1, __i2, __m1, __m2); }
+
+    bool
+    compare_exchange_weak(bool& __i1, bool __i2, memory_order __m1,
+     memory_order __m2) volatile noexcept
+    { return _M_base.compare_exchange_weak(__i1, __i2, __m1, __m2); }
+
+    bool
+    compare_exchange_weak(bool& __i1, bool __i2,
+     memory_order __m = memory_order_seq_cst) noexcept
+    { return _M_base.compare_exchange_weak(__i1, __i2, __m); }
+
+    bool
+    compare_exchange_weak(bool& __i1, bool __i2,
+       memory_order __m = memory_order_seq_cst) volatile noexcept
+    { return _M_base.compare_exchange_weak(__i1, __i2, __m); }
+
+    bool
+    compare_exchange_strong(bool& __i1, bool __i2, memory_order __m1,
+       memory_order __m2) noexcept
+    { return _M_base.compare_exchange_strong(__i1, __i2, __m1, __m2); }
+
+    bool
+    compare_exchange_strong(bool& __i1, bool __i2, memory_order __m1,
+       memory_order __m2) volatile noexcept
+    { return _M_base.compare_exchange_strong(__i1, __i2, __m1, __m2); }
+
+    bool
+    compare_exchange_strong(bool& __i1, bool __i2,
+       memory_order __m = memory_order_seq_cst) noexcept
+    { return _M_base.compare_exchange_strong(__i1, __i2, __m); }
+
+    bool
+    compare_exchange_strong(bool& __i1, bool __i2,
+      memory_order __m = memory_order_seq_cst) volatile noexcept
+    { return _M_base.compare_exchange_strong(__i1, __i2, __m); }
+
+
+    void
+    wait(bool __old, memory_order __m = memory_order_seq_cst) const noexcept
+    { _M_base.wait(__old, __m); }
+
+
+
+    void
+    notify_one() noexcept
+    { _M_base.notify_one(); }
+
+    void
+    notify_all() noexcept
+    { _M_base.notify_all(); }
+
+  };
+# 202 "/usr/include/c++/14/atomic" 3
+  template<typename _Tp>
+    struct atomic
+    {
+      using value_type = _Tp;
+
+    private:
+
+      static constexpr int _S_min_alignment
+ = (sizeof(_Tp) & (sizeof(_Tp) - 1)) || sizeof(_Tp) > 16
+ ? 0 : sizeof(_Tp);
+
+      static constexpr int _S_alignment
+        = _S_min_alignment > alignof(_Tp) ? _S_min_alignment : alignof(_Tp);
+
+      alignas(_S_alignment) _Tp _M_i = _Tp();
+
+      static_assert(__is_trivially_copyable(_Tp),
+      "std::atomic requires a trivially copyable type");
+
+      static_assert(sizeof(_Tp) > 0,
+      "Incomplete or zero-sized types are not supported");
+
+
+      static_assert(is_copy_constructible_v<_Tp>);
+      static_assert(is_move_constructible_v<_Tp>);
+      static_assert(is_copy_assignable_v<_Tp>);
+      static_assert(is_move_assignable_v<_Tp>);
+
+
+    public:
+      atomic() = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(_Tp __i) noexcept : _M_i(__i)
+      {
+
+ if constexpr (__atomic_impl::__maybe_has_padding<_Tp>())
+   __builtin_clear_padding(std::__addressof(_M_i));
+
+      }
+
+      operator _Tp() const noexcept
+      { return load(); }
+
+      operator _Tp() const volatile noexcept
+      { return load(); }
+
+      _Tp
+      operator=(_Tp __i) noexcept
+      { store(__i); return __i; }
+
+      _Tp
+      operator=(_Tp __i) volatile noexcept
+      { store(__i); return __i; }
+
+      bool
+      is_lock_free() const noexcept
+      {
+
+ return __atomic_is_lock_free(sizeof(_M_i),
+     reinterpret_cast<void *>(-_S_alignment));
+      }
+
+      bool
+      is_lock_free() const volatile noexcept
+      {
+
+ return __atomic_is_lock_free(sizeof(_M_i),
+     reinterpret_cast<void *>(-_S_alignment));
+      }
+
+
+      static constexpr bool is_always_lock_free
+ = __atomic_always_lock_free(sizeof(_M_i), 0);
+
+
+      void
+      store(_Tp __i, memory_order __m = memory_order_seq_cst) noexcept
+      {
+ __atomic_store(std::__addressof(_M_i),
+         __atomic_impl::__clear_padding(__i),
+         int(__m));
+      }
+
+      void
+      store(_Tp __i, memory_order __m = memory_order_seq_cst) volatile noexcept
+      {
+ __atomic_store(std::__addressof(_M_i),
+         __atomic_impl::__clear_padding(__i),
+         int(__m));
+      }
+
+      _Tp
+      load(memory_order __m = memory_order_seq_cst) const noexcept
+      {
+ alignas(_Tp) unsigned char __buf[sizeof(_Tp)];
+ _Tp* __ptr = reinterpret_cast<_Tp*>(__buf);
+ __atomic_load(std::__addressof(_M_i), __ptr, int(__m));
+ return *__ptr;
+      }
+
+      _Tp
+      load(memory_order __m = memory_order_seq_cst) const volatile noexcept
+      {
+        alignas(_Tp) unsigned char __buf[sizeof(_Tp)];
+ _Tp* __ptr = reinterpret_cast<_Tp*>(__buf);
+ __atomic_load(std::__addressof(_M_i), __ptr, int(__m));
+ return *__ptr;
+      }
+
+      _Tp
+      exchange(_Tp __i, memory_order __m = memory_order_seq_cst) noexcept
+      {
+        alignas(_Tp) unsigned char __buf[sizeof(_Tp)];
+ _Tp* __ptr = reinterpret_cast<_Tp*>(__buf);
+ __atomic_exchange(std::__addressof(_M_i),
+     __atomic_impl::__clear_padding(__i),
+     __ptr, int(__m));
+ return *__ptr;
+      }
+
+      _Tp
+      exchange(_Tp __i,
+        memory_order __m = memory_order_seq_cst) volatile noexcept
+      {
+        alignas(_Tp) unsigned char __buf[sizeof(_Tp)];
+ _Tp* __ptr = reinterpret_cast<_Tp*>(__buf);
+ __atomic_exchange(std::__addressof(_M_i),
+     __atomic_impl::__clear_padding(__i),
+     __ptr, int(__m));
+ return *__ptr;
+      }
+
+      bool
+      compare_exchange_weak(_Tp& __e, _Tp __i, memory_order __s,
+       memory_order __f) noexcept
+      {
+ return __atomic_impl::__compare_exchange(_M_i, __e, __i, true,
+       __s, __f);
+      }
+
+      bool
+      compare_exchange_weak(_Tp& __e, _Tp __i, memory_order __s,
+       memory_order __f) volatile noexcept
+      {
+ return __atomic_impl::__compare_exchange(_M_i, __e, __i, true,
+       __s, __f);
+      }
+
+      bool
+      compare_exchange_weak(_Tp& __e, _Tp __i,
+       memory_order __m = memory_order_seq_cst) noexcept
+      { return compare_exchange_weak(__e, __i, __m,
+                                     __cmpexch_failure_order(__m)); }
+
+      bool
+      compare_exchange_weak(_Tp& __e, _Tp __i,
+       memory_order __m = memory_order_seq_cst) volatile noexcept
+      { return compare_exchange_weak(__e, __i, __m,
+                                     __cmpexch_failure_order(__m)); }
+
+      bool
+      compare_exchange_strong(_Tp& __e, _Tp __i, memory_order __s,
+         memory_order __f) noexcept
+      {
+ return __atomic_impl::__compare_exchange(_M_i, __e, __i, false,
+       __s, __f);
+      }
+
+      bool
+      compare_exchange_strong(_Tp& __e, _Tp __i, memory_order __s,
+         memory_order __f) volatile noexcept
+      {
+ return __atomic_impl::__compare_exchange(_M_i, __e, __i, false,
+       __s, __f);
+      }
+
+      bool
+      compare_exchange_strong(_Tp& __e, _Tp __i,
+          memory_order __m = memory_order_seq_cst) noexcept
+      { return compare_exchange_strong(__e, __i, __m,
+                                       __cmpexch_failure_order(__m)); }
+
+      bool
+      compare_exchange_strong(_Tp& __e, _Tp __i,
+       memory_order __m = memory_order_seq_cst) volatile noexcept
+      { return compare_exchange_strong(__e, __i, __m,
+                                       __cmpexch_failure_order(__m)); }
+
+
+      void
+      wait(_Tp __old, memory_order __m = memory_order_seq_cst) const noexcept
+      {
+ std::__atomic_wait_address_v(&_M_i, __old,
+      [__m, this] { return this->load(__m); });
+      }
+
+
+
+      void
+      notify_one() noexcept
+      { std::__atomic_notify_address(&_M_i, false); }
+
+      void
+      notify_all() noexcept
+      { std::__atomic_notify_address(&_M_i, true); }
+
+
+    };
+
+
+
+  template<typename _Tp>
+    struct atomic<_Tp*>
+    {
+      using value_type = _Tp*;
+      using difference_type = ptrdiff_t;
+
+      typedef _Tp* __pointer_type;
+      typedef __atomic_base<_Tp*> __base_type;
+      __base_type _M_b;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__pointer_type __p) noexcept : _M_b(__p) { }
+
+      operator __pointer_type() const noexcept
+      { return __pointer_type(_M_b); }
+
+      operator __pointer_type() const volatile noexcept
+      { return __pointer_type(_M_b); }
+
+      __pointer_type
+      operator=(__pointer_type __p) noexcept
+      { return _M_b.operator=(__p); }
+
+      __pointer_type
+      operator=(__pointer_type __p) volatile noexcept
+      { return _M_b.operator=(__p); }
+
+      __pointer_type
+      operator++(int) noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b++;
+      }
+
+      __pointer_type
+      operator++(int) volatile noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b++;
+      }
+
+      __pointer_type
+      operator--(int) noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b--;
+      }
+
+      __pointer_type
+      operator--(int) volatile noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b--;
+      }
+
+      __pointer_type
+      operator++() noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return ++_M_b;
+      }
+
+      __pointer_type
+      operator++() volatile noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return ++_M_b;
+      }
+
+      __pointer_type
+      operator--() noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return --_M_b;
+      }
+
+      __pointer_type
+      operator--() volatile noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return --_M_b;
+      }
+
+      __pointer_type
+      operator+=(ptrdiff_t __d) noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b.operator+=(__d);
+      }
+
+      __pointer_type
+      operator+=(ptrdiff_t __d) volatile noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b.operator+=(__d);
+      }
+
+      __pointer_type
+      operator-=(ptrdiff_t __d) noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b.operator-=(__d);
+      }
+
+      __pointer_type
+      operator-=(ptrdiff_t __d) volatile noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b.operator-=(__d);
+      }
+
+      bool
+      is_lock_free() const noexcept
+      { return _M_b.is_lock_free(); }
+
+      bool
+      is_lock_free() const volatile noexcept
+      { return _M_b.is_lock_free(); }
+
+
+      static constexpr bool is_always_lock_free
+ = 2 == 2;
+
+
+      void
+      store(__pointer_type __p,
+     memory_order __m = memory_order_seq_cst) noexcept
+      { return _M_b.store(__p, __m); }
+
+      void
+      store(__pointer_type __p,
+     memory_order __m = memory_order_seq_cst) volatile noexcept
+      { return _M_b.store(__p, __m); }
+
+      __pointer_type
+      load(memory_order __m = memory_order_seq_cst) const noexcept
+      { return _M_b.load(__m); }
+
+      __pointer_type
+      load(memory_order __m = memory_order_seq_cst) const volatile noexcept
+      { return _M_b.load(__m); }
+
+      __pointer_type
+      exchange(__pointer_type __p,
+        memory_order __m = memory_order_seq_cst) noexcept
+      { return _M_b.exchange(__p, __m); }
+
+      __pointer_type
+      exchange(__pointer_type __p,
+        memory_order __m = memory_order_seq_cst) volatile noexcept
+      { return _M_b.exchange(__p, __m); }
+
+      bool
+      compare_exchange_weak(__pointer_type& __p1, __pointer_type __p2,
+       memory_order __m1, memory_order __m2) noexcept
+      { return _M_b.compare_exchange_weak(__p1, __p2, __m1, __m2); }
+
+      bool
+      compare_exchange_weak(__pointer_type& __p1, __pointer_type __p2,
+       memory_order __m1,
+       memory_order __m2) volatile noexcept
+      { return _M_b.compare_exchange_weak(__p1, __p2, __m1, __m2); }
+
+      bool
+      compare_exchange_weak(__pointer_type& __p1, __pointer_type __p2,
+       memory_order __m = memory_order_seq_cst) noexcept
+      {
+ return compare_exchange_weak(__p1, __p2, __m,
+         __cmpexch_failure_order(__m));
+      }
+
+      bool
+      compare_exchange_weak(__pointer_type& __p1, __pointer_type __p2,
+      memory_order __m = memory_order_seq_cst) volatile noexcept
+      {
+ return compare_exchange_weak(__p1, __p2, __m,
+         __cmpexch_failure_order(__m));
+      }
+
+      bool
+      compare_exchange_strong(__pointer_type& __p1, __pointer_type __p2,
+         memory_order __m1, memory_order __m2) noexcept
+      { return _M_b.compare_exchange_strong(__p1, __p2, __m1, __m2); }
+
+      bool
+      compare_exchange_strong(__pointer_type& __p1, __pointer_type __p2,
+         memory_order __m1,
+         memory_order __m2) volatile noexcept
+      { return _M_b.compare_exchange_strong(__p1, __p2, __m1, __m2); }
+
+      bool
+      compare_exchange_strong(__pointer_type& __p1, __pointer_type __p2,
+         memory_order __m = memory_order_seq_cst) noexcept
+      {
+ return _M_b.compare_exchange_strong(__p1, __p2, __m,
+         __cmpexch_failure_order(__m));
+      }
+
+      bool
+      compare_exchange_strong(__pointer_type& __p1, __pointer_type __p2,
+      memory_order __m = memory_order_seq_cst) volatile noexcept
+      {
+ return _M_b.compare_exchange_strong(__p1, __p2, __m,
+         __cmpexch_failure_order(__m));
+      }
+
+
+    void
+    wait(__pointer_type __old, memory_order __m = memory_order_seq_cst) const noexcept
+    { _M_b.wait(__old, __m); }
+
+
+
+    void
+    notify_one() noexcept
+    { _M_b.notify_one(); }
+
+    void
+    notify_all() noexcept
+    { _M_b.notify_all(); }
+
+
+      __pointer_type
+      fetch_add(ptrdiff_t __d,
+  memory_order __m = memory_order_seq_cst) noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b.fetch_add(__d, __m);
+      }
+
+      __pointer_type
+      fetch_add(ptrdiff_t __d,
+  memory_order __m = memory_order_seq_cst) volatile noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b.fetch_add(__d, __m);
+      }
+
+      __pointer_type
+      fetch_sub(ptrdiff_t __d,
+  memory_order __m = memory_order_seq_cst) noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b.fetch_sub(__d, __m);
+      }
+
+      __pointer_type
+      fetch_sub(ptrdiff_t __d,
+  memory_order __m = memory_order_seq_cst) volatile noexcept
+      {
+
+ static_assert( is_object<_Tp>::value, "pointer to object type" );
+
+ return _M_b.fetch_sub(__d, __m);
+      }
+    };
+
+
+
+  template<>
+    struct atomic<char> : __atomic_base<char>
+    {
+      typedef char __integral_type;
+      typedef __atomic_base<char> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<signed char> : __atomic_base<signed char>
+    {
+      typedef signed char __integral_type;
+      typedef __atomic_base<signed char> __base_type;
+
+      atomic() noexcept= default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<unsigned char> : __atomic_base<unsigned char>
+    {
+      typedef unsigned char __integral_type;
+      typedef __atomic_base<unsigned char> __base_type;
+
+      atomic() noexcept= default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<short> : __atomic_base<short>
+    {
+      typedef short __integral_type;
+      typedef __atomic_base<short> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<unsigned short> : __atomic_base<unsigned short>
+    {
+      typedef unsigned short __integral_type;
+      typedef __atomic_base<unsigned short> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<int> : __atomic_base<int>
+    {
+      typedef int __integral_type;
+      typedef __atomic_base<int> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<unsigned int> : __atomic_base<unsigned int>
+    {
+      typedef unsigned int __integral_type;
+      typedef __atomic_base<unsigned int> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<long> : __atomic_base<long>
+    {
+      typedef long __integral_type;
+      typedef __atomic_base<long> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<unsigned long> : __atomic_base<unsigned long>
+    {
+      typedef unsigned long __integral_type;
+      typedef __atomic_base<unsigned long> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<long long> : __atomic_base<long long>
+    {
+      typedef long long __integral_type;
+      typedef __atomic_base<long long> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<unsigned long long> : __atomic_base<unsigned long long>
+    {
+      typedef unsigned long long __integral_type;
+      typedef __atomic_base<unsigned long long> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<wchar_t> : __atomic_base<wchar_t>
+    {
+      typedef wchar_t __integral_type;
+      typedef __atomic_base<wchar_t> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free = 2 == 2;
+
+    };
+
+
+
+  template<>
+    struct atomic<char8_t> : __atomic_base<char8_t>
+    {
+      typedef char8_t __integral_type;
+      typedef __atomic_base<char8_t> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free
+ = 2 == 2;
+
+    };
+
+
+
+  template<>
+    struct atomic<char16_t> : __atomic_base<char16_t>
+    {
+      typedef char16_t __integral_type;
+      typedef __atomic_base<char16_t> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free
+ = 2 == 2;
+
+    };
+
+
+  template<>
+    struct atomic<char32_t> : __atomic_base<char32_t>
+    {
+      typedef char32_t __integral_type;
+      typedef __atomic_base<char32_t> __base_type;
+
+      atomic() noexcept = default;
+      ~atomic() noexcept = default;
+      atomic(const atomic&) = delete;
+      atomic& operator=(const atomic&) = delete;
+      atomic& operator=(const atomic&) volatile = delete;
+
+      constexpr atomic(__integral_type __i) noexcept : __base_type(__i) { }
+
+      using __base_type::operator __integral_type;
+      using __base_type::operator=;
+
+
+      static constexpr bool is_always_lock_free
+ = 2 == 2;
+
+    };
+
+
+
+  typedef atomic<bool> atomic_bool;
+
+
+  typedef atomic<char> atomic_char;
+
+
+  typedef atomic<signed char> atomic_schar;
+
+
+  typedef atomic<unsigned char> atomic_uchar;
+
+
+  typedef atomic<short> atomic_short;
+
+
+  typedef atomic<unsigned short> atomic_ushort;
+
+
+  typedef atomic<int> atomic_int;
+
+
+  typedef atomic<unsigned int> atomic_uint;
+
+
+  typedef atomic<long> atomic_long;
+
+
+  typedef atomic<unsigned long> atomic_ulong;
+
+
+  typedef atomic<long long> atomic_llong;
+
+
+  typedef atomic<unsigned long long> atomic_ullong;
+
+
+  typedef atomic<wchar_t> atomic_wchar_t;
+
+
+
+  typedef atomic<char8_t> atomic_char8_t;
+
+
+
+  typedef atomic<char16_t> atomic_char16_t;
+
+
+  typedef atomic<char32_t> atomic_char32_t;
+
+
+
+
+
+
+  typedef atomic<int8_t> atomic_int8_t;
+
+
+  typedef atomic<uint8_t> atomic_uint8_t;
+
+
+  typedef atomic<int16_t> atomic_int16_t;
+
+
+  typedef atomic<uint16_t> atomic_uint16_t;
+
+
+  typedef atomic<int32_t> atomic_int32_t;
+
+
+  typedef atomic<uint32_t> atomic_uint32_t;
+
+
+  typedef atomic<int64_t> atomic_int64_t;
+
+
+  typedef atomic<uint64_t> atomic_uint64_t;
+
+
+
+  typedef atomic<int_least8_t> atomic_int_least8_t;
+
+
+  typedef atomic<uint_least8_t> atomic_uint_least8_t;
+
+
+  typedef atomic<int_least16_t> atomic_int_least16_t;
+
+
+  typedef atomic<uint_least16_t> atomic_uint_least16_t;
+
+
+  typedef atomic<int_least32_t> atomic_int_least32_t;
+
+
+  typedef atomic<uint_least32_t> atomic_uint_least32_t;
+
+
+  typedef atomic<int_least64_t> atomic_int_least64_t;
+
+
+  typedef atomic<uint_least64_t> atomic_uint_least64_t;
+
+
+
+  typedef atomic<int_fast8_t> atomic_int_fast8_t;
+
+
+  typedef atomic<uint_fast8_t> atomic_uint_fast8_t;
+
+
+  typedef atomic<int_fast16_t> atomic_int_fast16_t;
+
+
+  typedef atomic<uint_fast16_t> atomic_uint_fast16_t;
+
+
+  typedef atomic<int_fast32_t> atomic_int_fast32_t;
+
+
+  typedef atomic<uint_fast32_t> atomic_uint_fast32_t;
+
+
+  typedef atomic<int_fast64_t> atomic_int_fast64_t;
+
+
+  typedef atomic<uint_fast64_t> atomic_uint_fast64_t;
+
+
+
+  typedef atomic<intptr_t> atomic_intptr_t;
+
+
+  typedef atomic<uintptr_t> atomic_uintptr_t;
+
+
+  typedef atomic<size_t> atomic_size_t;
+
+
+  typedef atomic<ptrdiff_t> atomic_ptrdiff_t;
+
+
+  typedef atomic<intmax_t> atomic_intmax_t;
+
+
+  typedef atomic<uintmax_t> atomic_uintmax_t;
+
+
+  inline bool
+  atomic_flag_test_and_set_explicit(atomic_flag* __a,
+        memory_order __m) noexcept
+  { return __a->test_and_set(__m); }
+
+  inline bool
+  atomic_flag_test_and_set_explicit(volatile atomic_flag* __a,
+        memory_order __m) noexcept
+  { return __a->test_and_set(__m); }
+
+
+  inline bool
+  atomic_flag_test(const atomic_flag* __a) noexcept
+  { return __a->test(); }
+
+  inline bool
+  atomic_flag_test(const volatile atomic_flag* __a) noexcept
+  { return __a->test(); }
+
+  inline bool
+  atomic_flag_test_explicit(const atomic_flag* __a,
+       memory_order __m) noexcept
+  { return __a->test(__m); }
+
+  inline bool
+  atomic_flag_test_explicit(const volatile atomic_flag* __a,
+       memory_order __m) noexcept
+  { return __a->test(__m); }
+
+
+  inline void
+  atomic_flag_clear_explicit(atomic_flag* __a, memory_order __m) noexcept
+  { __a->clear(__m); }
+
+  inline void
+  atomic_flag_clear_explicit(volatile atomic_flag* __a,
+        memory_order __m) noexcept
+  { __a->clear(__m); }
+
+  inline bool
+  atomic_flag_test_and_set(atomic_flag* __a) noexcept
+  { return atomic_flag_test_and_set_explicit(__a, memory_order_seq_cst); }
+
+  inline bool
+  atomic_flag_test_and_set(volatile atomic_flag* __a) noexcept
+  { return atomic_flag_test_and_set_explicit(__a, memory_order_seq_cst); }
+
+  inline void
+  atomic_flag_clear(atomic_flag* __a) noexcept
+  { atomic_flag_clear_explicit(__a, memory_order_seq_cst); }
+
+  inline void
+  atomic_flag_clear(volatile atomic_flag* __a) noexcept
+  { atomic_flag_clear_explicit(__a, memory_order_seq_cst); }
+
+
+  inline void
+  atomic_flag_wait(atomic_flag* __a, bool __old) noexcept
+  { __a->wait(__old); }
+
+  inline void
+  atomic_flag_wait_explicit(atomic_flag* __a, bool __old,
+                                memory_order __m) noexcept
+  { __a->wait(__old, __m); }
+
+  inline void
+  atomic_flag_notify_one(atomic_flag* __a) noexcept
+  { __a->notify_one(); }
+
+  inline void
+  atomic_flag_notify_all(atomic_flag* __a) noexcept
+  { __a->notify_all(); }
+
+
+
+
+
+  template<typename _Tp>
+    using __atomic_val_t = __type_identity_t<_Tp>;
+  template<typename _Tp>
+    using __atomic_diff_t = typename atomic<_Tp>::difference_type;
+
+
+
+
+  template<typename _ITp>
+    inline bool
+    atomic_is_lock_free(const atomic<_ITp>* __a) noexcept
+    { return __a->is_lock_free(); }
+
+  template<typename _ITp>
+    inline bool
+    atomic_is_lock_free(const volatile atomic<_ITp>* __a) noexcept
+    { return __a->is_lock_free(); }
+
+  template<typename _ITp>
+    inline void
+    atomic_init(atomic<_ITp>* __a, __atomic_val_t<_ITp> __i) noexcept
+    { __a->store(__i, memory_order_relaxed); }
+
+  template<typename _ITp>
+    inline void
+    atomic_init(volatile atomic<_ITp>* __a, __atomic_val_t<_ITp> __i) noexcept
+    { __a->store(__i, memory_order_relaxed); }
+
+  template<typename _ITp>
+    inline void
+    atomic_store_explicit(atomic<_ITp>* __a, __atomic_val_t<_ITp> __i,
+     memory_order __m) noexcept
+    { __a->store(__i, __m); }
+
+  template<typename _ITp>
+    inline void
+    atomic_store_explicit(volatile atomic<_ITp>* __a, __atomic_val_t<_ITp> __i,
+     memory_order __m) noexcept
+    { __a->store(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_load_explicit(const atomic<_ITp>* __a, memory_order __m) noexcept
+    { return __a->load(__m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_load_explicit(const volatile atomic<_ITp>* __a,
+    memory_order __m) noexcept
+    { return __a->load(__m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_exchange_explicit(atomic<_ITp>* __a, __atomic_val_t<_ITp> __i,
+        memory_order __m) noexcept
+    { return __a->exchange(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_exchange_explicit(volatile atomic<_ITp>* __a,
+        __atomic_val_t<_ITp> __i,
+        memory_order __m) noexcept
+    { return __a->exchange(__i, __m); }
+
+  template<typename _ITp>
+    inline bool
+    atomic_compare_exchange_weak_explicit(atomic<_ITp>* __a,
+       __atomic_val_t<_ITp>* __i1,
+       __atomic_val_t<_ITp> __i2,
+       memory_order __m1,
+       memory_order __m2) noexcept
+    { return __a->compare_exchange_weak(*__i1, __i2, __m1, __m2); }
+
+  template<typename _ITp>
+    inline bool
+    atomic_compare_exchange_weak_explicit(volatile atomic<_ITp>* __a,
+       __atomic_val_t<_ITp>* __i1,
+       __atomic_val_t<_ITp> __i2,
+       memory_order __m1,
+       memory_order __m2) noexcept
+    { return __a->compare_exchange_weak(*__i1, __i2, __m1, __m2); }
+
+  template<typename _ITp>
+    inline bool
+    atomic_compare_exchange_strong_explicit(atomic<_ITp>* __a,
+         __atomic_val_t<_ITp>* __i1,
+         __atomic_val_t<_ITp> __i2,
+         memory_order __m1,
+         memory_order __m2) noexcept
+    { return __a->compare_exchange_strong(*__i1, __i2, __m1, __m2); }
+
+  template<typename _ITp>
+    inline bool
+    atomic_compare_exchange_strong_explicit(volatile atomic<_ITp>* __a,
+         __atomic_val_t<_ITp>* __i1,
+         __atomic_val_t<_ITp> __i2,
+         memory_order __m1,
+         memory_order __m2) noexcept
+    { return __a->compare_exchange_strong(*__i1, __i2, __m1, __m2); }
+
+
+  template<typename _ITp>
+    inline void
+    atomic_store(atomic<_ITp>* __a, __atomic_val_t<_ITp> __i) noexcept
+    { atomic_store_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline void
+    atomic_store(volatile atomic<_ITp>* __a, __atomic_val_t<_ITp> __i) noexcept
+    { atomic_store_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_load(const atomic<_ITp>* __a) noexcept
+    { return atomic_load_explicit(__a, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_load(const volatile atomic<_ITp>* __a) noexcept
+    { return atomic_load_explicit(__a, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_exchange(atomic<_ITp>* __a, __atomic_val_t<_ITp> __i) noexcept
+    { return atomic_exchange_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_exchange(volatile atomic<_ITp>* __a,
+      __atomic_val_t<_ITp> __i) noexcept
+    { return atomic_exchange_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline bool
+    atomic_compare_exchange_weak(atomic<_ITp>* __a,
+     __atomic_val_t<_ITp>* __i1,
+     __atomic_val_t<_ITp> __i2) noexcept
+    {
+      return atomic_compare_exchange_weak_explicit(__a, __i1, __i2,
+         memory_order_seq_cst,
+         memory_order_seq_cst);
+    }
+
+  template<typename _ITp>
+    inline bool
+    atomic_compare_exchange_weak(volatile atomic<_ITp>* __a,
+     __atomic_val_t<_ITp>* __i1,
+     __atomic_val_t<_ITp> __i2) noexcept
+    {
+      return atomic_compare_exchange_weak_explicit(__a, __i1, __i2,
+         memory_order_seq_cst,
+         memory_order_seq_cst);
+    }
+
+  template<typename _ITp>
+    inline bool
+    atomic_compare_exchange_strong(atomic<_ITp>* __a,
+       __atomic_val_t<_ITp>* __i1,
+       __atomic_val_t<_ITp> __i2) noexcept
+    {
+      return atomic_compare_exchange_strong_explicit(__a, __i1, __i2,
+           memory_order_seq_cst,
+           memory_order_seq_cst);
+    }
+
+  template<typename _ITp>
+    inline bool
+    atomic_compare_exchange_strong(volatile atomic<_ITp>* __a,
+       __atomic_val_t<_ITp>* __i1,
+       __atomic_val_t<_ITp> __i2) noexcept
+    {
+      return atomic_compare_exchange_strong_explicit(__a, __i1, __i2,
+           memory_order_seq_cst,
+           memory_order_seq_cst);
+    }
+
+
+
+  template<typename _Tp>
+    inline void
+    atomic_wait(const atomic<_Tp>* __a,
+         typename std::atomic<_Tp>::value_type __old) noexcept
+    { __a->wait(__old); }
+
+  template<typename _Tp>
+    inline void
+    atomic_wait_explicit(const atomic<_Tp>* __a,
+    typename std::atomic<_Tp>::value_type __old,
+    std::memory_order __m) noexcept
+    { __a->wait(__old, __m); }
+
+  template<typename _Tp>
+    inline void
+    atomic_notify_one(atomic<_Tp>* __a) noexcept
+    { __a->notify_one(); }
+
+  template<typename _Tp>
+    inline void
+    atomic_notify_all(atomic<_Tp>* __a) noexcept
+    { __a->notify_all(); }
+
+
+
+
+
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_add_explicit(atomic<_ITp>* __a,
+         __atomic_diff_t<_ITp> __i,
+         memory_order __m) noexcept
+    { return __a->fetch_add(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_add_explicit(volatile atomic<_ITp>* __a,
+         __atomic_diff_t<_ITp> __i,
+         memory_order __m) noexcept
+    { return __a->fetch_add(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_sub_explicit(atomic<_ITp>* __a,
+         __atomic_diff_t<_ITp> __i,
+         memory_order __m) noexcept
+    { return __a->fetch_sub(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_sub_explicit(volatile atomic<_ITp>* __a,
+         __atomic_diff_t<_ITp> __i,
+         memory_order __m) noexcept
+    { return __a->fetch_sub(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_and_explicit(__atomic_base<_ITp>* __a,
+         __atomic_val_t<_ITp> __i,
+         memory_order __m) noexcept
+    { return __a->fetch_and(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_and_explicit(volatile __atomic_base<_ITp>* __a,
+         __atomic_val_t<_ITp> __i,
+         memory_order __m) noexcept
+    { return __a->fetch_and(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_or_explicit(__atomic_base<_ITp>* __a,
+        __atomic_val_t<_ITp> __i,
+        memory_order __m) noexcept
+    { return __a->fetch_or(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_or_explicit(volatile __atomic_base<_ITp>* __a,
+        __atomic_val_t<_ITp> __i,
+        memory_order __m) noexcept
+    { return __a->fetch_or(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_xor_explicit(__atomic_base<_ITp>* __a,
+         __atomic_val_t<_ITp> __i,
+         memory_order __m) noexcept
+    { return __a->fetch_xor(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_xor_explicit(volatile __atomic_base<_ITp>* __a,
+         __atomic_val_t<_ITp> __i,
+         memory_order __m) noexcept
+    { return __a->fetch_xor(__i, __m); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_add(atomic<_ITp>* __a,
+       __atomic_diff_t<_ITp> __i) noexcept
+    { return atomic_fetch_add_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_add(volatile atomic<_ITp>* __a,
+       __atomic_diff_t<_ITp> __i) noexcept
+    { return atomic_fetch_add_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_sub(atomic<_ITp>* __a,
+       __atomic_diff_t<_ITp> __i) noexcept
+    { return atomic_fetch_sub_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_sub(volatile atomic<_ITp>* __a,
+       __atomic_diff_t<_ITp> __i) noexcept
+    { return atomic_fetch_sub_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_and(__atomic_base<_ITp>* __a,
+       __atomic_val_t<_ITp> __i) noexcept
+    { return atomic_fetch_and_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_and(volatile __atomic_base<_ITp>* __a,
+       __atomic_val_t<_ITp> __i) noexcept
+    { return atomic_fetch_and_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_or(__atomic_base<_ITp>* __a,
+      __atomic_val_t<_ITp> __i) noexcept
+    { return atomic_fetch_or_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_or(volatile __atomic_base<_ITp>* __a,
+      __atomic_val_t<_ITp> __i) noexcept
+    { return atomic_fetch_or_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_xor(__atomic_base<_ITp>* __a,
+       __atomic_val_t<_ITp> __i) noexcept
+    { return atomic_fetch_xor_explicit(__a, __i, memory_order_seq_cst); }
+
+  template<typename _ITp>
+    inline _ITp
+    atomic_fetch_xor(volatile __atomic_base<_ITp>* __a,
+       __atomic_val_t<_ITp> __i) noexcept
+    { return atomic_fetch_xor_explicit(__a, __i, memory_order_seq_cst); }
+
+
+  template<>
+    struct atomic<float> : __atomic_float<float>
+    {
+      atomic() noexcept = default;
+
+      constexpr
+      atomic(float __fp) noexcept : __atomic_float<float>(__fp)
+      { }
+
+      atomic& operator=(const atomic&) volatile = delete;
+      atomic& operator=(const atomic&) = delete;
+
+      using __atomic_float<float>::operator=;
+    };
+
+  template<>
+    struct atomic<double> : __atomic_float<double>
+    {
+      atomic() noexcept = default;
+
+      constexpr
+      atomic(double __fp) noexcept : __atomic_float<double>(__fp)
+      { }
+
+      atomic& operator=(const atomic&) volatile = delete;
+      atomic& operator=(const atomic&) = delete;
+
+      using __atomic_float<double>::operator=;
+    };
+
+  template<>
+    struct atomic<long double> : __atomic_float<long double>
+    {
+      atomic() noexcept = default;
+
+      constexpr
+      atomic(long double __fp) noexcept : __atomic_float<long double>(__fp)
+      { }
+
+      atomic& operator=(const atomic&) volatile = delete;
+      atomic& operator=(const atomic&) = delete;
+
+      using __atomic_float<long double>::operator=;
+    };
+# 1756 "/usr/include/c++/14/atomic" 3
+  template<typename _Tp>
+    struct atomic_ref : __atomic_ref<_Tp>
+    {
+      explicit
+      atomic_ref(_Tp& __t) noexcept : __atomic_ref<_Tp>(__t)
+      { }
+
+      atomic_ref& operator=(const atomic_ref&) = delete;
+
+      atomic_ref(const atomic_ref&) = default;
+
+      using __atomic_ref<_Tp>::operator=;
+    };
+
+
+
+
+  using atomic_signed_lock_free
+    = atomic<make_signed_t<__detail::__platform_wait_t>>;
+  using atomic_unsigned_lock_free
+    = atomic<make_unsigned_t<__detail::__platform_wait_t>>;
+# 1793 "/usr/include/c++/14/atomic" 3
+
+}
+# 40 "/usr/include/c++/14/stop_token" 2 3
+# 1 "/usr/include/c++/14/bits/std_thread.h" 1 3
+# 33 "/usr/include/c++/14/bits/std_thread.h" 3
+       
+# 34 "/usr/include/c++/14/bits/std_thread.h" 3
+# 52 "/usr/include/c++/14/bits/std_thread.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 82 "/usr/include/c++/14/bits/std_thread.h" 3
+  class thread
+  {
+  public:
+
+    using native_handle_type = __gthread_t;
+# 96 "/usr/include/c++/14/bits/std_thread.h" 3
+    class id
+    {
+      native_handle_type _M_thread;
+
+    public:
+      id() noexcept : _M_thread() { }
+
+      explicit
+      id(native_handle_type __id) : _M_thread(__id) { }
+
+    private:
+      friend class thread;
+      friend struct hash<id>;
+
+      friend bool
+      operator==(id __x, id __y) noexcept;
+
+
+      friend strong_ordering
+      operator<=>(id __x, id __y) noexcept;
+
+
+
+
+
+      template<class _CharT, class _Traits>
+ friend basic_ostream<_CharT, _Traits>&
+ operator<<(basic_ostream<_CharT, _Traits>& __out, id __id);
+
+
+
+
+
+    };
+
+  private:
+    id _M_id;
+
+
+
+
+    template<typename _Tp>
+      using __not_same = __not_<is_same<__remove_cvref_t<_Tp>, thread>>;
+
+  public:
+    thread() noexcept = default;
+
+
+  private:
+
+
+
+
+
+
+    static void
+    _M_thread_deps_never_run() {
+
+
+
+
+    }
+
+  public:
+    template<typename _Callable, typename... _Args,
+      typename = _Require<__not_same<_Callable>>>
+      explicit
+      thread(_Callable&& __f, _Args&&... __args)
+      {
+ static_assert( __is_invocable<typename decay<_Callable>::type,
+          typename decay<_Args>::type...>::value,
+   "std::thread arguments must be invocable after conversion to rvalues"
+   );
+
+ using _Wrapper = _Call_wrapper<_Callable, _Args...>;
+
+
+ _M_start_thread(_State_ptr(new _State_impl<_Wrapper>(
+       std::forward<_Callable>(__f), std::forward<_Args>(__args)...)),
+     _M_thread_deps_never_run);
+      }
+
+
+    ~thread()
+    {
+      if (joinable())
+ std::__terminate();
+    }
+
+    thread(const thread&) = delete;
+
+    thread(thread&& __t) noexcept
+    { swap(__t); }
+
+    thread& operator=(const thread&) = delete;
+
+    thread& operator=(thread&& __t) noexcept
+    {
+      if (joinable())
+ std::__terminate();
+      swap(__t);
+      return *this;
+    }
+
+    void
+    swap(thread& __t) noexcept
+    { std::swap(_M_id, __t._M_id); }
+
+    bool
+    joinable() const noexcept
+    { return !(_M_id == id()); }
+
+    void
+    join();
+
+    void
+    detach();
+
+    id
+    get_id() const noexcept
+    { return _M_id; }
+
+
+
+    native_handle_type
+    native_handle()
+    { return _M_id._M_thread; }
+
+
+    static unsigned int
+    hardware_concurrency() noexcept;
+
+
+
+  private:
+
+
+
+    struct _State
+    {
+      virtual ~_State();
+      virtual void _M_run() = 0;
+    };
+    using _State_ptr = unique_ptr<_State>;
+
+  private:
+    template<typename _Callable>
+      struct _State_impl : public _State
+      {
+ _Callable _M_func;
+
+ template<typename... _Args>
+   _State_impl(_Args&&... __args)
+   : _M_func(std::forward<_Args>(__args)...)
+   { }
+
+ void
+ _M_run() { _M_func(); }
+      };
+
+    void
+    _M_start_thread(_State_ptr, void (*)());
+# 278 "/usr/include/c++/14/bits/std_thread.h" 3
+  private:
+
+    template<typename _Tuple>
+      struct _Invoker
+      {
+ template<typename... _Args>
+   explicit
+   _Invoker(_Args&&... __args)
+   : _M_t(std::forward<_Args>(__args)...)
+   { }
+
+ _Tuple _M_t;
+
+ template<typename>
+   struct __result;
+ template<typename _Fn, typename... _Args>
+   struct __result<tuple<_Fn, _Args...>>
+   : __invoke_result<_Fn, _Args...>
+   { };
+
+ template<size_t... _Ind>
+   typename __result<_Tuple>::type
+   _M_invoke(_Index_tuple<_Ind...>)
+   { return std::__invoke(std::get<_Ind>(std::move(_M_t))...); }
+
+ typename __result<_Tuple>::type
+ operator()()
+ {
+   using _Indices
+     = typename _Build_index_tuple<tuple_size<_Tuple>::value>::__type;
+   return _M_invoke(_Indices());
+ }
+      };
+
+  public:
+
+    template<typename... _Tp>
+      using _Call_wrapper = _Invoker<tuple<typename decay<_Tp>::type...>>;
+
+
+  };
+# 327 "/usr/include/c++/14/bits/std_thread.h" 3
+  inline void
+  swap(thread& __x, thread& __y) noexcept
+  { __x.swap(__y); }
+
+
+  inline bool
+  operator==(thread::id __x, thread::id __y) noexcept
+  {
+
+
+
+
+    return __x._M_thread == __y._M_thread;
+  }
+
+
+
+
+
+  template<>
+    struct hash<thread::id>
+    : public __hash_base<size_t, thread::id>
+    {
+      size_t
+      operator()(const thread::id& __id) const noexcept
+      { return std::_Hash_impl::hash(__id._M_thread); }
+    };
+
+  namespace this_thread
+  {
+
+    inline thread::id
+    get_id() noexcept
+    {
+
+
+
+      return thread::id(pthread_self());
+
+
+
+    }
+
+
+    inline void
+    yield() noexcept
+    {
+
+      __gthread_yield();
+
+    }
+
+  }
+
+
+
+
+}
+# 41 "/usr/include/c++/14/stop_token" 2 3
+
+# 1 "/usr/include/c++/14/semaphore" 1 3
+# 32 "/usr/include/c++/14/semaphore" 3
+       
+# 33 "/usr/include/c++/14/semaphore" 3
+
+
+
+
+# 1 "/usr/include/c++/14/bits/semaphore_base.h" 1 3
+# 33 "/usr/include/c++/14/bits/semaphore_base.h" 3
+       
+# 34 "/usr/include/c++/14/bits/semaphore_base.h" 3
+
+
+
+
+# 1 "/usr/include/c++/14/bits/atomic_timed_wait.h" 1 3
+# 33 "/usr/include/c++/14/bits/atomic_timed_wait.h" 3
+       
+# 34 "/usr/include/c++/14/bits/atomic_timed_wait.h" 3
+
+
+
+
+
+# 1 "/usr/include/c++/14/bits/this_thread_sleep.h" 1 3
+# 33 "/usr/include/c++/14/bits/this_thread_sleep.h" 3
+       
+# 34 "/usr/include/c++/14/bits/this_thread_sleep.h" 3
+
+
+
+
+
+# 1 "/usr/include/c++/14/cerrno" 1 3
+# 39 "/usr/include/c++/14/cerrno" 3
+       
+# 40 "/usr/include/c++/14/cerrno" 3
+# 40 "/usr/include/c++/14/bits/this_thread_sleep.h" 2 3
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 56 "/usr/include/c++/14/bits/this_thread_sleep.h" 3
+  namespace this_thread
+  {
+# 66 "/usr/include/c++/14/bits/this_thread_sleep.h" 3
+    template<typename _Rep, typename _Period>
+      inline void
+      sleep_for(const chrono::duration<_Rep, _Period>& __rtime)
+      {
+ if (__rtime <= __rtime.zero())
+   return;
+ auto __s = chrono::duration_cast<chrono::seconds>(__rtime);
+ auto __ns = chrono::duration_cast<chrono::nanoseconds>(__rtime - __s);
+
+ struct ::timespec __ts =
+   {
+     static_cast<std::time_t>(__s.count()),
+     static_cast<long>(__ns.count())
+   };
+ while (::nanosleep(&__ts, &__ts) == -1 && (*__errno_location ()) == 4)
+   { }
+
+
+
+      }
+
+
+    template<typename _Clock, typename _Duration>
+      inline void
+      sleep_until(const chrono::time_point<_Clock, _Duration>& __atime)
+      {
+
+ static_assert(chrono::is_clock_v<_Clock>);
+
+ auto __now = _Clock::now();
+ if (_Clock::is_steady)
+   {
+     if (__now < __atime)
+       sleep_for(__atime - __now);
+     return;
+   }
+ while (__now < __atime)
+   {
+     sleep_for(__atime - __now);
+     __now = _Clock::now();
+   }
+      }
+
+  }
+
+
+
+
+}
+# 40 "/usr/include/c++/14/bits/atomic_timed_wait.h" 2 3
+
+
+
+# 1 "/usr/include/x86_64-linux-gnu/sys/time.h" 1 3 4
+# 34 "/usr/include/x86_64-linux-gnu/sys/time.h" 3 4
+extern "C" {
+# 52 "/usr/include/x86_64-linux-gnu/sys/time.h" 3 4
+struct timezone
+  {
+    int tz_minuteswest;
+    int tz_dsttime;
+  };
+# 67 "/usr/include/x86_64-linux-gnu/sys/time.h" 3 4
+extern int gettimeofday (struct timeval *__restrict __tv,
+    void *__restrict __tz) noexcept (true) __attribute__ ((__nonnull__ (1)));
+# 86 "/usr/include/x86_64-linux-gnu/sys/time.h" 3 4
+extern int settimeofday (const struct timeval *__tv,
+    const struct timezone *__tz)
+     noexcept (true);
+
+
+
+
+
+extern int adjtime (const struct timeval *__delta,
+      struct timeval *__olddelta) noexcept (true);
+# 114 "/usr/include/x86_64-linux-gnu/sys/time.h" 3 4
+enum __itimer_which
+  {
+
+    ITIMER_REAL = 0,
+
+
+    ITIMER_VIRTUAL = 1,
+
+
+
+    ITIMER_PROF = 2
+
+  };
+
+
+
+struct itimerval
+  {
+
+    struct timeval it_interval;
+
+    struct timeval it_value;
+  };
+
+
+
+
+
+
+typedef int __itimer_which_t;
+
+
+
+
+
+extern int getitimer (__itimer_which_t __which,
+        struct itimerval *__value) noexcept (true);
+
+
+
+
+extern int setitimer (__itimer_which_t __which,
+        const struct itimerval *__restrict __new,
+        struct itimerval *__restrict __old) noexcept (true);
+
+
+
+
+extern int utimes (const char *__file, const struct timeval __tvp[2])
+     noexcept (true) __attribute__ ((__nonnull__ (1)));
+# 189 "/usr/include/x86_64-linux-gnu/sys/time.h" 3 4
+extern int lutimes (const char *__file, const struct timeval __tvp[2])
+     noexcept (true) __attribute__ ((__nonnull__ (1)));
+
+
+extern int futimes (int __fd, const struct timeval __tvp[2]) noexcept (true);
+# 214 "/usr/include/x86_64-linux-gnu/sys/time.h" 3 4
+extern int futimesat (int __fd, const char *__file,
+        const struct timeval __tvp[2]) noexcept (true);
+# 258 "/usr/include/x86_64-linux-gnu/sys/time.h" 3 4
+}
+# 44 "/usr/include/c++/14/bits/atomic_timed_wait.h" 2 3
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+  namespace __detail
+  {
+    using __wait_clock_t = chrono::steady_clock;
+
+    template<typename _Clock, typename _Dur>
+      __wait_clock_t::time_point
+      __to_wait_clock(const chrono::time_point<_Clock, _Dur>& __atime) noexcept
+      {
+ const typename _Clock::time_point __c_entry = _Clock::now();
+ const __wait_clock_t::time_point __w_entry = __wait_clock_t::now();
+ const auto __delta = __atime - __c_entry;
+ using __w_dur = typename __wait_clock_t::duration;
+ return __w_entry + chrono::ceil<__w_dur>(__delta);
+      }
+
+    template<typename _Dur>
+      __wait_clock_t::time_point
+      __to_wait_clock(const chrono::time_point<__wait_clock_t,
+            _Dur>& __atime) noexcept
+      {
+ using __w_dur = typename __wait_clock_t::duration;
+ return chrono::ceil<__w_dur>(__atime);
+      }
+
+
+
+
+    template<typename _Dur>
+      bool
+      __platform_wait_until_impl(const __platform_wait_t* __addr,
+     __platform_wait_t __old,
+     const chrono::time_point<__wait_clock_t, _Dur>&
+          __atime) noexcept
+      {
+ auto __s = chrono::time_point_cast<chrono::seconds>(__atime);
+ auto __ns = chrono::duration_cast<chrono::nanoseconds>(__atime - __s);
+
+ struct timespec __rt =
+ {
+   static_cast<std::time_t>(__s.time_since_epoch().count()),
+   static_cast<long>(__ns.count())
+ };
+
+ auto __e = syscall (202, __addr,
+       static_cast<int>(__futex_wait_flags::
+      __wait_bitset_private),
+       __old, &__rt, nullptr,
+       static_cast<int>(__futex_wait_flags::
+      __bitset_match_any));
+
+ if (__e)
+   {
+     if ((*__errno_location ()) == 110)
+       return false;
+     if ((*__errno_location ()) != 4 && (*__errno_location ()) != 11)
+       __throw_system_error((*__errno_location ()));
+   }
+ return true;
+      }
+
+
+    template<typename _Clock, typename _Dur>
+      bool
+      __platform_wait_until(const __platform_wait_t* __addr, __platform_wait_t __old,
+       const chrono::time_point<_Clock, _Dur>& __atime)
+      {
+ if constexpr (is_same_v<__wait_clock_t, _Clock>)
+   {
+     return __platform_wait_until_impl(__addr, __old, __atime);
+   }
+ else
+   {
+     if (!__platform_wait_until_impl(__addr, __old,
+         __to_wait_clock(__atime)))
+       {
+
+
+
+  if (_Clock::now() < __atime)
+    return true;
+       }
+     return false;
+   }
+      }
+# 143 "/usr/include/c++/14/bits/atomic_timed_wait.h" 3
+    template<typename _Clock, typename _Dur>
+      bool
+      __cond_wait_until_impl(__condvar& __cv, mutex& __mx,
+        const chrono::time_point<_Clock, _Dur>& __atime)
+      {
+ static_assert(std::__is_one_of<_Clock, chrono::steady_clock,
+            chrono::system_clock>::value);
+
+ auto __s = chrono::time_point_cast<chrono::seconds>(__atime);
+ auto __ns = chrono::duration_cast<chrono::nanoseconds>(__atime - __s);
+
+ __gthread_time_t __ts =
+   {
+     static_cast<std::time_t>(__s.time_since_epoch().count()),
+     static_cast<long>(__ns.count())
+   };
+
+
+ if constexpr (is_same_v<chrono::steady_clock, _Clock>)
+   __cv.wait_until(__mx, 1, __ts);
+ else
+
+   __cv.wait_until(__mx, __ts);
+ return _Clock::now() < __atime;
+      }
+
+
+    template<typename _Clock, typename _Dur>
+      bool
+      __cond_wait_until(__condvar& __cv, mutex& __mx,
+   const chrono::time_point<_Clock, _Dur>& __atime)
+      {
+
+ if constexpr (is_same_v<_Clock, chrono::steady_clock>)
+   return __detail::__cond_wait_until_impl(__cv, __mx, __atime);
+ else
+
+ if constexpr (is_same_v<_Clock, chrono::system_clock>)
+   return __detail::__cond_wait_until_impl(__cv, __mx, __atime);
+ else
+   {
+     if (__cond_wait_until_impl(__cv, __mx,
+           __to_wait_clock(__atime)))
+       {
+
+
+
+  if (_Clock::now() < __atime)
+    return true;
+       }
+     return false;
+   }
+      }
+
+
+    struct __timed_waiter_pool : __waiter_pool_base
+    {
+
+      template<typename _Clock, typename _Dur>
+ bool
+ _M_do_wait_until(__platform_wait_t* __addr, __platform_wait_t __old,
+    const chrono::time_point<_Clock, _Dur>& __atime)
+ {
+
+   return __platform_wait_until(__addr, __old, __atime);
+# 219 "/usr/include/c++/14/bits/atomic_timed_wait.h" 3
+ }
+    };
+
+    struct __timed_backoff_spin_policy
+    {
+      __wait_clock_t::time_point _M_deadline;
+      __wait_clock_t::time_point _M_t0;
+
+      template<typename _Clock, typename _Dur>
+ __timed_backoff_spin_policy(chrono::time_point<_Clock, _Dur>
+          __deadline = _Clock::time_point::max(),
+        chrono::time_point<_Clock, _Dur>
+          __t0 = _Clock::now()) noexcept
+   : _M_deadline(__to_wait_clock(__deadline))
+   , _M_t0(__to_wait_clock(__t0))
+ { }
+
+      bool
+      operator()() const noexcept
+      {
+ using namespace literals::chrono_literals;
+ auto __now = __wait_clock_t::now();
+ if (_M_deadline <= __now)
+   return false;
+
+
+
+ auto __elapsed = __now - _M_t0;
+ if (__elapsed > 128ms)
+   {
+     this_thread::sleep_for(64ms);
+   }
+ else if (__elapsed > 64us)
+   {
+     this_thread::sleep_for(__elapsed / 2);
+   }
+ else if (__elapsed > 4us)
+   {
+     __thread_yield();
+   }
+ else
+   return false;
+ return true;
+      }
+    };
+
+    template<typename _EntersWait>
+      struct __timed_waiter : __waiter_base<__timed_waiter_pool>
+      {
+ using __base_type = __waiter_base<__timed_waiter_pool>;
+
+ template<typename _Tp>
+   __timed_waiter(const _Tp* __addr) noexcept
+   : __base_type(__addr)
+ {
+   if constexpr (_EntersWait::value)
+     _M_w._M_enter_wait();
+ }
+
+ ~__timed_waiter()
+ {
+   if constexpr (_EntersWait::value)
+     _M_w._M_leave_wait();
+ }
+
+
+ template<typename _Tp, typename _ValFn,
+   typename _Clock, typename _Dur>
+   bool
+   _M_do_wait_until_v(_Tp __old, _ValFn __vfn,
+        const chrono::time_point<_Clock, _Dur>&
+        __atime) noexcept
+   {
+     __platform_wait_t __val;
+     if (_M_do_spin(__old, std::move(__vfn), __val,
+      __timed_backoff_spin_policy(__atime)))
+       return true;
+     return __base_type::_M_w._M_do_wait_until(__base_type::_M_addr, __val, __atime);
+   }
+
+
+ template<typename _Pred,
+   typename _Clock, typename _Dur>
+   bool
+   _M_do_wait_until(_Pred __pred, __platform_wait_t __val,
+     const chrono::time_point<_Clock, _Dur>&
+             __atime) noexcept
+   {
+     for (auto __now = _Clock::now(); __now < __atime;
+    __now = _Clock::now())
+       {
+  if (__base_type::_M_w._M_do_wait_until(
+        __base_type::_M_addr, __val, __atime)
+      && __pred())
+    return true;
+
+  if (__base_type::_M_do_spin(__pred, __val,
+          __timed_backoff_spin_policy(__atime, __now)))
+    return true;
+       }
+     return false;
+   }
+
+
+ template<typename _Pred,
+   typename _Clock, typename _Dur>
+   bool
+   _M_do_wait_until(_Pred __pred,
+      const chrono::time_point<_Clock, _Dur>&
+        __atime) noexcept
+   {
+     __platform_wait_t __val;
+     if (__base_type::_M_do_spin(__pred, __val,
+     __timed_backoff_spin_policy(__atime)))
+       return true;
+     return _M_do_wait_until(__pred, __val, __atime);
+   }
+
+ template<typename _Tp, typename _ValFn,
+   typename _Rep, typename _Period>
+   bool
+   _M_do_wait_for_v(_Tp __old, _ValFn __vfn,
+      const chrono::duration<_Rep, _Period>&
+        __rtime) noexcept
+   {
+     __platform_wait_t __val;
+     if (_M_do_spin_v(__old, std::move(__vfn), __val))
+       return true;
+
+     if (!__rtime.count())
+       return false;
+
+     auto __reltime = chrono::ceil<__wait_clock_t::duration>(__rtime);
+
+     return __base_type::_M_w._M_do_wait_until(
+       __base_type::_M_addr,
+       __val,
+       chrono::steady_clock::now() + __reltime);
+   }
+
+ template<typename _Pred,
+   typename _Rep, typename _Period>
+   bool
+   _M_do_wait_for(_Pred __pred,
+    const chrono::duration<_Rep, _Period>& __rtime) noexcept
+   {
+     __platform_wait_t __val;
+     if (__base_type::_M_do_spin(__pred, __val))
+       return true;
+
+     if (!__rtime.count())
+       return false;
+
+     auto __reltime = chrono::ceil<__wait_clock_t::duration>(__rtime);
+
+     return _M_do_wait_until(__pred, __val,
+        chrono::steady_clock::now() + __reltime);
+   }
+      };
+
+    using __enters_timed_wait = __timed_waiter<std::true_type>;
+    using __bare_timed_wait = __timed_waiter<std::false_type>;
+  }
+
+
+  template<typename _Tp, typename _ValFn,
+    typename _Clock, typename _Dur>
+    bool
+    __atomic_wait_address_until_v(const _Tp* __addr, _Tp&& __old, _ValFn&& __vfn,
+   const chrono::time_point<_Clock, _Dur>&
+       __atime) noexcept
+    {
+      __detail::__enters_timed_wait __w{__addr};
+      return __w._M_do_wait_until_v(__old, __vfn, __atime);
+    }
+
+  template<typename _Tp, typename _Pred,
+    typename _Clock, typename _Dur>
+    bool
+    __atomic_wait_address_until(const _Tp* __addr, _Pred __pred,
+    const chrono::time_point<_Clock, _Dur>&
+             __atime) noexcept
+    {
+      __detail::__enters_timed_wait __w{__addr};
+      return __w._M_do_wait_until(__pred, __atime);
+    }
+
+  template<typename _Pred,
+    typename _Clock, typename _Dur>
+    bool
+    __atomic_wait_address_until_bare(const __detail::__platform_wait_t* __addr,
+    _Pred __pred,
+    const chrono::time_point<_Clock, _Dur>&
+             __atime) noexcept
+    {
+      __detail::__bare_timed_wait __w{__addr};
+      return __w._M_do_wait_until(__pred, __atime);
+    }
+
+  template<typename _Tp, typename _ValFn,
+    typename _Rep, typename _Period>
+    bool
+    __atomic_wait_address_for_v(const _Tp* __addr, _Tp&& __old, _ValFn&& __vfn,
+        const chrono::duration<_Rep, _Period>& __rtime) noexcept
+    {
+      __detail::__enters_timed_wait __w{__addr};
+      return __w._M_do_wait_for_v(__old, __vfn, __rtime);
+    }
+
+  template<typename _Tp, typename _Pred,
+    typename _Rep, typename _Period>
+    bool
+    __atomic_wait_address_for(const _Tp* __addr, _Pred __pred,
+        const chrono::duration<_Rep, _Period>& __rtime) noexcept
+    {
+
+      __detail::__enters_timed_wait __w{__addr};
+      return __w._M_do_wait_for(__pred, __rtime);
+    }
+
+  template<typename _Pred,
+    typename _Rep, typename _Period>
+    bool
+    __atomic_wait_address_for_bare(const __detail::__platform_wait_t* __addr,
+   _Pred __pred,
+   const chrono::duration<_Rep, _Period>& __rtime) noexcept
+    {
+      __detail::__bare_timed_wait __w{__addr};
+      return __w._M_do_wait_for(__pred, __rtime);
+    }
+
+}
+# 39 "/usr/include/c++/14/bits/semaphore_base.h" 2 3
+
+
+
+
+# 1 "/usr/include/c++/14/cerrno" 1 3
+# 39 "/usr/include/c++/14/cerrno" 3
+       
+# 40 "/usr/include/c++/14/cerrno" 3
+# 44 "/usr/include/c++/14/bits/semaphore_base.h" 2 3
+# 1 "/usr/lib/gcc/x86_64-linux-gnu/14/include/limits.h" 1 3 4
+# 45 "/usr/include/c++/14/bits/semaphore_base.h" 2 3
+# 1 "/usr/include/semaphore.h" 1 3 4
+# 28 "/usr/include/semaphore.h" 3 4
+# 1 "/usr/include/x86_64-linux-gnu/bits/semaphore.h" 1 3 4
+# 23 "/usr/include/x86_64-linux-gnu/bits/semaphore.h" 3 4
+# 1 "/usr/include/x86_64-linux-gnu/bits/wordsize.h" 1 3 4
+# 24 "/usr/include/x86_64-linux-gnu/bits/semaphore.h" 2 3 4
+# 35 "/usr/include/x86_64-linux-gnu/bits/semaphore.h" 3 4
+typedef union
+{
+  char __size[32];
+  long int __align;
+} sem_t;
+# 29 "/usr/include/semaphore.h" 2 3 4
+
+
+extern "C" {
+
+
+
+extern int sem_init (sem_t *__sem, int __pshared, unsigned int __value)
+  noexcept (true) __attribute__ ((__nonnull__ (1)));
+
+
+extern int sem_destroy (sem_t *__sem) noexcept (true) __attribute__ ((__nonnull__ (1)));
+
+
+extern sem_t *sem_open (const char *__name, int __oflag, ...)
+  noexcept (true) __attribute__ ((__nonnull__ (1)));
+
+
+extern int sem_close (sem_t *__sem) noexcept (true) __attribute__ ((__nonnull__ (1)));
+
+
+extern int sem_unlink (const char *__name) noexcept (true) __attribute__ ((__nonnull__ (1)));
+
+
+
+
+
+extern int sem_wait (sem_t *__sem) __attribute__ ((__nonnull__ (1)));
+
+
+
+
+
+
+
+extern int sem_timedwait (sem_t *__restrict __sem,
+     const struct timespec *__restrict __abstime)
+  __attribute__ ((__nonnull__ (1, 2)));
+# 81 "/usr/include/semaphore.h" 3 4
+extern int sem_clockwait (sem_t *__restrict __sem,
+     clockid_t clock,
+     const struct timespec *__restrict __abstime)
+  __attribute__ ((__nonnull__ (1, 3)));
+# 100 "/usr/include/semaphore.h" 3 4
+extern int sem_trywait (sem_t *__sem) noexcept (true) __attribute__ ((__nonnull__ (1)));
+
+
+extern int sem_post (sem_t *__sem) noexcept (true) __attribute__ ((__nonnull__ (1)));
+
+
+extern int sem_getvalue (sem_t *__restrict __sem, int *__restrict __sval)
+  noexcept (true) __attribute__ ((__nonnull__ (1, 2)));
+
+
+}
+# 46 "/usr/include/c++/14/bits/semaphore_base.h" 2 3
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  struct __platform_semaphore
+  {
+    using __clock_t = chrono::system_clock;
+
+    static constexpr ptrdiff_t _S_max = (2147483647);
+
+
+
+
+    explicit __platform_semaphore(ptrdiff_t __count) noexcept
+    {
+      sem_init(&_M_semaphore, 0, __count);
+    }
+
+    __platform_semaphore(const __platform_semaphore&) = delete;
+    __platform_semaphore& operator=(const __platform_semaphore&) = delete;
+
+    ~__platform_semaphore()
+    { sem_destroy(&_M_semaphore); }
+
+    inline __attribute__((__always_inline__)) void
+    _M_acquire() noexcept
+    {
+      for (;;)
+ {
+   auto __err = sem_wait(&_M_semaphore);
+   if (__err && ((*__errno_location ()) == 4))
+     continue;
+   else if (__err)
+     std::__terminate();
+   else
+     break;
+ }
+    }
+
+    inline __attribute__((__always_inline__)) bool
+    _M_try_acquire() noexcept
+    {
+      for (;;)
+ {
+   auto __err = sem_trywait(&_M_semaphore);
+   if (__err && ((*__errno_location ()) == 4))
+     continue;
+   else if (__err && ((*__errno_location ()) == 11))
+     return false;
+   else if (__err)
+     std::__terminate();
+   else
+     break;
+ }
+      return true;
+    }
+
+    inline __attribute__((__always_inline__)) void
+    _M_release(std::ptrdiff_t __update) noexcept
+    {
+      for(; __update != 0; --__update)
+ {
+    auto __err = sem_post(&_M_semaphore);
+    if (__err)
+      std::__terminate();
+ }
+    }
+
+    bool
+    _M_try_acquire_until_impl(const chrono::time_point<__clock_t>& __atime)
+      noexcept
+    {
+
+      auto __s = chrono::time_point_cast<chrono::seconds>(__atime);
+      auto __ns = chrono::duration_cast<chrono::nanoseconds>(__atime - __s);
+
+      struct timespec __ts =
+      {
+ static_cast<std::time_t>(__s.time_since_epoch().count()),
+ static_cast<long>(__ns.count())
+      };
+
+      for (;;)
+ {
+   if (auto __err = sem_timedwait(&_M_semaphore, &__ts))
+     {
+       if ((*__errno_location ()) == 4)
+  continue;
+       else if ((*__errno_location ()) == 110 || (*__errno_location ()) == 22)
+  return false;
+       else
+  std::__terminate();
+     }
+   else
+     break;
+ }
+      return true;
+    }
+
+    template<typename _Clock, typename _Duration>
+      bool
+      _M_try_acquire_until(const chrono::time_point<_Clock,
+      _Duration>& __atime) noexcept
+      {
+ if constexpr (std::is_same_v<__clock_t, _Clock>)
+   {
+     return _M_try_acquire_until_impl(__atime);
+   }
+ else
+   {
+     const typename _Clock::time_point __c_entry = _Clock::now();
+     const auto __s_entry = __clock_t::now();
+     const auto __delta = __atime - __c_entry;
+     const auto __s_atime = __s_entry + __delta;
+     if (_M_try_acquire_until_impl(__s_atime))
+       return true;
+
+
+
+
+     return (_Clock::now() < __atime);
+   }
+      }
+
+    template<typename _Rep, typename _Period>
+      inline __attribute__((__always_inline__)) bool
+      _M_try_acquire_for(const chrono::duration<_Rep, _Period>& __rtime)
+ noexcept
+      { return _M_try_acquire_until(__clock_t::now() + __rtime); }
+
+  private:
+    sem_t _M_semaphore;
+  };
+
+
+
+  struct __atomic_semaphore
+  {
+    static constexpr ptrdiff_t _S_max = __gnu_cxx::__int_traits<int>::__max;
+    explicit __atomic_semaphore(__detail::__platform_wait_t __count) noexcept
+      : _M_counter(__count)
+    {
+      do { if (std::__is_constant_evaluated()) if (__builtin_expect(!bool(__count >= 0 && __count <= _S_max), false)) std::__glibcxx_assert_fail(); } while (false);
+    }
+
+    __atomic_semaphore(const __atomic_semaphore&) = delete;
+    __atomic_semaphore& operator=(const __atomic_semaphore&) = delete;
+
+    static inline __attribute__((__always_inline__)) bool
+    _S_do_try_acquire(__detail::__platform_wait_t* __counter) noexcept
+    {
+      auto __old = __atomic_impl::load(__counter, memory_order::acquire);
+      if (__old == 0)
+ return false;
+
+      return __atomic_impl::compare_exchange_strong(__counter,
+          __old, __old - 1,
+          memory_order::acquire,
+          memory_order::relaxed);
+    }
+
+    inline __attribute__((__always_inline__)) void
+    _M_acquire() noexcept
+    {
+      auto const __pred =
+ [this] { return _S_do_try_acquire(&this->_M_counter); };
+      std::__atomic_wait_address_bare(&_M_counter, __pred);
+    }
+
+    bool
+    _M_try_acquire() noexcept
+    {
+      auto const __pred =
+ [this] { return _S_do_try_acquire(&this->_M_counter); };
+      return std::__detail::__atomic_spin(__pred);
+    }
+
+    template<typename _Clock, typename _Duration>
+      inline __attribute__((__always_inline__)) bool
+      _M_try_acquire_until(const chrono::time_point<_Clock,
+      _Duration>& __atime) noexcept
+      {
+ auto const __pred =
+   [this] { return _S_do_try_acquire(&this->_M_counter); };
+
+ return __atomic_wait_address_until_bare(&_M_counter, __pred, __atime);
+      }
+
+    template<typename _Rep, typename _Period>
+      inline __attribute__((__always_inline__)) bool
+      _M_try_acquire_for(const chrono::duration<_Rep, _Period>& __rtime)
+ noexcept
+      {
+ auto const __pred =
+   [this] { return _S_do_try_acquire(&this->_M_counter); };
+
+ return __atomic_wait_address_for_bare(&_M_counter, __pred, __rtime);
+      }
+
+    inline __attribute__((__always_inline__)) void
+    _M_release(ptrdiff_t __update) noexcept
+    {
+      if (0 < __atomic_impl::fetch_add(&_M_counter, __update, memory_order_release))
+ return;
+      if (__update > 1)
+ __atomic_notify_address_bare(&_M_counter, true);
+      else
+ __atomic_notify_address_bare(&_M_counter, true);
+
+
+    }
+
+  private:
+    alignas(__detail::__platform_wait_alignment)
+    __detail::__platform_wait_t _M_counter;
+  };
+
+
+
+
+
+  using __semaphore_impl = __atomic_semaphore;
+
+
+
+
+
+}
+# 38 "/usr/include/c++/14/semaphore" 2 3
+
+
+# 1 "/usr/include/c++/14/bits/version.h" 1 3
+# 47 "/usr/include/c++/14/bits/version.h" 3
+       
+# 48 "/usr/include/c++/14/bits/version.h" 3
+# 41 "/usr/include/c++/14/semaphore" 2 3
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+  template<ptrdiff_t __least_max_value = __semaphore_impl::_S_max>
+    class counting_semaphore
+    {
+      static_assert(__least_max_value >= 0);
+      static_assert(__least_max_value <= __semaphore_impl::_S_max);
+
+      __semaphore_impl _M_sem;
+
+    public:
+      explicit counting_semaphore(ptrdiff_t __desired) noexcept
+ : _M_sem(__desired)
+      { }
+
+      ~counting_semaphore() = default;
+
+      counting_semaphore(const counting_semaphore&) = delete;
+      counting_semaphore& operator=(const counting_semaphore&) = delete;
+
+      static constexpr ptrdiff_t
+      max() noexcept
+      { return __least_max_value; }
+
+      void
+      release(ptrdiff_t __update = 1) noexcept(noexcept(_M_sem._M_release(1)))
+      { _M_sem._M_release(__update); }
+
+      void
+      acquire() noexcept(noexcept(_M_sem._M_acquire()))
+      { _M_sem._M_acquire(); }
+
+      bool
+      try_acquire() noexcept(noexcept(_M_sem._M_try_acquire()))
+      { return _M_sem._M_try_acquire(); }
+
+      template<typename _Rep, typename _Period>
+ bool
+ try_acquire_for(const std::chrono::duration<_Rep, _Period>& __rtime)
+ { return _M_sem._M_try_acquire_for(__rtime); }
+
+      template<typename _Clock, typename _Dur>
+ bool
+ try_acquire_until(const std::chrono::time_point<_Clock, _Dur>& __atime)
+ { return _M_sem._M_try_acquire_until(__atime); }
+    };
+
+  using binary_semaphore = std::counting_semaphore<1>;
+
+
+}
+# 43 "/usr/include/c++/14/stop_token" 2 3
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+
+
+  struct nostopstate_t { explicit nostopstate_t() = default; };
+  inline constexpr nostopstate_t nostopstate{};
+
+  class stop_source;
+
+
+  class stop_token
+  {
+  public:
+    stop_token() noexcept = default;
+
+    stop_token(const stop_token&) noexcept = default;
+    stop_token(stop_token&&) noexcept = default;
+
+    ~stop_token() = default;
+
+    stop_token&
+    operator=(const stop_token&) noexcept = default;
+
+    stop_token&
+    operator=(stop_token&&) noexcept = default;
+
+    [[nodiscard]]
+    bool
+    stop_possible() const noexcept
+    {
+      return static_cast<bool>(_M_state) && _M_state->_M_stop_possible();
+    }
+
+    [[nodiscard]]
+    bool
+    stop_requested() const noexcept
+    {
+      return static_cast<bool>(_M_state) && _M_state->_M_stop_requested();
+    }
+
+    void
+    swap(stop_token& __rhs) noexcept
+    { _M_state.swap(__rhs._M_state); }
+
+    [[nodiscard]]
+    friend bool
+    operator==(const stop_token& __a, const stop_token& __b)
+    { return __a._M_state == __b._M_state; }
+
+    friend void
+    swap(stop_token& __lhs, stop_token& __rhs) noexcept
+    { __lhs.swap(__rhs); }
+
+  private:
+    friend class stop_source;
+    template<typename _Callback>
+      friend class stop_callback;
+
+    static void
+    _S_yield() noexcept
+    {
+
+      __builtin_ia32_pause();
+
+      this_thread::yield();
+    }
+# 135 "/usr/include/c++/14/stop_token" 3
+    struct _Stop_cb
+    {
+      using __cb_type = void(_Stop_cb*) noexcept;
+      __cb_type* _M_callback;
+      _Stop_cb* _M_prev = nullptr;
+      _Stop_cb* _M_next = nullptr;
+      bool* _M_destroyed = nullptr;
+      binary_semaphore _M_done{0};
+
+      [[__gnu__::__nonnull__]]
+      explicit
+      _Stop_cb(__cb_type* __cb)
+      : _M_callback(__cb)
+      { }
+
+      void _M_run() noexcept { _M_callback(this); }
+    };
+
+    struct _Stop_state_t
+    {
+      using value_type = uint32_t;
+      static constexpr value_type _S_stop_requested_bit = 1;
+      static constexpr value_type _S_locked_bit = 2;
+      static constexpr value_type _S_ssrc_counter_inc = 4;
+
+      std::atomic<value_type> _M_owners{1};
+      std::atomic<value_type> _M_value{_S_ssrc_counter_inc};
+      _Stop_cb* _M_head = nullptr;
+      std::thread::id _M_requester;
+
+      _Stop_state_t() = default;
+
+      bool
+      _M_stop_possible() noexcept
+      {
+
+
+ return _M_value.load(memory_order::acquire) & ~_S_locked_bit;
+      }
+
+      bool
+      _M_stop_requested() noexcept
+      {
+ return _M_value.load(memory_order::acquire) & _S_stop_requested_bit;
+      }
+
+      void
+      _M_add_owner() noexcept
+      {
+ _M_owners.fetch_add(1, memory_order::relaxed);
+      }
+
+      void
+      _M_release_ownership() noexcept
+      {
+ if (_M_owners.fetch_sub(1, memory_order::acq_rel) == 1)
+   delete this;
+      }
+
+      void
+      _M_add_ssrc() noexcept
+      {
+ _M_value.fetch_add(_S_ssrc_counter_inc, memory_order::relaxed);
+      }
+
+      void
+      _M_sub_ssrc() noexcept
+      {
+ _M_value.fetch_sub(_S_ssrc_counter_inc, memory_order::release);
+      }
+
+
+      void
+      _M_lock() noexcept
+      {
+
+
+ auto __old = _M_value.load(memory_order::relaxed);
+ while (!_M_try_lock(__old, memory_order::relaxed))
+   { }
+      }
+
+
+      void
+      _M_unlock() noexcept
+      {
+ _M_value.fetch_sub(_S_locked_bit, memory_order::release);
+      }
+
+      bool
+      _M_request_stop() noexcept
+      {
+
+ auto __old = _M_value.load(memory_order::acquire);
+ do
+   {
+     if (__old & _S_stop_requested_bit)
+       return false;
+   }
+ while (!_M_try_lock_and_stop(__old));
+
+ _M_requester = this_thread::get_id();
+
+ while (_M_head)
+   {
+     bool __last_cb;
+     _Stop_cb* __cb = _M_head;
+     _M_head = _M_head->_M_next;
+     if (_M_head)
+       {
+  _M_head->_M_prev = nullptr;
+  __last_cb = false;
+       }
+     else
+       __last_cb = true;
+
+
+     _M_unlock();
+
+     bool __destroyed = false;
+     __cb->_M_destroyed = &__destroyed;
+
+
+     __cb->_M_run();
+
+     if (!__destroyed)
+       {
+  __cb->_M_destroyed = nullptr;
+
+
+  if (!__gnu_cxx::__is_single_threaded())
+    __cb->_M_done.release();
+       }
+
+
+     if (__last_cb)
+       return true;
+
+     _M_lock();
+   }
+
+ _M_unlock();
+ return true;
+      }
+
+      [[__gnu__::__nonnull__]]
+      bool
+      _M_register_callback(_Stop_cb* __cb) noexcept
+      {
+ auto __old = _M_value.load(memory_order::acquire);
+ do
+   {
+     if (__old & _S_stop_requested_bit)
+       {
+  __cb->_M_run();
+  return false;
+       }
+
+     if (__old < _S_ssrc_counter_inc)
+
+
+
+       return false;
+   }
+ while (!_M_try_lock(__old));
+
+        __cb->_M_next = _M_head;
+        if (_M_head)
+          {
+            _M_head->_M_prev = __cb;
+          }
+        _M_head = __cb;
+ _M_unlock();
+        return true;
+      }
+
+
+      [[__gnu__::__nonnull__]]
+      void
+      _M_remove_callback(_Stop_cb* __cb)
+      {
+ _M_lock();
+
+        if (__cb == _M_head)
+          {
+            _M_head = _M_head->_M_next;
+            if (_M_head)
+       _M_head->_M_prev = nullptr;
+     _M_unlock();
+     return;
+          }
+ else if (__cb->_M_prev)
+          {
+            __cb->_M_prev->_M_next = __cb->_M_next;
+            if (__cb->_M_next)
+       __cb->_M_next->_M_prev = __cb->_M_prev;
+     _M_unlock();
+     return;
+          }
+
+ _M_unlock();
+
+
+
+
+
+
+
+ if (!(_M_requester == this_thread::get_id()))
+   {
+
+     __cb->_M_done.acquire();
+
+     return;
+   }
+
+ if (__cb->_M_destroyed)
+   *__cb->_M_destroyed = true;
+      }
+
+
+
+
+
+      bool
+      _M_try_lock(value_type& __curval,
+    memory_order __failure = memory_order::acquire) noexcept
+      {
+ return _M_do_try_lock(__curval, 0, memory_order::acquire, __failure);
+      }
+
+
+
+
+
+
+
+      bool
+      _M_try_lock_and_stop(value_type& __curval) noexcept
+      {
+ return _M_do_try_lock(__curval, _S_stop_requested_bit,
+         memory_order::acq_rel, memory_order::acquire);
+      }
+
+      bool
+      _M_do_try_lock(value_type& __curval, value_type __newbits,
+       memory_order __success, memory_order __failure) noexcept
+      {
+ if (__curval & _S_locked_bit)
+   {
+     _S_yield();
+     __curval = _M_value.load(__failure);
+     return false;
+   }
+ __newbits |= _S_locked_bit;
+ return _M_value.compare_exchange_weak(__curval, __curval | __newbits,
+           __success, __failure);
+      }
+    };
+
+    struct _Stop_state_ref
+    {
+      _Stop_state_ref() = default;
+
+      [[__gnu__::__access__(__none__, 2)]]
+      explicit
+      _Stop_state_ref(const stop_source&)
+      : _M_ptr(new _Stop_state_t())
+      { }
+
+      _Stop_state_ref(const _Stop_state_ref& __other) noexcept
+      : _M_ptr(__other._M_ptr)
+      {
+ if (_M_ptr)
+   _M_ptr->_M_add_owner();
+      }
+
+      _Stop_state_ref(_Stop_state_ref&& __other) noexcept
+      : _M_ptr(__other._M_ptr)
+      {
+ __other._M_ptr = nullptr;
+      }
+
+      _Stop_state_ref&
+      operator=(const _Stop_state_ref& __other) noexcept
+      {
+ if (auto __ptr = __other._M_ptr; __ptr != _M_ptr)
+   {
+     if (__ptr)
+       __ptr->_M_add_owner();
+     if (_M_ptr)
+       _M_ptr->_M_release_ownership();
+     _M_ptr = __ptr;
+   }
+ return *this;
+      }
+
+      _Stop_state_ref&
+      operator=(_Stop_state_ref&& __other) noexcept
+      {
+ _Stop_state_ref(std::move(__other)).swap(*this);
+ return *this;
+      }
+
+      ~_Stop_state_ref()
+      {
+ if (_M_ptr)
+   _M_ptr->_M_release_ownership();
+      }
+
+      void
+      swap(_Stop_state_ref& __other) noexcept
+      { std::swap(_M_ptr, __other._M_ptr); }
+
+      explicit operator bool() const noexcept { return _M_ptr != nullptr; }
+
+      _Stop_state_t* operator->() const noexcept { return _M_ptr; }
+
+
+      friend bool
+      operator==(const _Stop_state_ref&, const _Stop_state_ref&) = default;
+# 468 "/usr/include/c++/14/stop_token" 3
+    private:
+      _Stop_state_t* _M_ptr = nullptr;
+    };
+
+    _Stop_state_ref _M_state;
+
+    explicit
+    stop_token(const _Stop_state_ref& __state) noexcept
+    : _M_state{__state}
+    { }
+  };
+
+
+  class stop_source
+  {
+  public:
+    stop_source() : _M_state(*this)
+    { }
+
+    explicit stop_source(std::nostopstate_t) noexcept
+    { }
+
+    stop_source(const stop_source& __other) noexcept
+    : _M_state(__other._M_state)
+    {
+      if (_M_state)
+ _M_state->_M_add_ssrc();
+    }
+
+    stop_source(stop_source&&) noexcept = default;
+
+    stop_source&
+    operator=(const stop_source& __other) noexcept
+    {
+      if (_M_state != __other._M_state)
+ {
+   stop_source __sink(std::move(*this));
+   _M_state = __other._M_state;
+   if (_M_state)
+     _M_state->_M_add_ssrc();
+ }
+      return *this;
+    }
+
+    stop_source&
+    operator=(stop_source&&) noexcept = default;
+
+    ~stop_source()
+    {
+      if (_M_state)
+ _M_state->_M_sub_ssrc();
+    }
+
+    [[nodiscard]]
+    bool
+    stop_possible() const noexcept
+    {
+      return static_cast<bool>(_M_state);
+    }
+
+    [[nodiscard]]
+    bool
+    stop_requested() const noexcept
+    {
+      return static_cast<bool>(_M_state) && _M_state->_M_stop_requested();
+    }
+
+    bool
+    request_stop() const noexcept
+    {
+      if (stop_possible())
+        return _M_state->_M_request_stop();
+      return false;
+    }
+
+    [[nodiscard]]
+    stop_token
+    get_token() const noexcept
+    {
+      return stop_token{_M_state};
+    }
+
+    void
+    swap(stop_source& __other) noexcept
+    {
+      _M_state.swap(__other._M_state);
+    }
+
+    [[nodiscard]]
+    friend bool
+    operator==(const stop_source& __a, const stop_source& __b) noexcept
+    {
+      return __a._M_state == __b._M_state;
+    }
+
+    friend void
+    swap(stop_source& __lhs, stop_source& __rhs) noexcept
+    {
+      __lhs.swap(__rhs);
+    }
+
+  private:
+    stop_token::_Stop_state_ref _M_state;
+  };
+
+
+  template<typename _Callback>
+    class [[nodiscard]] stop_callback
+    {
+      static_assert(is_nothrow_destructible_v<_Callback>);
+      static_assert(is_invocable_v<_Callback>);
+
+    public:
+      using callback_type = _Callback;
+
+      template<typename _Cb,
+               enable_if_t<is_constructible_v<_Callback, _Cb>, int> = 0>
+        explicit
+ stop_callback(const stop_token& __token, _Cb&& __cb)
+        noexcept(is_nothrow_constructible_v<_Callback, _Cb>)
+ : _M_cb(std::forward<_Cb>(__cb))
+        {
+   if (auto __state = __token._M_state)
+     {
+       if (__state->_M_register_callback(&_M_cb))
+  _M_state.swap(__state);
+     }
+        }
+
+      template<typename _Cb,
+               enable_if_t<is_constructible_v<_Callback, _Cb>, int> = 0>
+        explicit
+ stop_callback(stop_token&& __token, _Cb&& __cb)
+        noexcept(is_nothrow_constructible_v<_Callback, _Cb>)
+ : _M_cb(std::forward<_Cb>(__cb))
+ {
+   if (auto& __state = __token._M_state)
+     {
+       if (__state->_M_register_callback(&_M_cb))
+  _M_state.swap(__state);
+     }
+ }
+
+      ~stop_callback()
+      {
+ if (_M_state)
+   {
+     _M_state->_M_remove_callback(&_M_cb);
+   }
+      }
+
+      stop_callback(const stop_callback&) = delete;
+      stop_callback& operator=(const stop_callback&) = delete;
+      stop_callback(stop_callback&&) = delete;
+      stop_callback& operator=(stop_callback&&) = delete;
+
+    private:
+      struct _Cb_impl : stop_token::_Stop_cb
+      {
+ template<typename _Cb>
+   explicit
+   _Cb_impl(_Cb&& __cb)
+   : _Stop_cb(&_S_execute),
+     _M_cb(std::forward<_Cb>(__cb))
+   { }
+
+ _Callback _M_cb;
+
+ [[__gnu__::__nonnull__]]
+ static void
+ _S_execute(_Stop_cb* __that) noexcept
+ {
+   _Callback& __cb = static_cast<_Cb_impl*>(__that)->_M_cb;
+   std::forward<_Callback>(__cb)();
+ }
+      };
+
+      _Cb_impl _M_cb;
+      stop_token::_Stop_state_ref _M_state;
+    };
+
+  template<typename _Callback>
+    stop_callback(stop_token, _Callback) -> stop_callback<_Callback>;
+
+
+}
+# 43 "/usr/include/c++/14/thread" 2 3
+
+
+
+
+
+
+
+# 1 "/usr/include/c++/14/bits/version.h" 1 3
+# 47 "/usr/include/c++/14/bits/version.h" 3
+       
+# 48 "/usr/include/c++/14/bits/version.h" 3
+# 51 "/usr/include/c++/14/thread" 2 3
+
+
+
+
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 74 "/usr/include/c++/14/thread" 3
+  inline strong_ordering
+  operator<=>(thread::id __x, thread::id __y) noexcept
+  { return __x._M_thread <=> __y._M_thread; }
+# 103 "/usr/include/c++/14/thread" 3
+  template<class _CharT, class _Traits>
+    inline basic_ostream<_CharT, _Traits>&
+    operator<<(basic_ostream<_CharT, _Traits>& __out, thread::id __id)
+    {
+
+      using __output_type
+ = __conditional_t<is_pointer<thread::native_handle_type>::value,
+     const void*,
+     thread::native_handle_type>;
+
+      if (__id == thread::id())
+ return __out << "thread::id of a non-executing thread";
+      else
+ return __out << static_cast<__output_type>(__id._M_thread);
+    }
+
+
+
+
+
+
+    template<typename _Callable, typename... _Args>
+      constexpr bool __pmf_expects_stop_token = false;
+
+    template<typename _Callable, typename _Obj, typename... _Args>
+      constexpr bool __pmf_expects_stop_token<_Callable, _Obj, _Args...>
+ = __and_<is_member_function_pointer<remove_reference_t<_Callable>>,
+   is_invocable<_Callable, _Obj, stop_token, _Args...>>::value;
+# 148 "/usr/include/c++/14/thread" 3
+  class jthread
+  {
+  public:
+    using id = thread::id;
+    using native_handle_type = thread::native_handle_type;
+
+    jthread() noexcept
+    : _M_stop_source{nostopstate}
+    { }
+
+    template<typename _Callable, typename... _Args,
+      typename = enable_if_t<!is_same_v<remove_cvref_t<_Callable>,
+            jthread>>>
+      explicit
+      jthread(_Callable&& __f, _Args&&... __args)
+      : _M_thread{_S_create(_M_stop_source, std::forward<_Callable>(__f),
+       std::forward<_Args>(__args)...)}
+      { }
+
+    jthread(const jthread&) = delete;
+    jthread(jthread&&) noexcept = default;
+
+    ~jthread()
+    {
+      if (joinable())
+        {
+          request_stop();
+          join();
+        }
+    }
+
+    jthread&
+    operator=(const jthread&) = delete;
+
+    jthread&
+    operator=(jthread&& __other) noexcept
+    {
+      std::jthread(std::move(__other)).swap(*this);
+      return *this;
+    }
+
+    void
+    swap(jthread& __other) noexcept
+    {
+      std::swap(_M_stop_source, __other._M_stop_source);
+      std::swap(_M_thread, __other._M_thread);
+    }
+
+    [[nodiscard]] bool
+    joinable() const noexcept
+    {
+      return _M_thread.joinable();
+    }
+
+    void
+    join()
+    {
+      _M_thread.join();
+    }
+
+    void
+    detach()
+    {
+      _M_thread.detach();
+    }
+
+    [[nodiscard]] id
+    get_id() const noexcept
+    {
+      return _M_thread.get_id();
+    }
+
+    [[nodiscard]] native_handle_type
+    native_handle()
+    {
+      return _M_thread.native_handle();
+    }
+
+    [[nodiscard]] static unsigned
+    hardware_concurrency() noexcept
+    {
+      return thread::hardware_concurrency();
+    }
+
+    [[nodiscard]] stop_source
+    get_stop_source() noexcept
+    {
+      return _M_stop_source;
+    }
+
+    [[nodiscard]] stop_token
+    get_stop_token() const noexcept
+    {
+      return _M_stop_source.get_token();
+    }
+
+    bool request_stop() noexcept
+    {
+      return _M_stop_source.request_stop();
+    }
+
+    friend void swap(jthread& __lhs, jthread& __rhs) noexcept
+    {
+      __lhs.swap(__rhs);
+    }
+
+  private:
+    template<typename _Callable, typename... _Args>
+      static thread
+      _S_create(stop_source& __ssrc, _Callable&& __f, _Args&&... __args)
+      {
+
+ if constexpr (__pmf_expects_stop_token<_Callable, _Args...>)
+   return _S_create_pmf(__ssrc, __f, std::forward<_Args>(__args)...);
+ else
+
+ if constexpr(is_invocable_v<decay_t<_Callable>, stop_token,
+        decay_t<_Args>...>)
+   return thread{std::forward<_Callable>(__f), __ssrc.get_token(),
+   std::forward<_Args>(__args)...};
+ else
+   {
+     static_assert(is_invocable_v<decay_t<_Callable>,
+      decay_t<_Args>...>,
+     "std::jthread arguments must be invocable after"
+     " conversion to rvalues");
+     return thread{std::forward<_Callable>(__f),
+     std::forward<_Args>(__args)...};
+   }
+      }
+
+
+    template<typename _Callable, typename _Obj, typename... _Args>
+      static thread
+      _S_create_pmf(stop_source& __ssrc, _Callable __f, _Obj&& __obj,
+      _Args&&... __args)
+      {
+ return thread{__f, std::forward<_Obj>(__obj), __ssrc.get_token(),
+        std::forward<_Args>(__args)...};
+      }
+
+
+    stop_source _M_stop_source;
+    thread _M_thread;
+  };
+# 372 "/usr/include/c++/14/thread" 3
+
+}
+# 16 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h" 2
+# 1 "/usr/include/c++/14/mutex" 1 3
+# 32 "/usr/include/c++/14/mutex" 3
+       
+# 33 "/usr/include/c++/14/mutex" 3
+# 48 "/usr/include/c++/14/mutex" 3
+# 1 "/usr/include/c++/14/bits/unique_lock.h" 1 3
+# 33 "/usr/include/c++/14/bits/unique_lock.h" 3
+       
+# 34 "/usr/include/c++/14/bits/unique_lock.h" 3
+# 44 "/usr/include/c++/14/bits/unique_lock.h" 3
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 59 "/usr/include/c++/14/bits/unique_lock.h" 3
+  template<typename _Mutex>
+    class unique_lock
+    {
+    public:
+      typedef _Mutex mutex_type;
+
+      unique_lock() noexcept
+      : _M_device(0), _M_owns(false)
+      { }
+
+      [[__nodiscard__]]
+      explicit unique_lock(mutex_type& __m)
+      : _M_device(std::__addressof(__m)), _M_owns(false)
+      {
+ lock();
+ _M_owns = true;
+      }
+
+      unique_lock(mutex_type& __m, defer_lock_t) noexcept
+      : _M_device(std::__addressof(__m)), _M_owns(false)
+      { }
+
+      [[__nodiscard__]]
+      unique_lock(mutex_type& __m, try_to_lock_t)
+      : _M_device(std::__addressof(__m)), _M_owns(_M_device->try_lock())
+      { }
+
+      [[__nodiscard__]]
+      unique_lock(mutex_type& __m, adopt_lock_t) noexcept
+      : _M_device(std::__addressof(__m)), _M_owns(true)
+      {
+
+      }
+
+      template<typename _Clock, typename _Duration>
+ [[__nodiscard__]]
+ unique_lock(mutex_type& __m,
+      const chrono::time_point<_Clock, _Duration>& __atime)
+ : _M_device(std::__addressof(__m)),
+   _M_owns(_M_device->try_lock_until(__atime))
+ { }
+
+      template<typename _Rep, typename _Period>
+ [[__nodiscard__]]
+ unique_lock(mutex_type& __m,
+      const chrono::duration<_Rep, _Period>& __rtime)
+ : _M_device(std::__addressof(__m)),
+   _M_owns(_M_device->try_lock_for(__rtime))
+ { }
+
+      ~unique_lock()
+      {
+ if (_M_owns)
+   unlock();
+      }
+
+      unique_lock(const unique_lock&) = delete;
+      unique_lock& operator=(const unique_lock&) = delete;
+
+      unique_lock(unique_lock&& __u) noexcept
+      : _M_device(__u._M_device), _M_owns(__u._M_owns)
+      {
+ __u._M_device = 0;
+ __u._M_owns = false;
+      }
+
+      unique_lock& operator=(unique_lock&& __u) noexcept
+      {
+ if(_M_owns)
+   unlock();
+
+ unique_lock(std::move(__u)).swap(*this);
+
+ __u._M_device = 0;
+ __u._M_owns = false;
+
+ return *this;
+      }
+
+      void
+      lock()
+      {
+ if (!_M_device)
+   __throw_system_error(int(errc::operation_not_permitted));
+ else if (_M_owns)
+   __throw_system_error(int(errc::resource_deadlock_would_occur));
+ else
+   {
+     _M_device->lock();
+     _M_owns = true;
+   }
+      }
+
+      [[__nodiscard__]]
+      bool
+      try_lock()
+      {
+ if (!_M_device)
+   __throw_system_error(int(errc::operation_not_permitted));
+ else if (_M_owns)
+   __throw_system_error(int(errc::resource_deadlock_would_occur));
+ else
+   {
+     _M_owns = _M_device->try_lock();
+     return _M_owns;
+   }
+      }
+
+      template<typename _Clock, typename _Duration>
+ [[__nodiscard__]]
+ bool
+ try_lock_until(const chrono::time_point<_Clock, _Duration>& __atime)
+ {
+   if (!_M_device)
+     __throw_system_error(int(errc::operation_not_permitted));
+   else if (_M_owns)
+     __throw_system_error(int(errc::resource_deadlock_would_occur));
+   else
+     {
+       _M_owns = _M_device->try_lock_until(__atime);
+       return _M_owns;
+     }
+ }
+
+      template<typename _Rep, typename _Period>
+ [[__nodiscard__]]
+ bool
+ try_lock_for(const chrono::duration<_Rep, _Period>& __rtime)
+ {
+   if (!_M_device)
+     __throw_system_error(int(errc::operation_not_permitted));
+   else if (_M_owns)
+     __throw_system_error(int(errc::resource_deadlock_would_occur));
+   else
+     {
+       _M_owns = _M_device->try_lock_for(__rtime);
+       return _M_owns;
+     }
+  }
+
+      void
+      unlock()
+      {
+ if (!_M_owns)
+   __throw_system_error(int(errc::operation_not_permitted));
+ else if (_M_device)
+   {
+     _M_device->unlock();
+     _M_owns = false;
+   }
+      }
+
+      void
+      swap(unique_lock& __u) noexcept
+      {
+ std::swap(_M_device, __u._M_device);
+ std::swap(_M_owns, __u._M_owns);
+      }
+
+      mutex_type*
+      release() noexcept
+      {
+ mutex_type* __ret = _M_device;
+ _M_device = 0;
+ _M_owns = false;
+ return __ret;
+      }
+
+      [[__nodiscard__]]
+      bool
+      owns_lock() const noexcept
+      { return _M_owns; }
+
+      explicit operator bool() const noexcept
+      { return owns_lock(); }
+
+      [[__nodiscard__]]
+      mutex_type*
+      mutex() const noexcept
+      { return _M_device; }
+
+    private:
+      mutex_type* _M_device;
+      bool _M_owns;
+    };
+
+
+
+  template<typename _Mutex>
+    inline void
+    swap(unique_lock<_Mutex>& __x, unique_lock<_Mutex>& __y) noexcept
+    { __x.swap(__y); }
+
+
+}
+# 49 "/usr/include/c++/14/mutex" 2 3
+# 60 "/usr/include/c++/14/mutex" 3
+# 1 "/usr/include/c++/14/bits/version.h" 1 3
+# 47 "/usr/include/c++/14/bits/version.h" 3
+       
+# 48 "/usr/include/c++/14/bits/version.h" 3
+# 61 "/usr/include/c++/14/mutex" 2 3
+
+namespace std __attribute__ ((__visibility__ ("default")))
+{
+
+# 75 "/usr/include/c++/14/mutex" 3
+  class __recursive_mutex_base
+  {
+  protected:
+    typedef __gthread_recursive_mutex_t __native_type;
+
+    __recursive_mutex_base(const __recursive_mutex_base&) = delete;
+    __recursive_mutex_base& operator=(const __recursive_mutex_base&) = delete;
+
+
+    __native_type _M_mutex = { { 0, 0, 0, 0, PTHREAD_MUTEX_RECURSIVE_NP, 0, 0, { 0, 0 } } };
+
+    __recursive_mutex_base() = default;
+# 99 "/usr/include/c++/14/mutex" 3
+  };
+# 111 "/usr/include/c++/14/mutex" 3
+  class recursive_mutex : private __recursive_mutex_base
+  {
+  public:
+    typedef __native_type* native_handle_type;
+
+    recursive_mutex() = default;
+    ~recursive_mutex() = default;
+
+    recursive_mutex(const recursive_mutex&) = delete;
+    recursive_mutex& operator=(const recursive_mutex&) = delete;
+
+    void
+    lock()
+    {
+      int __e = __gthread_recursive_mutex_lock(&_M_mutex);
+
+
+      if (__e)
+ __throw_system_error(__e);
+    }
+
+    [[__nodiscard__]]
+    bool
+    try_lock() noexcept
+    {
+
+      return !__gthread_recursive_mutex_trylock(&_M_mutex);
+    }
+
+    void
+    unlock()
+    {
+
+      __gthread_recursive_mutex_unlock(&_M_mutex);
+    }
+
+    native_handle_type
+    native_handle() noexcept
+    { return &_M_mutex; }
+  };
+
+
+
+
+  template<typename _Derived>
+    class __timed_mutex_impl
+    {
+    protected:
+      template<typename _Rep, typename _Period>
+ bool
+ _M_try_lock_for(const chrono::duration<_Rep, _Period>& __rtime)
+ {
+
+   using __clock = chrono::steady_clock;
+
+
+
+
+   auto __rt = chrono::duration_cast<__clock::duration>(__rtime);
+   if (ratio_greater<__clock::period, _Period>())
+     ++__rt;
+   return _M_try_lock_until(__clock::now() + __rt);
+ }
+
+      template<typename _Duration>
+ bool
+ _M_try_lock_until(const chrono::time_point<chrono::system_clock,
+         _Duration>& __atime)
+ {
+   auto __s = chrono::time_point_cast<chrono::seconds>(__atime);
+   auto __ns = chrono::duration_cast<chrono::nanoseconds>(__atime - __s);
+
+   __gthread_time_t __ts = {
+     static_cast<std::time_t>(__s.time_since_epoch().count()),
+     static_cast<long>(__ns.count())
+   };
+
+   return static_cast<_Derived*>(this)->_M_timedlock(__ts);
+ }
+
+
+      template<typename _Duration>
+ bool
+ _M_try_lock_until(const chrono::time_point<chrono::steady_clock,
+         _Duration>& __atime)
+ {
+   auto __s = chrono::time_point_cast<chrono::seconds>(__atime);
+   auto __ns = chrono::duration_cast<chrono::nanoseconds>(__atime - __s);
+
+   __gthread_time_t __ts = {
+     static_cast<std::time_t>(__s.time_since_epoch().count()),
+     static_cast<long>(__ns.count())
+   };
+
+   return static_cast<_Derived*>(this)->_M_clocklock(1,
+           __ts);
+ }
+
+
+      template<typename _Clock, typename _Duration>
+ bool
+ _M_try_lock_until(const chrono::time_point<_Clock, _Duration>& __atime)
+ {
+
+   static_assert(chrono::is_clock_v<_Clock>);
+
+
+
+
+   auto __now = _Clock::now();
+   do {
+     auto __rtime = __atime - __now;
+     if (_M_try_lock_for(__rtime))
+       return true;
+     __now = _Clock::now();
+   } while (__atime > __now);
+   return false;
+ }
+    };
+# 240 "/usr/include/c++/14/mutex" 3
+  class timed_mutex
+  : private __mutex_base, public __timed_mutex_impl<timed_mutex>
+  {
+  public:
+    typedef __native_type* native_handle_type;
+
+    timed_mutex() = default;
+    ~timed_mutex() = default;
+
+    timed_mutex(const timed_mutex&) = delete;
+    timed_mutex& operator=(const timed_mutex&) = delete;
+
+    void
+    lock()
+    {
+      int __e = __gthread_mutex_lock(&_M_mutex);
+
+
+      if (__e)
+ __throw_system_error(__e);
+    }
+
+    [[__nodiscard__]]
+    bool
+    try_lock() noexcept
+    {
+
+      return !__gthread_mutex_trylock(&_M_mutex);
+    }
+
+    template <class _Rep, class _Period>
+      [[__nodiscard__]]
+      bool
+      try_lock_for(const chrono::duration<_Rep, _Period>& __rtime)
+      { return _M_try_lock_for(__rtime); }
+
+    template <class _Clock, class _Duration>
+      [[__nodiscard__]]
+      bool
+      try_lock_until(const chrono::time_point<_Clock, _Duration>& __atime)
+      { return _M_try_lock_until(__atime); }
+
+    void
+    unlock()
+    {
+
+      __gthread_mutex_unlock(&_M_mutex);
+    }
+
+    native_handle_type
+    native_handle() noexcept
+    { return &_M_mutex; }
+
+    private:
+      friend class __timed_mutex_impl<timed_mutex>;
+
+      bool
+      _M_timedlock(const __gthread_time_t& __ts)
+      { return !__gthread_mutex_timedlock(&_M_mutex, &__ts); }
+
+
+      bool
+      _M_clocklock(clockid_t __clockid, const __gthread_time_t& __ts)
+      { return !pthread_mutex_clocklock(&_M_mutex, __clockid, &__ts); }
+
+  };
+# 317 "/usr/include/c++/14/mutex" 3
+  class recursive_timed_mutex
+  : private __recursive_mutex_base,
+    public __timed_mutex_impl<recursive_timed_mutex>
+  {
+  public:
+    typedef __native_type* native_handle_type;
+
+    recursive_timed_mutex() = default;
+    ~recursive_timed_mutex() = default;
+
+    recursive_timed_mutex(const recursive_timed_mutex&) = delete;
+    recursive_timed_mutex& operator=(const recursive_timed_mutex&) = delete;
+
+    void
+    lock()
+    {
+      int __e = __gthread_recursive_mutex_lock(&_M_mutex);
+
+
+      if (__e)
+ __throw_system_error(__e);
+    }
+
+    [[__nodiscard__]]
+    bool
+    try_lock() noexcept
+    {
+
+      return !__gthread_recursive_mutex_trylock(&_M_mutex);
+    }
+
+    template <class _Rep, class _Period>
+      [[__nodiscard__]]
+      bool
+      try_lock_for(const chrono::duration<_Rep, _Period>& __rtime)
+      { return _M_try_lock_for(__rtime); }
+
+    template <class _Clock, class _Duration>
+      [[__nodiscard__]]
+      bool
+      try_lock_until(const chrono::time_point<_Clock, _Duration>& __atime)
+      { return _M_try_lock_until(__atime); }
+
+    void
+    unlock()
+    {
+
+      __gthread_recursive_mutex_unlock(&_M_mutex);
+    }
+
+    native_handle_type
+    native_handle() noexcept
+    { return &_M_mutex; }
+
+    private:
+      friend class __timed_mutex_impl<recursive_timed_mutex>;
+
+      bool
+      _M_timedlock(const __gthread_time_t& __ts)
+      { return !__gthread_recursive_mutex_timedlock(&_M_mutex, &__ts); }
+
+
+      bool
+      _M_clocklock(clockid_t __clockid, const __gthread_time_t& __ts)
+      { return !pthread_mutex_clocklock(&_M_mutex, __clockid, &__ts); }
+
+  };
+# 564 "/usr/include/c++/14/mutex" 3
+  namespace __detail
+  {
+
+    template<typename _Lockable>
+      inline int
+      __try_lock_impl(_Lockable& __l)
+      {
+ if (unique_lock<_Lockable> __lock{__l, try_to_lock})
+   {
+     __lock.release();
+     return -1;
+   }
+ else
+   return 0;
+      }
+
+
+
+    template<typename _L0, typename... _Lockables>
+      inline int
+      __try_lock_impl(_L0& __l0, _Lockables&... __lockables)
+      {
+
+ if constexpr ((is_same_v<_L0, _Lockables> && ...))
+   {
+     constexpr int _Np = 1 + sizeof...(_Lockables);
+     unique_lock<_L0> __locks[_Np] = {
+  {__l0, defer_lock}, {__lockables, defer_lock}...
+     };
+     for (int __i = 0; __i < _Np; ++__i)
+       {
+  if (!__locks[__i].try_lock())
+    {
+      const int __failed = __i;
+      while (__i--)
+        __locks[__i].unlock();
+      return __failed;
+    }
+       }
+     for (auto& __l : __locks)
+       __l.release();
+     return -1;
+   }
+ else
+
+ if (unique_lock<_L0> __lock{__l0, try_to_lock})
+   {
+     int __idx = __detail::__try_lock_impl(__lockables...);
+     if (__idx == -1)
+       {
+  __lock.release();
+  return -1;
+       }
+     return __idx + 1;
+   }
+ else
+   return 0;
+      }
+
+  }
+# 636 "/usr/include/c++/14/mutex" 3
+  template<typename _L1, typename _L2, typename... _L3>
+    [[__nodiscard__]]
+    inline int
+    try_lock(_L1& __l1, _L2& __l2, _L3&... __l3)
+    {
+      return __detail::__try_lock_impl(__l1, __l2, __l3...);
+    }
+
+
+  namespace __detail
+  {
+
+
+
+
+
+    template<typename _L0, typename... _L1>
+      void
+      __lock_impl(int& __i, int __depth, _L0& __l0, _L1&... __l1)
+      {
+ while (__i >= __depth)
+   {
+     if (__i == __depth)
+       {
+  int __failed = 1;
+  {
+    unique_lock<_L0> __first(__l0);
+    __failed += __detail::__try_lock_impl(__l1...);
+    if (!__failed)
+      {
+        __i = -1;
+        __first.release();
+        return;
+      }
+  }
+
+  __gthread_yield();
+
+  constexpr auto __n = 1 + sizeof...(_L1);
+  __i = (__depth + __failed) % __n;
+       }
+     else
+       __detail::__lock_impl(__i, __depth + 1, __l1..., __l0);
+   }
+      }
+
+  }
+# 696 "/usr/include/c++/14/mutex" 3
+  template<typename _L1, typename _L2, typename... _L3>
+    void
+    lock(_L1& __l1, _L2& __l2, _L3&... __l3)
+    {
+
+      if constexpr (is_same_v<_L1, _L2> && (is_same_v<_L1, _L3> && ...))
+ {
+   constexpr int _Np = 2 + sizeof...(_L3);
+   unique_lock<_L1> __locks[] = {
+       {__l1, defer_lock}, {__l2, defer_lock}, {__l3, defer_lock}...
+   };
+   int __first = 0;
+   do {
+     __locks[__first].lock();
+     for (int __j = 1; __j < _Np; ++__j)
+       {
+  const int __idx = (__first + __j) % _Np;
+  if (!__locks[__idx].try_lock())
+    {
+      for (int __k = __j; __k != 0; --__k)
+        __locks[(__first + __k - 1) % _Np].unlock();
+      __first = __idx;
+      break;
+    }
+       }
+   } while (!__locks[__first].owns_lock());
+
+   for (auto& __l : __locks)
+     __l.release();
+ }
+      else
+
+ {
+   int __i = 0;
+   __detail::__lock_impl(__i, 0, __l1, __l2, __l3...);
+ }
+    }
+# 743 "/usr/include/c++/14/mutex" 3
+  template<typename... _MutexTypes>
+    class scoped_lock
+    {
+    public:
+
+      [[nodiscard]]
+      explicit scoped_lock(_MutexTypes&... __m) : _M_devices(std::tie(__m...))
+      { std::lock(__m...); }
+
+      [[nodiscard]]
+      explicit scoped_lock(adopt_lock_t, _MutexTypes&... __m) noexcept
+      : _M_devices(std::tie(__m...))
+      { }
+
+      ~scoped_lock()
+      { std::apply([](auto&... __m) { (__m.unlock(), ...); }, _M_devices); }
+
+      scoped_lock(const scoped_lock&) = delete;
+      scoped_lock& operator=(const scoped_lock&) = delete;
+
+    private:
+      tuple<_MutexTypes&...> _M_devices;
+    };
+
+  template<>
+    class scoped_lock<>
+    {
+    public:
+      explicit scoped_lock() = default;
+      explicit scoped_lock(adopt_lock_t) noexcept { }
+      ~scoped_lock() = default;
+
+      scoped_lock(const scoped_lock&) = delete;
+      scoped_lock& operator=(const scoped_lock&) = delete;
+    };
+
+  template<typename _Mutex>
+    class scoped_lock<_Mutex>
+    {
+    public:
+      using mutex_type = _Mutex;
+
+      [[nodiscard]]
+      explicit scoped_lock(mutex_type& __m) : _M_device(__m)
+      { _M_device.lock(); }
+
+      [[nodiscard]]
+      explicit scoped_lock(adopt_lock_t, mutex_type& __m) noexcept
+      : _M_device(__m)
+      { }
+
+      ~scoped_lock()
+      { _M_device.unlock(); }
+
+      scoped_lock(const scoped_lock&) = delete;
+      scoped_lock& operator=(const scoped_lock&) = delete;
+
+    private:
+      mutex_type& _M_device;
+    };
+
+
+
+
+  struct once_flag
+  {
+    constexpr once_flag() noexcept = default;
+
+
+    once_flag(const once_flag&) = delete;
+
+    once_flag& operator=(const once_flag&) = delete;
+
+  private:
+
+
+    __gthread_once_t _M_once = 0;
+
+    struct _Prepare_execution;
+
+    template<typename _Callable, typename... _Args>
+      friend void
+      call_once(once_flag& __once, _Callable&& __f, _Args&&... __args);
+  };
+
+
+
+
+
+  extern __thread void* __once_callable;
+  extern __thread void (*__once_call)();
+
+
+  struct once_flag::_Prepare_execution
+  {
+    template<typename _Callable>
+      explicit
+      _Prepare_execution(_Callable& __c)
+      {
+
+ __once_callable = std::__addressof(__c);
+
+ __once_call = [] { (*static_cast<_Callable*>(__once_callable))(); };
+      }
+
+    ~_Prepare_execution()
+    {
+
+      __once_callable = nullptr;
+      __once_call = nullptr;
+    }
+
+    _Prepare_execution(const _Prepare_execution&) = delete;
+    _Prepare_execution& operator=(const _Prepare_execution&) = delete;
+  };
+# 900 "/usr/include/c++/14/mutex" 3
+  extern "C" void __once_proxy(void);
+
+
+  template<typename _Callable, typename... _Args>
+    void
+    call_once(once_flag& __once, _Callable&& __f, _Args&&... __args)
+    {
+
+      auto __callable = [&] {
+   std::__invoke(std::forward<_Callable>(__f),
+   std::forward<_Args>(__args)...);
+      };
+
+      once_flag::_Prepare_execution __exec(__callable);
+
+
+      if (int __e = __gthread_once(&__once._M_once, &__once_proxy))
+ __throw_system_error(__e);
+    }
+# 1021 "/usr/include/c++/14/mutex" 3
+
+}
+# 17 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h" 2
+
 
 # 1 "/usr/include/c++/14/valarray" 1 3
 # 34 "/usr/include/c++/14/valarray" 3
@@ -131331,8 +136762,6 @@ using namespace std;
 
 
 
-
-# 34 "/usr/include/math.h" 3 4
 extern "C" {
 
 
@@ -143782,10 +149211,23 @@ template<typename _Tp> inline _Expr<_BinClos<__greater_equal, _ValArray, _ValArr
 
 
 }
-# 4 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 2
+# 20 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h" 2
 
 
-# 5 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+# 21 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h"
+enum class CommandType {
+    LOGIN,
+    REG,
+    ADD_CONTACT,
+    CHANGE_PASSWORD,
+    UNKNOWN
+};
+
+using namespace std;
+# 2 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 2
+
+atomic<int> cntThreads(1);
+
 CommandType get_com (const string& command){
     if (command == "login") {return CommandType::LOGIN;}
     if (command == "register") {return CommandType::REG;}
@@ -143894,13 +149336,9 @@ string add_contact(pqxx::work& db, const vector<string>& command)
     return "successful add_contact";
 }
 
-string handle_command(pqxx::work& db)
+string handle_command(pqxx::work& db, string request)
 {
-    cout << "Enter command:" << endl;
-    string str;
-    getline(cin, str);
-
-    vector<string> command = split(str, ' ');
+    vector<string> command = split(request, ' ');
     CommandType token = get_com(command[0]);
     switch(token){
         case CommandType::LOGIN: return authorization(db, command);
@@ -143910,6 +149348,106 @@ string handle_command(pqxx::work& db)
         default: return "Wrong command " + command[0];
     }
 }
+
+void serve_client(int clientSocket, const char* clientIP, pqxx::work& db) {
+    ++cntThreads;
+
+    while (true) {
+        vector<char> clientBuffer(1024);
+
+        ssize_t bytesRead = recv(clientSocket, clientBuffer.data(), clientBuffer.size() - 1, 0);
+        if (bytesRead <= 0) {
+            cout << "Client [" << clientIP << "] was disconnected" << endl;
+            break;
+        }
+        clientBuffer[bytesRead] = '\0';
+
+        string request(clientBuffer.data());
+
+        string answer = handle_command(db, request);
+        send(clientSocket, answer.c_str(), answer.size(), 0);
+    }
+
+    close(clientSocket);
+    --cntThreads;
+}
+
+void start_server(pqxx::work& db) {
+    int serverSocket;
+
+    if ((serverSocket = socket(
+# 152 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+                              2
+# 152 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+                                     , 
+# 152 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+                                       SOCK_STREAM
+# 152 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+                                                  , 0)) == 0) {
+        cerr << "Error of create socket" << endl;
+        return;
+    }
+
+    int opt = 1;
+    if (setsockopt(serverSocket, 
+# 158 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+                                1
+# 158 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+                                          , 
+# 158 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+                                            2
+# 158 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+                                                        , &opt, sizeof(opt)) == -1) {
+        cerr << "Error of setting parameters of socket" << endl;
+        return;
+    }
+
+    struct sockaddr_in address;
+    string serverIP = "127.0.0.1";
+    address.sin_family = 
+# 165 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+                        2
+# 165 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+                               ;
+    address.sin_addr.s_addr = inet_addr(serverIP.c_str());
+    address.sin_port = htons(7432);
+
+    if (bind(serverSocket, (struct sockaddr *)&address, sizeof(address)) < 0) {
+        cerr << "Error of binding" << endl;
+        return;
+    }
+
+    if (listen(serverSocket, 1) < 0) {
+        cerr << "Error of socket listening" << endl;
+        return;
+    }
+
+    cout << "Server started" << endl;
+
+    while (true){
+        sockaddr_in clientAddress;
+        socklen_t clientSize = sizeof(clientAddress);
+        int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientSize);
+        if(clientSocket < 0){
+            cout << "Error to connect client" << endl;
+            continue;
+        }
+
+        if(cntThreads <= 50){
+            char* clientIP = inet_ntoa(clientAddress.sin_addr);
+            cout << "Client[" << clientIP << "] was connected" << endl;
+            thread(serve_client, clientSocket, clientIP, ref(db)).detach();
+        }
+        else{
+            string answer = "A lot of clients now, try it later";
+            send(clientSocket, answer.c_str(), answer.size(), 0);
+            close(clientSocket);
+        }
+    }
+
+    close(serverSocket);
+}
+
 
 int main() {
     try {
@@ -143929,12 +149467,9 @@ int main() {
 
 
         pqxx::work db(db_connection);
+        start_server(db);
 
-        db.exec("delete from contacts where phone_number = '89825223100'");
-        db.commit();
 
-        cout << handle_command(db) << endl;
-# 172 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
         db_connection.close();
     } catch (const exception &e) {
         cerr << e.what() << endl;

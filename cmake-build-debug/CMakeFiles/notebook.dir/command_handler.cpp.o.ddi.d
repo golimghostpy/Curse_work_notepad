@@ -290,7 +290,31 @@ CMakeFiles/notebook.dir/command_handler.cpp.o.ddi: \
  /usr/include/c++/14/chrono /usr/include/c++/14/bits/chrono_io.h \
  /usr/include/c++/14/format /usr/include/c++/14/bits/unicode.h \
  /usr/include/c++/14/bits/unicode-data.h /usr/include/pqxx/transactor.hxx \
- /usr/include/pqxx/internal/header-post.hxx /usr/include/c++/14/valarray \
+ /usr/include/pqxx/internal/header-post.hxx \
+ /usr/include/x86_64-linux-gnu/sys/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_iovec.h \
+ /usr/include/x86_64-linux-gnu/bits/socket.h \
+ /usr/include/x86_64-linux-gnu/bits/socket_type.h \
+ /usr/include/x86_64-linux-gnu/bits/sockaddr.h \
+ /usr/lib/linux/uapi/x86/asm/socket.h /usr/include/asm-generic/socket.h \
+ /usr/include/linux/posix_types.h /usr/include/linux/stddef.h \
+ /usr/lib/linux/uapi/x86/asm/posix_types.h \
+ /usr/lib/linux/uapi/x86/asm/posix_types_64.h \
+ /usr/include/asm-generic/posix_types.h \
+ /usr/lib/linux/uapi/x86/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h \
+ /usr/lib/linux/uapi/x86/asm/sockios.h /usr/include/asm-generic/sockios.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_osockaddr.h \
+ /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/bits/in.h \
+ /usr/include/arpa/inet.h /usr/include/c++/14/thread \
+ /usr/include/c++/14/stop_token /usr/include/c++/14/atomic \
+ /usr/include/c++/14/bits/std_thread.h /usr/include/c++/14/semaphore \
+ /usr/include/c++/14/bits/semaphore_base.h \
+ /usr/include/c++/14/bits/atomic_timed_wait.h \
+ /usr/include/c++/14/bits/this_thread_sleep.h \
+ /usr/include/x86_64-linux-gnu/sys/time.h /usr/include/semaphore.h \
+ /usr/include/x86_64-linux-gnu/bits/semaphore.h /usr/include/c++/14/mutex \
+ /usr/include/c++/14/bits/unique_lock.h /usr/include/c++/14/valarray \
  /usr/include/c++/14/cmath /usr/include/math.h \
  /usr/include/x86_64-linux-gnu/bits/math-vector.h \
  /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h \

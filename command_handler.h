@@ -7,6 +7,16 @@
 #include "Event.h"
 #include "general_functions.h"
 #include <pqxx/pqxx>
+#define _BSD_SOURCE 1
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <thread>
+#include <mutex>
+#include <atomic>
+#include <format>
+#include <valarray>
 
 enum class CommandType {
     LOGIN,

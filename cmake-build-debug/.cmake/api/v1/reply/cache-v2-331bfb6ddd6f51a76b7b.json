@@ -2062,16 +2062,28 @@
 			"value" : "/usr/bin/pkg-config"
 		},
 		{
-			"name" : "PQXX_DIR",
+			"name" : "Python3_EXECUTABLE",
 			"properties" : 
 			[
 				{
 					"name" : "HELPSTRING",
-					"value" : "The directory containing a CMake configuration file for PQXX."
+					"value" : "No help, variable specified on the command line."
 				}
 			],
-			"type" : "PATH",
-			"value" : "PQXX_DIR-NOTFOUND"
+			"type" : "UNINITIALIZED",
+			"value" : "/home/golimghost/Desktop/CProj/Curse_work_notepad/.venv/bin/python"
+		},
+		{
+			"name" : "Python_EXECUTABLE",
+			"properties" : 
+			[
+				{
+					"name" : "HELPSTRING",
+					"value" : "No help, variable specified on the command line."
+				}
+			],
+			"type" : "UNINITIALIZED",
+			"value" : "/home/golimghost/Desktop/CProj/Curse_work_notepad/.venv/bin/python"
 		},
 		{
 			"name" : "_CMAKE_LINKER_PUSHPOP_STATE_SUPPORTED",

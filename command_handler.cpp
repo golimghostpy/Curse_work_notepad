@@ -1,6 +1,6 @@
 #include "command_handler.h"
 
-#include <valarray>
+atomic<int> cntThreads(1);
 
 CommandType get_com (const string& command){
     if (command == "login") {return CommandType::LOGIN;}
@@ -110,13 +110,9 @@ string add_contact(pqxx::work& db, const vector<string>& command)
     return "successful add_contact";
 }
 
-string handle_command(pqxx::work& db)
+string handle_command(pqxx::work& db, string request)
 {
-    cout << "Enter command:" << endl;
-    string str;
-    getline(cin, str);
-
-    vector<string> command = split(str, ' ');
+    vector<string> command = split(request, ' ');
     CommandType token = get_com(command[0]);
     switch(token){
         case CommandType::LOGIN: return authorization(db, command);
@@ -126,6 +122,86 @@ string handle_command(pqxx::work& db)
         default: return "Wrong command " + command[0];
     }
 }
+
+void serve_client(int clientSocket, const char* clientIP, pqxx::work& db) {
+    ++cntThreads;
+
+    while (true) {
+        vector<char> clientBuffer(1024);
+
+        ssize_t bytesRead = recv(clientSocket, clientBuffer.data(), clientBuffer.size() - 1, 0);
+        if (bytesRead <= 0) {
+            cout << "Client [" << clientIP << "] was disconnected" << endl;
+            break;
+        }
+        clientBuffer[bytesRead] = '\0';
+
+        string request(clientBuffer.data());
+
+        string answer = handle_command(db, request);
+        send(clientSocket, answer.c_str(), answer.size(), 0);
+    }
+
+    close(clientSocket);
+    --cntThreads;
+}
+
+void start_server(pqxx::work& db) {
+    int serverSocket;
+
+    if ((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
+        cerr << "Error of create socket" << endl;
+        return;
+    }
+
+    int opt = 1;
+    if (setsockopt(serverSocket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1) {
+        cerr << "Error of setting parameters of socket" << endl;
+        return;
+    }
+
+    struct sockaddr_in address;
+    string serverIP = "127.0.0.1";
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = inet_addr(serverIP.c_str());
+    address.sin_port = htons(7432);
+
+    if (bind(serverSocket, (struct sockaddr *)&address, sizeof(address)) < 0) {
+        cerr << "Error of binding" << endl;
+        return;
+    }
+
+    if (listen(serverSocket, 1) < 0) {
+        cerr << "Error of socket listening" << endl;
+        return;
+    }
+
+    cout << "Server started" << endl;
+
+    while (true){
+        sockaddr_in clientAddress;
+        socklen_t clientSize = sizeof(clientAddress);
+        int clientSocket = accept(serverSocket, (struct sockaddr*)&clientAddress, &clientSize);
+        if(clientSocket < 0){
+            cout << "Error to connect client" << endl;
+            continue;
+        }
+
+        if(cntThreads <= 50){
+            char* clientIP = inet_ntoa(clientAddress.sin_addr);
+            cout << "Client[" << clientIP << "] was connected" << endl;
+            thread(serve_client, clientSocket, clientIP, ref(db)).detach();
+        }
+        else{
+            string answer = "A lot of clients now, try it later";
+            send(clientSocket, answer.c_str(), answer.size(), 0);
+            close(clientSocket);
+        }
+    }
+
+    close(serverSocket);
+}
+
 
 int main() {
     try {
@@ -145,28 +221,7 @@ int main() {
 
         // Здесь вы можете выполнять SQL-запросы
         pqxx::work db(db_connection);
-
-        db.exec("delete from contacts where phone_number = '89825223100'");
-        db.commit();
-
-        cout << handle_command(db) << endl;
-
-        /*
-        pqxx::result R = W.exec("SELECT * FROM authentication");
-
-        for (const auto& row : R) {
-            cout << "Row: ";
-            for (const auto& field : row) {
-                cout << field.c_str() << " ";
-            }
-            cout << endl;
-        }
-
-
-        // Завершите транзакцию
-        db.commit();
-
-        */
+        start_server(db);
 
         // Закройте соединение
         db_connection.close();
