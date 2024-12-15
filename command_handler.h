@@ -21,8 +21,15 @@
 enum class CommandType {
     LOGIN,
     REG,
+    GET_CONTACTS,
     ADD_CONTACT,
+    REMOVE_CONTACT,
+    CHANGE_CONTACT,
     CHANGE_PASSWORD,
+    GET_EVENTS,
+    ADD_EVENT,
+    REMOVE_EVENT,
+    CHANGE_EVENT,
     UNKNOWN
 };
 

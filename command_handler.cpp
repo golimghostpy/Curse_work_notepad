@@ -5,8 +5,15 @@ atomic<int> cntThreads(1);
 CommandType get_com (const string& command){
     if (command == "login") {return CommandType::LOGIN;}
     if (command == "register") {return CommandType::REG;}
+    if (command == "get_contacts") {return CommandType::GET_CONTACTS;}
     if (command == "add_contact") {return CommandType::ADD_CONTACT;}
+    if (command == "remove_contact") {return CommandType::REMOVE_CONTACT;}
+    if (command == "change_contact") {return CommandType::CHANGE_CONTACT;}
     if (command == "change_password") {return CommandType::CHANGE_PASSWORD;}
+    if (command == "get_events") {return CommandType::GET_EVENTS;}
+    if (command == "add_event") {return CommandType::ADD_EVENT;}
+    if (command == "remove_event") {return CommandType::REMOVE_EVENT;}
+    if (command == "change_event") {return CommandType::CHANGE_EVENT;}
     return CommandType::UNKNOWN;
 }
 
@@ -37,25 +44,8 @@ string registration(pqxx::work& db, const vector<string>& command)
 
 string change_password(pqxx::work& db, const vector<string>& command)
 {
-    string login = command[1], hashed_old_password = hash_password(command[2]);
-    string hashed_new_password = hash_password(command[3]), confirm_new_password = hash_password(command[4]);
-
-    pqxx::result check_password = db.exec_params("select password from authentication where login = $1", login);
-
-    if (hashed_old_password != check_password[0][0].c_str())
-    {
-        return "old password is wrong";
-    }
-
-    if (command[2] == command[3])
-    {
-        return "can't leave the old password";
-    }
-
-    if (command[3] != command[4])
-    {
-        return "new passwords do not match";
-    }
+    string login = command[1];
+    string hashed_new_password = hash_password(command[2]);
 
     db.exec_params("update authentication set password = $1 where login = $2", hashed_new_password, login);
     db.commit();
@@ -80,6 +70,26 @@ string authorization(pqxx::work& db, const vector<string>& command){
     return "successful authorization";
 }
 
+string get_contacts(pqxx::work& db, const vector<string>& command)
+{
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+
+    pqxx::result contacts = db.exec_params("select * from contacts where owner = $1", owner);
+
+    string answer = "";
+    for (const auto& contact : contacts)
+    {
+        string one_contact = "";
+        for (auto i = 2; i < contact.size() - 1; ++i)
+        {
+            one_contact += contact[i].as<string>() + ",";
+        }
+        one_contact += contact[contact.size() - 1].as<string>();
+        answer += one_contact + ";";
+    }
+    return answer;
+}
+
 string add_contact(pqxx::work& db, const vector<string>& command)
 {
     // add_contact owner surname name patronymic birthday city street house_num apartment_num phone_num
@@ -87,14 +97,6 @@ string add_contact(pqxx::work& db, const vector<string>& command)
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
 
     pqxx::result is_phone = db.exec_params("select * from contacts where phone_number = $1 and owner = $2", command[10], owner);
-
-    for (const auto& row : is_phone) {
-        cout << "Row: ";
-        for (const auto& field : row) {
-            cout << field.c_str() << " ";
-        }
-        cout << endl;
-    }
 
     if (!is_phone.empty())
     {
@@ -110,6 +112,96 @@ string add_contact(pqxx::work& db, const vector<string>& command)
     return "successful add_contact";
 }
 
+string remove_contact(pqxx::work& db, const vector<string>& command)
+{
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+
+    db.exec_params("delete from contacts where phone_number = $1 and owner = $2", command[2], owner);
+    db.commit();
+    return "successful remove_contact";
+}
+
+string change_contact(pqxx::work& db, const vector<string>& command)
+{
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+
+    db.exec_params("update contacts set surname = $1, name = $2, patronymic = $3, birthday = $4, city = $5, "
+                   "street = $6, house_number = $7, apartment_number = $8, phone_number = $9 where owner = $10 and phone_number = $11",
+                   command[3], command[4], command[5], command[6], command[7], command[8], command[9], command[10], command[11], owner, command[2]);
+    db.commit();
+    return "contact changed successfully";
+}
+
+string add_event(pqxx::work& db, const vector<string>& command) {
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+    pqxx::result events = db.exec_params("select event_list from events where owner = $1 and date = $2", owner, command[2]);
+
+    string event_list;
+    if (!events.empty()) {
+        event_list = events[0][0].as<string>() + "," + command[3];
+        db.exec_params("update events set event_list = $1 where owner = $2 and date = $3", event_list, owner, command[2]);
+    } else {
+        event_list = command[3];
+        db.exec_params("insert into events (owner, date, event_list) values ($1, $2, $3)", owner, command[2], event_list);
+    }
+    db.commit();
+    return "successful add_event";
+}
+
+string remove_event(pqxx::work& db, const vector<string>& command) {
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+    pqxx::result events = db.exec_params("select event_list from events where owner = $1 and date = $2", owner, command[2]);
+
+    if (!events.empty()) {
+        string event_list = events[0][0].as<string>();
+        size_t pos = event_list.find(command[3]);
+        if (pos != string::npos) {
+            event_list.erase(pos, command[3].length());
+            if (!event_list.empty() && event_list.front() == ',') {
+                event_list.erase(0, 1);
+            }
+            if (!event_list.empty() && event_list.back() == ',') {
+                event_list.pop_back();
+            }
+            db.exec_params("update events set event_list = $1 where owner = $2 and date = $3", event_list, owner, command[2]);
+        }
+    }
+    db.commit();
+    return "successful remove_event";
+}
+
+string change_event(pqxx::work& db, const vector<string>& command) {
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+    pqxx::result events = db.exec_params("select event_list from events where owner = $1 and date = $2", owner, command[2]);
+
+    if (!events.empty()) {
+        string event_list = events[0][0].as<string>();
+        size_t pos = event_list.find(command[3]);
+        if (pos != string::npos) {
+            event_list.replace(pos, command[3].length(), command[4]);
+            db.exec_params("update events set event_list = $1 where owner = $2 and date = $3", event_list, owner, command[2]);
+        }
+    }
+    db.commit();
+    return "successful change_event";
+}
+
+string get_events(pqxx::work& db, const vector<string>& command) {
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+    pqxx::result events = db.exec_params("select date, event_list from events where owner = $1", owner);
+
+    string answer = "";
+    for (const auto& event : events) {
+        answer += event[0].as<string>() + " ";
+        for (auto i: split(event[1].as<string>(), ','))
+        {
+            answer += i + " ";
+        }
+        answer += ";";
+    }
+    return answer;
+}
+
 string handle_command(pqxx::work& db, string request)
 {
     vector<string> command = split(request, ' ');
@@ -117,8 +209,15 @@ string handle_command(pqxx::work& db, string request)
     switch(token){
         case CommandType::LOGIN: return authorization(db, command);
         case CommandType::REG: return registration(db, command);
+        case CommandType::GET_CONTACTS: return get_contacts(db, command);
         case CommandType::ADD_CONTACT: return add_contact(db, command);
+        case CommandType::REMOVE_CONTACT: return remove_contact(db, command);
+        case CommandType::CHANGE_CONTACT: cout << request << endl; return change_contact(db, command);
         case CommandType::CHANGE_PASSWORD: return change_password(db, command);
+        case CommandType::ADD_EVENT: return add_event(db, command);
+        case CommandType::REMOVE_EVENT: return remove_event(db, command);
+        case CommandType::CHANGE_EVENT: return change_event(db, command);
+        case CommandType::GET_EVENTS: return get_events(db, command);
         default: return "Wrong command " + command[0];
     }
 }
