@@ -66,9 +66,16 @@ def check_sql_injection(to_check, what_to_check):
             return True
         elif what_to_check == 'password' and not(i.isalnum() or i in '!#$%&()*+-:;<=>?@[]^_{|}~'):
             return True
+        elif what_to_check == 'word' and not(i.isalpha()):
+            return True
+        elif what_to_check == 'number' and not(i.isdigit()):
+            return True
+        elif what_to_check == 'number+word' and not(i.isalnum()):
+            return True
+        elif what_to_check == 'simple lable' and not(i.isalnum() or i in ' :-_'):
+            return True
 
 current_login = None
-current_password = None
 
 class LoginWindow(QWidget):
     def __init__(self, switch_to_register, switch_to_main):
@@ -80,13 +87,13 @@ class LoginWindow(QWidget):
     def initUI(self):
         self.setWindowTitle('Login')
 
-        self.label_username = QLabel('Username:', self)
+        self.label_username = QLabel('Имя пользователя:', self)
         self.entry_username = QLineEdit(self)
-        self.label_password = QLabel('Password:', self)
+        self.label_password = QLabel('Пароль:', self)
         self.entry_password = QLineEdit(self)
         self.entry_password.setEchoMode(QLineEdit.Password)
-        self.login_button = QPushButton('Login', self)
-        self.register_button = QPushButton('Sign up', self)
+        self.login_button = QPushButton('Войти', self)
+        self.register_button = QPushButton('Регистрация', self)
 
         self.login_button.clicked.connect(self.login_user)
         self.register_button.clicked.connect(self.switch_to_register)
@@ -103,37 +110,36 @@ class LoginWindow(QWidget):
         self.setStyleSheet(self.get_stylesheet())
 
     def login_user(self):
-        global current_login, current_password
+        global current_login
         username = self.entry_username.text()
         password = self.entry_password.text()
 
         if not username or not password:
-            QMessageBox.warning(self, 'Error', 'Fill all fields')
+            QMessageBox.warning(self, 'Ошибка', 'Заполните все поля')
             return
 
         if len(username) > 32:
-            QMessageBox.warning(self, 'Login error', 'Username is too long\nMax - 32')
+            QMessageBox.warning(self, 'Ошибка логина', 'Имя пользователя слишком длинное\nМаксимум 32 символа')
             return
         if len(password) > 32:
-            QMessageBox.warning(self, 'Password error', 'Password is too long\nMax - 32')
+            QMessageBox.warning(self, 'Ошибка пароля', 'Пароль слишком длинный\nМаксимум 32 символа')
             return
 
         if check_sql_injection(username, 'login'):
-            QMessageBox.warning(self, 'Login error', 'Prohibited characters in login')
+            QMessageBox.warning(self, 'Ошибка логина', 'Запрещенные символы в логине (могут быть только буквы, цифры и _)')
             return
         if check_sql_injection(password, 'password'):
-            QMessageBox.warning(self, 'Password error', 'Prohibited characters in password')
+            QMessageBox.warning(self, 'Ошибка пароля', 'Запрещенные символы в пароле (могут быть только буквы, цифры и !#$%&()*+-:;<=>?@[]^_{|}~)')
             return
 
         answer = send_to_server(f"login {username} {password}")
 
         if answer == "wrong login":
-            QMessageBox.warning(self, 'Login error', 'Wrong login')
+            QMessageBox.warning(self, 'Ошибка логина', 'Несуществующее имя пользователя')
         elif answer == "wrong password":
-            QMessageBox.warning(self, 'Password error', 'Wrong password')
+            QMessageBox.warning(self, 'Ошибка пароля', 'Неверный пароль')
         else:
             current_login = username
-            current_password = password
             self.switch_to_main()
 
     def get_stylesheet(self):
@@ -142,14 +148,17 @@ class LoginWindow(QWidget):
                 background-color: #f0f0f0;
                 font-family: Arial, sans-serif;
                 font-size: 14px;
+                color: black;
             }
             QLabel {
                 margin: 10px 0;
+                color: black;
             }
             QLineEdit {
                 padding: 10px;
                 border: 1px solid #ccc;
                 border-radius: 5px;
+                color: black;
             }
             QPushButton {
                 padding: 10px;
@@ -174,16 +183,16 @@ class RegistrationWindow(QWidget):
     def initUI(self):
         self.setWindowTitle('Registration')
 
-        self.label_username = QLabel('Username:', self)
+        self.label_username = QLabel('Имя пользователя:', self)
         self.entry_username = QLineEdit(self)
-        self.label_password = QLabel('Password:', self)
+        self.label_password = QLabel('Пароль:', self)
         self.entry_password = QLineEdit(self)
         self.entry_password.setEchoMode(QLineEdit.Password)
-        self.label_confirm_password = QLabel('Confirm Password:', self)
+        self.label_confirm_password = QLabel('Подтверждение пароля:', self)
         self.entry_confirm_password = QLineEdit(self)
         self.entry_confirm_password.setEchoMode(QLineEdit.Password)
-        self.register_button = QPushButton('Register', self)
-        self.back_button = QPushButton('Sign in', self)
+        self.register_button = QPushButton('Зарегистрироваться', self)
+        self.back_button = QPushButton('Вход', self)
 
         self.register_button.clicked.connect(self.register_user)
         self.back_button.clicked.connect(self.switch_to_login)
@@ -207,37 +216,38 @@ class RegistrationWindow(QWidget):
         confirm_password = self.entry_confirm_password.text()
 
         if not(username and password and confirm_password):
-            QMessageBox.warning(self, 'Input Error', 'Please enter all fields.')
+            QMessageBox.warning(self, 'Ошибка ввода', 'Заполните все поля')
             return
 
         if password != confirm_password:
-            QMessageBox.warning(self, 'Input Error', 'Passwords do not match. Please try again.')
+            QMessageBox.warning(self, 'Ошибка ввода', 'Пароли не совпадают, повторите попытку')
             return
 
         if len(username) > 32:
-            QMessageBox.warning(self, 'Login error', 'Username is too long\nMax - 32')
+            QMessageBox.warning(self, 'Ошибка логина', 'Имя пользователя слишком длинное\nМаксимум 32 символа')
             return
         if len(password) > 32:
-            QMessageBox.warning(self, 'Password error', 'Password is too long\nMax - 32')
+            QMessageBox.warning(self, 'Ошибка пароля', 'Пароль слишком длинный\nМаксимум 32 символа')
             return
 
         if check_sql_injection(username, 'login'):
-            QMessageBox.warning(self, 'Login error', 'Prohibited characters in login')
+            QMessageBox.warning(self, 'Ошибка логина', 'Запрещенные символы в логине (могут быть только буквы, цифры и _)')
             return
         if check_sql_injection(password, 'password'):
-            QMessageBox.warning(self, 'Password error', 'Prohibited characters in password')
+            QMessageBox.warning(self, 'Ошибка пароля', 'Запрещенные символы в пароле (могут быть только буквы, цифры и !#$%&()*+-:;<=>?@[]^_{|}~)')
             return
 
         answer = send_to_server(f"register {username} {password} {confirm_password}")
 
         if answer == "login already exists":
-            QMessageBox.warning(self, 'Login error', 'User with this name is already exists')
+            QMessageBox.warning(self, 'Ошибка логина', 'Пользователь с таким именем уже существует')
             return
 
-        QMessageBox.information(self, 'Registration', f'User {username} registered successfully!')
+        QMessageBox.information(self, 'Регистрация', f'Пользователь {username} успешно зарегистрирован')
         self.entry_username.clear()
         self.entry_password.clear()
         self.entry_confirm_password.clear()
+        switch_to_login()
 
     def get_stylesheet(self):
         return """
@@ -245,14 +255,17 @@ class RegistrationWindow(QWidget):
                 background-color: #f0f0f0;
                 font-family: Arial, sans-serif;
                 font-size: 14px;
+                color: black;
             }
             QLabel {
                 margin: 10px 0;
+                color: black;
             }
             QLineEdit {
                 padding: 10px;
                 border: 1px solid #ccc;
                 border-radius: 5px;
+                color: black;
             }
             QPushButton {
                 padding: 10px;
@@ -268,7 +281,7 @@ class RegistrationWindow(QWidget):
             }
         """
 
-class MainWindow(QWidget):
+class ChangePasswordWindow(QWidget):
     def __init__(self, switch_to_contacts, switch_to_events):
         super().__init__()
         self.switch_to_contacts = switch_to_contacts
@@ -276,21 +289,21 @@ class MainWindow(QWidget):
         self.initUI()
 
     def initUI(self):
-        self.setWindowTitle('Main Application')
+        self.setWindowTitle('Change password')
 
-        self.label_change_password = QLabel('Change Password:', self)
-        self.label_old_password = QLabel('Old Password:', self)
+        self.label_change_password = QLabel('Сменить пароль:', self)
+        self.label_old_password = QLabel('Старый пароль:', self)
         self.entry_old_password = QLineEdit(self)
         self.entry_old_password.setEchoMode(QLineEdit.Password)
-        self.label_new_password = QLabel('New Password:', self)
+        self.label_new_password = QLabel('Новый пароль:', self)
         self.entry_new_password = QLineEdit(self)
         self.entry_new_password.setEchoMode(QLineEdit.Password)
-        self.label_confirm_new_password = QLabel('Confirm New Password:', self)
+        self.label_confirm_new_password = QLabel('Подтвердите новый пароль:', self)
         self.entry_confirm_new_password = QLineEdit(self)
         self.entry_confirm_new_password.setEchoMode(QLineEdit.Password)
-        self.change_password_button = QPushButton('Change Password', self)
-        self.contacts_button = QPushButton('My Contacts', self)
-        self.events_button = QPushButton('My Events', self)
+        self.change_password_button = QPushButton('Сменить пароль', self)
+        self.contacts_button = QPushButton('Контакты', self)
+        self.events_button = QPushButton('Мероприятия', self)
 
         layout = QVBoxLayout()
         layout.addWidget(self.label_change_password)
@@ -316,39 +329,39 @@ class MainWindow(QWidget):
         self.events_button.clicked.connect(self.switch_to_events)
 
     def change_password(self):
-        global current_login, current_password
+        global current_login
         old_password = self.entry_old_password.text()
         new_password = self.entry_new_password.text()
         confirm_new_password = self.entry_confirm_new_password.text()
 
         if not(old_password and new_password and confirm_new_password):
-            QMessageBox.warning(self, 'Input Error', 'Please enter all fields.')
+            QMessageBox.warning(self, 'Ошибка ввода', 'Заполните все поля')
             return
 
-        if old_password != current_password:
-            QMessageBox.warning(self, 'Password Error', 'Old password is incorrect')
+        check_old = send_to_server(f'login {current_login} {old_password}')
+        if check_old == 'wrong password':
+            QMessageBox.warning(self, 'Ошибка пароля', 'Старый пароль неверный')
             return
 
         if len(new_password) > 32:
-            QMessageBox.warning(self, 'Password error', 'New password is too long\nMax - 32')
+            QMessageBox.warning(self, 'Ошибка пароля', 'Новый пароль слишком длинный\nМаксимум 32 символа')
             return
 
         if new_password != confirm_new_password:
-            QMessageBox.warning(self, 'Password Error', 'Passwords do not match. Please try again.')
+            QMessageBox.warning(self, 'Ошибка пароля', 'Пароли не совпадают, попробуйте еще раз')
             return
 
         if check_sql_injection(new_password, 'password'):
-            QMessageBox.warning(self, 'Password error', 'Prohibited characters in password')
+            QMessageBox.warning(self, 'Ошибка пароля', 'Запрещенные символы в пароле (могут быть только буквы, цифры и !#$%&()*+-:;<=>?@[]^_{|}~)')
             return
 
         if old_password == new_password:
-            QMessageBox.warning(self, 'Password Error', 'Can\'t leave the old password')
+            QMessageBox.warning(self, 'Ошибка пароля', 'Нельзя оставить старый пароль')
             return
 
         answer = send_to_server(f"change_password {current_login} {new_password}")
 
-        QMessageBox.information(self, 'Change password', f'Password changed successfully')
-        current_password = new_password
+        QMessageBox.information(self, 'Смена пароля', f'Пароль успешно изменен')
         self.entry_old_password.clear()
         self.entry_new_password.clear()
         self.entry_confirm_new_password.clear()
@@ -359,14 +372,17 @@ class MainWindow(QWidget):
                 background-color: #f0f0f0;
                 font-family: Arial, sans-serif;
                 font-size: 14px;
+                color: black;
             }
             QLabel {
                 margin: 10px 0;
+                color: black;
             }
             QLineEdit {
                 padding: 10px;
                 border: 1px solid #ccc;
                 border-radius: 5px;
+                color: black;
             }
             QPushButton {
                 padding: 10px;
@@ -384,19 +400,23 @@ class MainWindow(QWidget):
 
 contacts = []
 class ContactsWindow(QWidget):
-    def __init__(self, switch_to_events, switch_to_main):
+    def __init__(self, switch_to_events, switch_to_main, switch_to_login):
         super().__init__()
         self.switch_to_events = switch_to_events
         self.switch_to_main = switch_to_main
+        self.switch_to_login = switch_to_login
         self.initUI()
         self.load_contacts()
 
     def load_contacts(self):
         global contacts, current_login
 
-        answer = send_to_server(f'get_contacts {current_login}')[:-1]
+        answer = send_to_server(f'get_contacts {current_login}')
 
-        contact_matrix = [[j for j in i.split(',')] for i in answer.split(';')]
+        if answer == 'no contacts':
+            return
+
+        contact_matrix = [[j for j in i.split(',')] for i in answer[:-1].split(';')]
         for contact in contact_matrix:
             contacts.append({
                 'surname': contact[0],
@@ -418,10 +438,11 @@ class ContactsWindow(QWidget):
         self.list_widget = QListWidget(self)
         self.list_widget.itemDoubleClicked.connect(self.change_contact)
 
-        self.add_button = QPushButton('Add Contact', self)
-        self.remove_button = QPushButton('Remove Contact', self)
-        self.events_button = QPushButton('My Events', self)
-        self.change_password_button = QPushButton('Change Password', self)
+        self.add_button = QPushButton('Добавить', self)
+        self.remove_button = QPushButton('Удалить', self)
+        self.events_button = QPushButton('Мероприятия', self)
+        self.change_password_button = QPushButton('Сменить пароль', self)
+        self.logout_button = QPushButton('Выйти', self)
 
         layout = QVBoxLayout()
         layout.addWidget(self.list_widget)
@@ -434,6 +455,12 @@ class ContactsWindow(QWidget):
 
         layout.addLayout(button_layout)
 
+        logout_layout = QHBoxLayout()
+        logout_layout.addStretch()
+        logout_layout.addWidget(self.logout_button)
+
+        layout.addLayout(logout_layout)
+
         self.setLayout(layout)
         self.setStyleSheet(self.get_stylesheet())
 
@@ -441,6 +468,7 @@ class ContactsWindow(QWidget):
         self.remove_button.clicked.connect(self.remove_contact)
         self.events_button.clicked.connect(self.switch_to_events)
         self.change_password_button.clicked.connect(self.switch_to_main)
+        self.logout_button.clicked.connect(self.logout)
 
     def add_contact(self):
         global contacts, current_login
@@ -455,11 +483,13 @@ class ContactsWindow(QWidget):
                 answer = send_to_server(request.strip())
 
                 if answer == 'contact with this phone number is already exists':
-                    QMessageBox.warning(self, 'Contact error', 'You already have this contact')
+                    QMessageBox.warning(self, 'Ошибка контакта', 'Контакт с таким номером уже существует')
                     return
 
                 contacts.append(contact)
                 self.list_widget.addItem(QListWidgetItem(f"{contact['surname']} {contact['name']} {contact['phone']}"))
+            else:
+                self.add_contact()
 
     def remove_contact(self):
         global contacts, current_login
@@ -490,9 +520,14 @@ class ContactsWindow(QWidget):
 
                 send_to_server(request.strip())
 
-                QMessageBox.information(self, 'Change contact', f'Contact changed successfully')
+                QMessageBox.information(self, 'Изменение контакта', f'Контакт успешно изменен')
                 item.setText(f"{updated_contact['surname']} {updated_contact['name']} {updated_contact['phone']}")
 
+    def logout(self):
+        reply = QMessageBox.question(self, 'Выход', 'Вы уверены, что хотите выйти?',
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.switch_to_login()
 
     def get_stylesheet(self):
         return """
@@ -500,16 +535,19 @@ class ContactsWindow(QWidget):
                 background-color: #f0f0f0;
                 font-family: Arial, sans-serif;
                 font-size: 14px;
+                color: black;
             }
             QListWidget {
                 border: 1px solid #ccc;
                 border-radius: 5px;
                 background-color: #ffffff;
                 padding: 10px;
+                color: black;
             }
             QListWidget::item {
                 padding: 5px;
                 border-bottom: 1px solid #ddd;
+                color: black;
             }
             QListWidget::item:selected {
                 background-color: #007BFF;
@@ -529,6 +567,41 @@ class ContactsWindow(QWidget):
             }
         """
 
+class PhoneInput(QLineEdit):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setInputMask("+00000000000;_")
+
+def check_contact(self):
+    if check_sql_injection(self.surname_entry.text(), 'word'):
+        QMessageBox.warning(self, 'Ошибка фамилии', 'Фамилия - одно слово')
+        return None
+
+    if check_sql_injection(self.name_entry.text(), 'word'):
+        QMessageBox.warning(self, 'Ошибка имени', 'Имя - одно слово')
+        return None
+
+    if check_sql_injection(self.patronymic_entry.text(), 'word'):
+        QMessageBox.warning(self, 'Ошибка отчества', 'Отчество - одно слово')
+        return None
+
+    if check_sql_injection(self.city_entry.text(), 'word'):
+        QMessageBox.warning(self, 'Ошибка города', 'Город - одно слово\nЕсли ваш город имеет в названии более одного слова -> разделите их символом \'-\'')
+        return None
+
+    if check_sql_injection(self.street_entry.text(), 'word'):
+        QMessageBox.warning(self, 'Ошибка улицы', 'Улица - одно слово\nЕсли ваша улица имеет в названии более одного слова -> разделите их символом \'-\'')
+        return None
+
+    if check_sql_injection(self.house_number_entry.text(), 'number+word'):
+        QMessageBox.warning(self, 'Ошибка номера дома', 'Номер дома может быть только число+буква')
+        return None
+
+    if check_sql_injection(self.apartment_number_entry.text(), 'number'):
+        QMessageBox.warning(self, 'Ошибка номера квартиры', 'Номер квартиры это число')
+        return None
+
+    return 'ok'
 
 class AddContactDialog(QDialog):
     def __init__(self, parent=None):
@@ -540,41 +613,41 @@ class AddContactDialog(QDialog):
 
         self.form_layout = QFormLayout()
 
-        self.surname_label = QLabel('Surname:*', self)
+        self.surname_label = QLabel('Фамилия:*', self)
         self.surname_entry = QLineEdit(self)
         self.form_layout.addRow(self.surname_label, self.surname_entry)
 
-        self.name_label = QLabel('Name:*', self)
+        self.name_label = QLabel('Имя:*', self)
         self.name_entry = QLineEdit(self)
         self.form_layout.addRow(self.name_label, self.name_entry)
 
-        self.patronymic_label = QLabel('Patronymic:', self)
+        self.patronymic_label = QLabel('Отчество:', self)
         self.patronymic_entry = QLineEdit(self)
         self.form_layout.addRow(self.patronymic_label, self.patronymic_entry)
 
-        self.birth_date_label = QLabel('Birth Date:', self)
+        self.birth_date_label = QLabel('Дата рождения:', self)
         self.birth_date_entry = QDateEdit(self)
         self.birth_date_entry.setCalendarPopup(True)
         self.form_layout.addRow(self.birth_date_label, self.birth_date_entry)
 
-        self.city_label = QLabel('City:', self)
+        self.city_label = QLabel('Город:', self)
         self.city_entry = QLineEdit(self)
         self.form_layout.addRow(self.city_label, self.city_entry)
 
-        self.street_label = QLabel('Street:', self)
+        self.street_label = QLabel('Улица:', self)
         self.street_entry = QLineEdit(self)
         self.form_layout.addRow(self.street_label, self.street_entry)
 
-        self.house_number_label = QLabel('House Number:', self)
+        self.house_number_label = QLabel('Номер дома:', self)
         self.house_number_entry = QLineEdit(self)
         self.form_layout.addRow(self.house_number_label, self.house_number_entry)
 
-        self.apartment_number_label = QLabel('Apartment Number:', self)
+        self.apartment_number_label = QLabel('Номер квартиры:', self)
         self.apartment_number_entry = QLineEdit(self)
         self.form_layout.addRow(self.apartment_number_label, self.apartment_number_entry)
 
-        self.phone_label = QLabel('Phone Number:*', self)
-        self.phone_entry = QLineEdit(self)
+        self.phone_label = QLabel('Номер телефона:*', self)
+        self.phone_entry = PhoneInput(self)
         self.form_layout.addRow(self.phone_label, self.phone_entry)
 
         self.button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -594,13 +667,20 @@ class AddContactDialog(QDialog):
         phone = self.phone_entry.text()
 
         if not last_name or not first_name or not phone:
-            QMessageBox.warning(self, 'Input Error', 'Please enter all required fields.')
+            QMessageBox.warning(self, 'Ошибка ввода', 'Заполните все поля')
+            return None
+
+        if not(check_contact(self)):
+            return None
+
+        if len(phone) != 12:
+            QMessageBox.warning(self, 'Phone Error', 'Длина номера телефона - 11 символов')
             return None
 
         return {
-            'surname': last_name,
-            'name': first_name,
-            'patronymic': self.patronymic_entry.text(),
+            'surname': last_name.capitalize(),
+            'name': first_name.capitalize(),
+            'patronymic': self.patronymic_entry.text().capitalize(),
             'birth_date': self.birth_date_entry.date().toString('yyyy-MM-dd'),
             'city': self.city_entry.text(),
             'street': self.street_entry.text(),
@@ -615,14 +695,17 @@ class AddContactDialog(QDialog):
                 background-color: #f0f0f0;
                 font-family: Arial, sans-serif;
                 font-size: 14px;
+                color: black;
             }
             QLabel {
                 margin: 10px 0;
+                color: black;
             }
             QLineEdit {
                 padding: 10px;
                 border: 1px solid #ccc;
                 border-radius: 5px;
+                color: black;
             }
             QPushButton {
                 padding: 10px;
@@ -650,25 +733,25 @@ class EditContactDialog(QDialog):
 
         self.form_layout = QFormLayout()
 
-        self.surname_label = QLabel('Surname:*', self)
+        self.surname_label = QLabel('Фамилия:*', self)
         self.surname_entry = QLineEdit(self)
         self.surname_entry.setText(self.contact.get('surname', ''))
         self.surname_entry.textChanged.connect(self.check_changes)
         self.form_layout.addRow(self.surname_label, self.surname_entry)
 
-        self.name_label = QLabel('Name:*', self)
+        self.name_label = QLabel('Имя:*', self)
         self.name_entry = QLineEdit(self)
         self.name_entry.setText(self.contact.get('name', ''))
         self.name_entry.textChanged.connect(self.check_changes)
         self.form_layout.addRow(self.name_label, self.name_entry)
 
-        self.patronymic_label = QLabel('Patronymic:', self)
+        self.patronymic_label = QLabel('Отчество:', self)
         self.patronymic_entry = QLineEdit(self)
         self.patronymic_entry.setText(self.contact.get('patronymic', ''))
         self.patronymic_entry.textChanged.connect(self.check_changes)
         self.form_layout.addRow(self.patronymic_label, self.patronymic_entry)
 
-        self.birth_date_label = QLabel('Birth Date:', self)
+        self.birth_date_label = QLabel('Дата рождения:', self)
         self.birth_date_entry = QDateEdit(self)
         self.birth_date_entry.setCalendarPopup(True)
         birth_date = QDate.fromString(self.contact.get('birth_date', ''), 'yyyy-MM-dd')
@@ -676,32 +759,32 @@ class EditContactDialog(QDialog):
         self.birth_date_entry.dateChanged.connect(self.check_changes)
         self.form_layout.addRow(self.birth_date_label, self.birth_date_entry)
 
-        self.city_label = QLabel('City:', self)
+        self.city_label = QLabel('Город:', self)
         self.city_entry = QLineEdit(self)
         self.city_entry.setText(self.contact.get('city', ''))
         self.city_entry.textChanged.connect(self.check_changes)
         self.form_layout.addRow(self.city_label, self.city_entry)
 
-        self.street_label = QLabel('Street:', self)
+        self.street_label = QLabel('Улица:', self)
         self.street_entry = QLineEdit(self)
         self.street_entry.setText(self.contact.get('street', ''))
         self.street_entry.textChanged.connect(self.check_changes)
         self.form_layout.addRow(self.street_label, self.street_entry)
 
-        self.house_number_label = QLabel('House Number:', self)
+        self.house_number_label = QLabel('Номер дома:', self)
         self.house_number_entry = QLineEdit(self)
         self.house_number_entry.setText(self.contact.get('house_number', ''))
         self.house_number_entry.textChanged.connect(self.check_changes)
         self.form_layout.addRow(self.house_number_label, self.house_number_entry)
 
-        self.apartment_number_label = QLabel('Apartment Number:', self)
+        self.apartment_number_label = QLabel('Номер квартиры:', self)
         self.apartment_number_entry = QLineEdit(self)
         self.apartment_number_entry.setText(self.contact.get('apartment_number', ''))
         self.apartment_number_entry.textChanged.connect(self.check_changes)
         self.form_layout.addRow(self.apartment_number_label, self.apartment_number_entry)
 
-        self.phone_label = QLabel('Phone Number:*', self)
-        self.phone_entry = QLineEdit(self)
+        self.phone_label = QLabel('Номер телефона:*', self)
+        self.phone_entry = PhoneInput(self)
         self.phone_entry.setText(self.contact.get('phone', ''))
         self.phone_entry.textChanged.connect(self.check_changes)
         self.form_layout.addRow(self.phone_label, self.phone_entry)
@@ -728,9 +811,9 @@ class EditContactDialog(QDialog):
     def save_contact(self):
         current_contact = self.get_contact()
         if current_contact == self.original_contact:
-            QMessageBox.warning(self, 'No Changes', 'No changes have been made.')
+            QMessageBox.warning(self, 'Нет изменений', 'Никаких изменений не произведено.')
         elif not current_contact:
-            QMessageBox.warning(self, 'Input Error', 'Please enter all required fields.')
+            QMessageBox.warning(self, 'Ошибка ввода', 'Заполните или исправьте все поля')
         else:
             self.accept()
 
@@ -740,6 +823,9 @@ class EditContactDialog(QDialog):
         phone = self.phone_entry.text()
 
         if not (surname and name and phone):
+            return None
+
+        if not(check_contact(self)):
             return None
 
         return {
@@ -760,14 +846,17 @@ class EditContactDialog(QDialog):
                 background-color: #f0f0f0;
                 font-family: Arial, sans-serif;
                 font-size: 14px;
+                color: black;
             }
             QLabel {
                 margin: 10px 0;
+                color: black;
             }
             QLineEdit {
                 padding: 10px;
                 border: 1px solid #ccc;
                 border-radius: 5px;
+                color: black;
             }
             QPushButton {
                 padding: 10px;
@@ -784,10 +873,11 @@ class EditContactDialog(QDialog):
         """
 
 class EventsWindow(QWidget):
-    def __init__(self, switch_to_contacts, switch_to_main):
+    def __init__(self, switch_to_contacts, switch_to_main, switch_to_login):
         super().__init__()
         self.switch_to_contacts = switch_to_contacts
         self.switch_to_main = switch_to_main
+        self.switch_to_login = switch_to_login
         self.initUI()
         self.load_events()
 
@@ -798,8 +888,9 @@ class EventsWindow(QWidget):
         self.calendar.setGridVisible(True)
         self.calendar.clicked.connect(self.show_events_for_date)
 
-        self.contacts_button = QPushButton('My Contacts', self)
-        self.change_password_button = QPushButton('Change Password', self)
+        self.contacts_button = QPushButton('Контакты', self)
+        self.change_password_button = QPushButton('Сменить пароль', self)
+        self.logout_button = QPushButton('Выйти', self)
 
         layout = QVBoxLayout()
         layout.addWidget(self.calendar)
@@ -810,16 +901,27 @@ class EventsWindow(QWidget):
 
         layout.addLayout(button_layout)
 
+        logout_layout = QHBoxLayout()
+        logout_layout.addStretch()
+        logout_layout.addWidget(self.logout_button)
+
+        layout.addLayout(logout_layout)
+
         self.setLayout(layout)
         self.setStyleSheet(self.get_stylesheet())
 
         self.contacts_button.clicked.connect(self.switch_to_contacts)
         self.change_password_button.clicked.connect(self.switch_to_main)
+        self.logout_button.clicked.connect(self.logout)
 
     def load_events(self):
         global current_login
-        answer = send_to_server(f"get_events {current_login}")[:-1]
-        event_matrix = [[j for j in i.split(' ')[:-1]] for i in answer.split(';')]
+        answer = send_to_server(f"get_events {current_login}")
+
+        if answer == "no events":
+            return
+
+        event_matrix = [[j for j in i.split(',')[:-1]] for i in answer[:-1].split(';')]
         for event in event_matrix:
             if len(event) >= 2:
                 date_str = event[0]
@@ -827,11 +929,17 @@ class EventsWindow(QWidget):
                 date = QDate.fromString(date_str, 'yyyy-MM-dd')
                 if date.isValid():
                     for i in events:
-                        self.calendar.setEvent(date, i)
+                        self.calendar.setEvent(date, ' '.join(i.split('_')))
 
     def show_events_for_date(self, date):
         dialog = EventListDialog(date, self.calendar, self)
         dialog.exec_()
+
+    def logout(self):
+        reply = QMessageBox.question(self, 'Выход', 'Вы уверены, что хотите выйти?',
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            self.switch_to_login()
 
     def get_stylesheet(self):
         return """
@@ -839,10 +947,12 @@ class EventsWindow(QWidget):
                 background-color: #f0f0f0;
                 font-family: Arial, sans-serif;
                 font-size: 14px;
+                color: black;
             }
             QCalendarWidget {
                 border: 1px solid #ccc;
                 border-radius: 5px;
+                background-color: white;
             }
             QPushButton {
                 padding: 10px;
@@ -874,9 +984,9 @@ class EventListDialog(QDialog):
             self.list_widget.addItem(QListWidgetItem(event))
         self.list_widget.itemDoubleClicked.connect(self.change_event)
 
-        self.add_button = QPushButton('Add Event', self)
-        self.remove_button = QPushButton('Remove Event', self)
-        self.close_button = QPushButton('Close', self)
+        self.add_button = QPushButton('Добавить', self)
+        self.remove_button = QPushButton('Удалить', self)
+        self.close_button = QPushButton('Закрыть', self)
 
         layout = QVBoxLayout()
         layout.addWidget(self.list_widget)
@@ -897,18 +1007,28 @@ class EventListDialog(QDialog):
 
     def change_event(self, item):
         old_event_name = item.text()
-        new_event_name, ok = QInputDialog.getText(self, 'Change Event', 'Enter new event name:', text=old_event_name)
+        new_event_name, ok = QInputDialog.getText(self, 'Смена мероприятия', 'Введите название мероприятия:', text=old_event_name)
+
+        if check_sql_injection(new_event_name, 'simple lable'):
+            QMessageBox.warning(self, 'Ошибка изменения', 'Вы можете писать только слова, числа и знаки :-_')
+            return
+
         if ok and new_event_name:
-            answer = send_to_server(f"change_event {current_login} {self.date.toString('yyyy-MM-dd')} {old_event_name} {new_event_name}")
+            answer = send_to_server(f"change_event {current_login} {self.date.toString('yyyy-MM-dd')} {'_'.join(old_event_name.strip().split())} {'_'.join(new_event_name.strip().split())}")
             if answer == "successful change_event":
                 self.calendar.removeEvent(self.date, old_event_name)
                 self.calendar.setEvent(self.date, new_event_name)
                 item.setText(new_event_name)
 
     def add_event(self):
-        event_name, ok = QInputDialog.getText(self, 'Add Event', 'Enter event name:')
+        event_name, ok = QInputDialog.getText(self, 'Добавить', 'Введите название мероприятия:')
+
+        if check_sql_injection(event_name, 'simple lable'):
+            QMessageBox.warning(self, 'Ошибка добавления', 'Вы можете писать только слова, числа и знаки :-_')
+            return
+
         if ok and event_name:
-            answer = send_to_server(f"add_event {current_login} {self.date.toString('yyyy-MM-dd')} {event_name}")
+            answer = send_to_server(f"add_event {current_login} {self.date.toString('yyyy-MM-dd')} {'_'.join(event_name.strip().split())}")
             if answer == "successful add_event":
                 self.list_widget.addItem(QListWidgetItem(event_name))
                 self.calendar.setEvent(self.date, event_name)
@@ -919,7 +1039,7 @@ class EventListDialog(QDialog):
             return
         for item in selected_items:
             event_name = item.text()
-            answer = send_to_server(f"remove_event {current_login} {self.date.toString('yyyy-MM-dd')} {event_name}")
+            answer = send_to_server(f"remove_event {current_login} {self.date.toString('yyyy-MM-dd')} {'_'.join(event_name.strip().split())}")
             if answer == "successful remove_event":
                 self.calendar.removeEvent(self.date, event_name)
                 self.list_widget.takeItem(self.list_widget.row(item))
@@ -930,16 +1050,19 @@ class EventListDialog(QDialog):
                 background-color: #f0f0f0;
                 font-family: Arial, sans-serif;
                 font-size: 14px;
+                color: black;
             }
             QListWidget {
                 border: 1px solid #ccc;
                 border-radius: 5px;
                 background-color: #ffffff;
                 padding: 10px;
+                color: black;
             }
             QListWidget::item {
                 padding: 5px;
                 border-bottom: 1px solid #ddd;
+                color: black;
             }
             QListWidget::item:selected {
                 background-color: #007BFF;
@@ -961,13 +1084,13 @@ class EventListDialog(QDialog):
 
 login_window = None
 registration_window = None
-main_window = None
+change_password_window = None
 contacts_window = None
 events_window = None
 
 def show_login_window():
     global login_window
-    login_window = LoginWindow(switch_to_registration, switch_to_main)
+    login_window = LoginWindow(switch_to_registration, switch_to_contacts)
     login_window.resize(300, 300)
     login_window.show()
 
@@ -977,21 +1100,21 @@ def show_registration_window():
     registration_window.resize(300, 300)
     registration_window.show()
 
-def show_main_window():
-    global main_window
-    main_window = MainWindow(switch_to_contacts, switch_to_events)
-    main_window.resize(300, 400)
-    main_window.show()
+def show_change_password_window():
+    global change_password_window
+    change_password_window = ChangePasswordWindow(switch_to_contacts, switch_to_events)
+    change_password_window.resize(300, 400)
+    change_password_window.show()
 
 def show_contacts_window():
     global contacts_window
-    contacts_window = ContactsWindow(switch_to_events, switch_to_main)
+    contacts_window = ContactsWindow(switch_to_events, switch_to_change_password, switch_to_login)
     contacts_window.resize(300, 400)
     contacts_window.show()
 
 def show_events_window():
     global events_window
-    events_window = EventsWindow(switch_to_contacts, switch_to_main)
+    events_window = EventsWindow(switch_to_contacts, switch_to_change_password, switch_to_login)
     events_window.resize(300, 400)
     events_window.show()
 
@@ -1002,33 +1125,40 @@ def switch_to_registration():
     show_registration_window()
 
 def switch_to_login():
-    global registration_window, login_window
+    global registration_window, login_window, contacts_window, events_window, contacts, current_login
     if registration_window:
         registration_window.close()
+    if contacts_window:
+        contacts, current_login = [], None
+        contacts_window.close()
+    if events_window:
+        contacts, current_login = [], None
+        events_window.close()
     show_login_window()
 
-def switch_to_main():
-    global login_window, main_window, contacts_window, events_window
-    if login_window:
-        login_window.close()
+def switch_to_change_password():
+    global change_password_window, contacts_window, events_window
+
     if contacts_window:
         contacts_window.close()
     if events_window:
         events_window.close()
-    show_main_window()
+    show_change_password_window()
 
 def switch_to_contacts():
-    global main_window, contacts_window
-    if main_window:
-        main_window.close()
+    global change_password_window, contacts_window, login_window
+    if change_password_window:
+        change_password_window.close()
     if events_window:
         events_window.close()
+    if login_window:
+        login_window.close()
     show_contacts_window()
 
 def switch_to_events():
-    global main_window, events_window
-    if main_window:
-        main_window.close()
+    global change_password_window, events_window
+    if change_password_window:
+        change_password_window.close()
     if contacts_window:
         contacts_window.close()
     show_events_window()

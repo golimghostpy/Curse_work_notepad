@@ -1,22 +1,15 @@
 cmake_minimum_required(VERSION 3.29)
-project(NoteBook)
+project(.)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBPQXX REQUIRED libpqxx)
 pkg_check_modules(LIBPQ REQUIRED libpq)
+find_package(OpenSSL REQUIRED)
 
-include_directories(${LIBPQXX_INCLUDE_DIRS} ${LIBPQ_INCLUDE_DIRS})
+include_directories(${LIBPQXX_INCLUDE_DIRS} ${LIBPQ_INCLUDE_DIRS} ${OPENSSL_INCLUDE_DIR})
 
 link_directories(${LIBPQXX_LIBRARY_DIRS} ${LIBPQ_LIBRARY_DIRS})
 
-set(CMAKE_CXX_STANDARD 20)
-include_directories(.)
-
-add_executable(notebook
-        command_handler.cpp
-        Contact.cpp
-        Event.cpp
-        general_functions.cpp
-)
-
-target_link_libraries(notebook ${LIBPQXX_LIBRARIES} ${LIBPQ_LIBRARIES})
+add_executable(notebook command_handler.cpp
+        general_functions.cpp)
+target_link_libraries(notebook ${LIBPQXX_LIBRARIES} ${LIBPQ_LIBRARIES} OpenSSL::Crypto OpenSSL::SSL)

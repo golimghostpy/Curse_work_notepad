@@ -345,4 +345,8 @@ CMakeFiles/notebook.dir/command_handler.cpp.o.ddi: \
  /usr/include/c++/14/bits/gslice.h \
  /usr/include/c++/14/bits/gslice_array.h \
  /usr/include/c++/14/bits/mask_array.h \
- /usr/include/c++/14/bits/indirect_array.h
+ /usr/include/c++/14/bits/indirect_array.h /usr/include/openssl/sha.h \
+ /usr/include/openssl/macros.h \
+ /usr/include/x86_64-linux-gnu/openssl/opensslconf.h \
+ /usr/include/x86_64-linux-gnu/openssl/configuration.h \
+ /usr/include/openssl/opensslv.h /usr/include/openssl/e_os2.h

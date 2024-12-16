@@ -19,9 +19,17 @@ CommandType get_com (const string& command){
 
 string hash_password(const string& password)
 {
-    string password_hash;
-    password_hash = password;
-    return password_hash;
+    unsigned char hash[SHA256_DIGEST_LENGTH];
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, password.c_str(), password.size());
+    SHA256_Final(hash, &sha256);
+
+    stringstream ss;
+    for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+        ss << hex << setw(2) << setfill('0') << (int)hash[i];
+    }
+    return ss.str();
 }
 
 string registration(pqxx::work& db, const vector<string>& command)
@@ -75,6 +83,11 @@ string get_contacts(pqxx::work& db, const vector<string>& command)
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
 
     pqxx::result contacts = db.exec_params("select * from contacts where owner = $1", owner);
+
+    if (contacts.empty())
+    {
+        return "no contacts";
+    }
 
     string answer = "";
     for (const auto& contact : contacts)
@@ -190,12 +203,17 @@ string get_events(pqxx::work& db, const vector<string>& command) {
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
     pqxx::result events = db.exec_params("select date, event_list from events where owner = $1", owner);
 
+    if (events.empty())
+    {
+        return "no events";
+    }
+
     string answer = "";
     for (const auto& event : events) {
-        answer += event[0].as<string>() + " ";
+        answer += event[0].as<string>() + ",";
         for (auto i: split(event[1].as<string>(), ','))
         {
-            answer += i + " ";
+            answer += i + ",";
         }
         answer += ";";
     }
@@ -212,7 +230,7 @@ string handle_command(pqxx::work& db, string request)
         case CommandType::GET_CONTACTS: return get_contacts(db, command);
         case CommandType::ADD_CONTACT: return add_contact(db, command);
         case CommandType::REMOVE_CONTACT: return remove_contact(db, command);
-        case CommandType::CHANGE_CONTACT: cout << request << endl; return change_contact(db, command);
+        case CommandType::CHANGE_CONTACT: return change_contact(db, command);
         case CommandType::CHANGE_PASSWORD: return change_password(db, command);
         case CommandType::ADD_EVENT: return add_event(db, command);
         case CommandType::REMOVE_EVENT: return remove_event(db, command);

@@ -48293,7 +48293,6 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 
 
-
 # 1 "/usr/include/c++/14/sstream" 1 3
 # 36 "/usr/include/c++/14/sstream" 3
        
@@ -49474,13 +49473,14 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 }
 # 1239 "/usr/include/c++/14/sstream" 2 3
-# 7 "/home/golimghost/Desktop/CProj/Curse_work_notepad/general_functions.h" 2
+# 6 "/home/golimghost/Desktop/CProj/Curse_work_notepad/general_functions.h" 2
 
 
-# 8 "/home/golimghost/Desktop/CProj/Curse_work_notepad/general_functions.h"
+# 7 "/home/golimghost/Desktop/CProj/Curse_work_notepad/general_functions.h"
 using namespace std;
 
 vector<string> split(const string&, char);
+string join(const vector<string>&, const string&);
 # 7 "/home/golimghost/Desktop/CProj/Curse_work_notepad/Event.h" 2
 
 using namespace std;

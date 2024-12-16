@@ -3,8 +3,6 @@
 
 #include <iostream>
 #include <vector>
-#include "Contact.h"
-#include "Event.h"
 #include "general_functions.h"
 #include <pqxx/pqxx>
 #define _BSD_SOURCE 1
@@ -17,6 +15,8 @@
 #include <atomic>
 #include <format>
 #include <valarray>
+#include <openssl/sha.h>
+#include <iomanip>
 
 enum class CommandType {
     LOGIN,

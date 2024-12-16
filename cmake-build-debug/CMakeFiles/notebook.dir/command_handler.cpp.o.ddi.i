@@ -48329,7 +48329,6 @@ class Contact {
 
 
 
-
 # 1 "/usr/include/c++/14/sstream" 1 3
 # 36 "/usr/include/c++/14/sstream" 3
        
@@ -49512,13 +49511,14 @@ namespace std __attribute__ ((__visibility__ ("default")))
 
 }
 # 1239 "/usr/include/c++/14/sstream" 2 3
-# 7 "/home/golimghost/Desktop/CProj/Curse_work_notepad/general_functions.h" 2
+# 6 "/home/golimghost/Desktop/CProj/Curse_work_notepad/general_functions.h" 2
 
 
-# 8 "/home/golimghost/Desktop/CProj/Curse_work_notepad/general_functions.h"
+# 7 "/home/golimghost/Desktop/CProj/Curse_work_notepad/general_functions.h"
 using namespace std;
 
 vector<string> split(const string&, char);
+string join(const vector<string>&, const string&);
 # 7 "/home/golimghost/Desktop/CProj/Curse_work_notepad/Event.h" 2
 
 using namespace std;
@@ -149212,14 +149212,145 @@ template<typename _Tp> inline _Expr<_BinClos<__greater_equal, _ValArray, _ValArr
 
 }
 # 20 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h" 2
+# 1 "/usr/include/openssl/sha.h" 1 3 4
+# 12 "/usr/include/openssl/sha.h" 3 4
+        
+
+# 1 "/usr/include/openssl/macros.h" 1 3 4
+# 12 "/usr/include/openssl/macros.h" 3 4
+        
+
+# 1 "/usr/include/x86_64-linux-gnu/openssl/opensslconf.h" 1 3 4
+# 12 "/usr/include/x86_64-linux-gnu/openssl/opensslconf.h" 3 4
+        
+
+# 1 "/usr/include/x86_64-linux-gnu/openssl/configuration.h" 1 3 4
+# 16 "/usr/include/x86_64-linux-gnu/openssl/configuration.h" 3 4
+        
 
 
-# 21 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h"
+extern "C" {
+# 149 "/usr/include/x86_64-linux-gnu/openssl/configuration.h" 3 4
+}
+# 15 "/usr/include/x86_64-linux-gnu/openssl/opensslconf.h" 2 3 4
+# 15 "/usr/include/openssl/macros.h" 2 3 4
+# 1 "/usr/include/openssl/opensslv.h" 1 3 4
+# 15 "/usr/include/openssl/opensslv.h" 3 4
+        
+
+
+extern "C" {
+# 106 "/usr/include/openssl/opensslv.h" 3 4
+}
+# 16 "/usr/include/openssl/macros.h" 2 3 4
+# 15 "/usr/include/openssl/sha.h" 2 3 4
+
+
+
+
+# 1 "/usr/include/openssl/e_os2.h" 1 3 4
+# 12 "/usr/include/openssl/e_os2.h" 3 4
+        
+# 22 "/usr/include/openssl/e_os2.h" 3 4
+extern "C" {
+# 265 "/usr/include/openssl/e_os2.h" 3 4
+typedef int64_t ossl_intmax_t;
+typedef uint64_t ossl_uintmax_t;
+# 307 "/usr/include/openssl/e_os2.h" 3 4
+}
+# 20 "/usr/include/openssl/sha.h" 2 3 4
+# 1 "/usr/lib/gcc/x86_64-linux-gnu/14/include/stddef.h" 1 3 4
+# 21 "/usr/include/openssl/sha.h" 2 3 4
+
+
+extern "C" {
+# 42 "/usr/include/openssl/sha.h" 3 4
+typedef struct SHAstate_st {
+    unsigned int h0, h1, h2, h3, h4;
+    unsigned int Nl, Nh;
+    unsigned int data[16];
+    unsigned int num;
+} SHA_CTX;
+
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA1_Init(SHA_CTX *c);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA1_Update(SHA_CTX *c, const void *data, size_t len);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA1_Final(unsigned char *md, SHA_CTX *c);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) void SHA1_Transform(SHA_CTX *c, const unsigned char *data);
+
+
+unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md);
+
+
+
+
+
+
+typedef struct SHA256state_st {
+    unsigned int h[8];
+    unsigned int Nl, Nh;
+    unsigned int data[16];
+    unsigned int num, md_len;
+} SHA256_CTX;
+
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA224_Init(SHA256_CTX *c);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA224_Update(SHA256_CTX *c,
+                                        const void *data, size_t len);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA224_Final(unsigned char *md, SHA256_CTX *c);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA256_Init(SHA256_CTX *c);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA256_Update(SHA256_CTX *c,
+                                        const void *data, size_t len);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA256_Final(unsigned char *md, SHA256_CTX *c);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) void SHA256_Transform(SHA256_CTX *c,
+                                            const unsigned char *data);
+
+
+unsigned char *SHA224(const unsigned char *d, size_t n, unsigned char *md);
+unsigned char *SHA256(const unsigned char *d, size_t n, unsigned char *md);
+# 110 "/usr/include/openssl/sha.h" 3 4
+typedef struct SHA512state_st {
+    unsigned long long h[8];
+    unsigned long long Nl, Nh;
+    union {
+        unsigned long long d[16];
+        unsigned char p[(16*8)];
+    } u;
+    unsigned int num, md_len;
+} SHA512_CTX;
+
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA384_Init(SHA512_CTX *c);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA384_Update(SHA512_CTX *c,
+                                        const void *data, size_t len);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA384_Final(unsigned char *md, SHA512_CTX *c);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA512_Init(SHA512_CTX *c);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA512_Update(SHA512_CTX *c,
+                                        const void *data, size_t len);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) int SHA512_Final(unsigned char *md, SHA512_CTX *c);
+__attribute__((deprecated("Since OpenSSL " "3.0"))) void SHA512_Transform(SHA512_CTX *c,
+                                            const unsigned char *data);
+
+
+unsigned char *SHA384(const unsigned char *d, size_t n, unsigned char *md);
+unsigned char *SHA512(const unsigned char *d, size_t n, unsigned char *md);
+
+
+}
+# 21 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h" 2
+
+
+
+# 23 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.h"
 enum class CommandType {
     LOGIN,
     REG,
+    GET_CONTACTS,
     ADD_CONTACT,
+    REMOVE_CONTACT,
+    CHANGE_CONTACT,
     CHANGE_PASSWORD,
+    GET_EVENTS,
+    ADD_EVENT,
+    REMOVE_EVENT,
+    CHANGE_EVENT,
     UNKNOWN
 };
 
@@ -149231,16 +149362,39 @@ atomic<int> cntThreads(1);
 CommandType get_com (const string& command){
     if (command == "login") {return CommandType::LOGIN;}
     if (command == "register") {return CommandType::REG;}
+    if (command == "get_contacts") {return CommandType::GET_CONTACTS;}
     if (command == "add_contact") {return CommandType::ADD_CONTACT;}
+    if (command == "remove_contact") {return CommandType::REMOVE_CONTACT;}
+    if (command == "change_contact") {return CommandType::CHANGE_CONTACT;}
     if (command == "change_password") {return CommandType::CHANGE_PASSWORD;}
+    if (command == "get_events") {return CommandType::GET_EVENTS;}
+    if (command == "add_event") {return CommandType::ADD_EVENT;}
+    if (command == "remove_event") {return CommandType::REMOVE_EVENT;}
+    if (command == "change_event") {return CommandType::CHANGE_EVENT;}
     return CommandType::UNKNOWN;
 }
 
 string hash_password(const string& password)
 {
-    string password_hash;
-    password_hash = password;
-    return password_hash;
+    unsigned char hash[
+# 22 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+                      32
+# 22 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+                                          ];
+    SHA256_CTX sha256;
+    SHA256_Init(&sha256);
+    SHA256_Update(&sha256, password.c_str(), password.size());
+    SHA256_Final(hash, &sha256);
+
+    stringstream ss;
+    for (int i = 0; i < 
+# 29 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+                       32
+# 29 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+                                           ; i++) {
+        ss << hex << setw(2) << setfill('0') << (int)hash[i];
+    }
+    return ss.str();
 }
 
 string registration(pqxx::work& db, const vector<string>& command)
@@ -149263,25 +149417,8 @@ string registration(pqxx::work& db, const vector<string>& command)
 
 string change_password(pqxx::work& db, const vector<string>& command)
 {
-    string login = command[1], hashed_old_password = hash_password(command[2]);
-    string hashed_new_password = hash_password(command[3]), confirm_new_password = hash_password(command[4]);
-
-    pqxx::result check_password = db.exec_params("select password from authentication where login = $1", login);
-
-    if (hashed_old_password != check_password[0][0].c_str())
-    {
-        return "old password is wrong";
-    }
-
-    if (command[2] == command[3])
-    {
-        return "can't leave the old password";
-    }
-
-    if (command[3] != command[4])
-    {
-        return "new passwords do not match";
-    }
+    string login = command[1];
+    string hashed_new_password = hash_password(command[2]);
 
     db.exec_params("update authentication set password = $1 where login = $2", hashed_new_password, login);
     db.commit();
@@ -149306,6 +149443,31 @@ string authorization(pqxx::work& db, const vector<string>& command){
     return "successful authorization";
 }
 
+string get_contacts(pqxx::work& db, const vector<string>& command)
+{
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+
+    pqxx::result contacts = db.exec_params("select * from contacts where owner = $1", owner);
+
+    if (contacts.empty())
+    {
+        return "no contacts";
+    }
+
+    string answer = "";
+    for (const auto& contact : contacts)
+    {
+        string one_contact = "";
+        for (auto i = 2; i < contact.size() - 1; ++i)
+        {
+            one_contact += contact[i].as<string>() + ",";
+        }
+        one_contact += contact[contact.size() - 1].as<string>();
+        answer += one_contact + ";";
+    }
+    return answer;
+}
+
 string add_contact(pqxx::work& db, const vector<string>& command)
 {
 
@@ -149313,14 +149475,6 @@ string add_contact(pqxx::work& db, const vector<string>& command)
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
 
     pqxx::result is_phone = db.exec_params("select * from contacts where phone_number = $1 and owner = $2", command[10], owner);
-
-    for (const auto& row : is_phone) {
-        cout << "Row: ";
-        for (const auto& field : row) {
-            cout << field.c_str() << " ";
-        }
-        cout << endl;
-    }
 
     if (!is_phone.empty())
     {
@@ -149336,6 +149490,108 @@ string add_contact(pqxx::work& db, const vector<string>& command)
     return "successful add_contact";
 }
 
+string remove_contact(pqxx::work& db, const vector<string>& command)
+{
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+
+    db.exec_params("delete from contacts where phone_number = $1 and owner = $2", command[2], owner);
+    db.commit();
+    return "successful remove_contact";
+}
+
+string change_contact(pqxx::work& db, const vector<string>& command)
+{
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+
+    db.exec_params("update contacts set surname = $1, name = $2, patronymic = $3, birthday = $4, city = $5, "
+                   "street = $6, house_number = $7, apartment_number = $8, phone_number = $9 where owner = $10 and phone_number = $11",
+                   command[3], command[4], command[5], command[6], command[7], command[8], command[9], command[10], command[11], owner, command[2]);
+    db.commit();
+    return "contact changed successfully";
+}
+
+string add_event(pqxx::work& db, const vector<string>& command) {
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+    pqxx::result events = db.exec_params("select event_list from events where owner = $1 and date = $2", owner, command[2]);
+
+    string event_list;
+    if (!events.empty()) {
+        event_list = events[0][0].as<string>() + "," + command[3];
+        db.exec_params("update events set event_list = $1 where owner = $2 and date = $3", event_list, owner, command[2]);
+    } else {
+        event_list = command[3];
+        db.exec_params("insert into events (owner, date, event_list) values ($1, $2, $3)", owner, command[2], event_list);
+    }
+    db.commit();
+    return "successful add_event";
+}
+
+string remove_event(pqxx::work& db, const vector<string>& command) {
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+    pqxx::result events = db.exec_params("select event_list from events where owner = $1 and date = $2", owner, command[2]);
+
+    if (!events.empty()) {
+        string event_list = events[0][0].as<string>();
+        string original_event = join(split(command[3], '_'), " ");
+        size_t pos = event_list.find(original_event);
+        if (pos != string::npos) {
+            event_list.erase(pos, original_event.length());
+            if (!event_list.empty() && event_list.front() == ',') {
+                event_list.erase(0, 1);
+            }
+            if (!event_list.empty() && event_list.back() == ',') {
+                event_list.pop_back();
+            }
+            db.exec_params("update events set event_list = $1 where owner = $2 and date = $3", event_list, owner, command[2]);
+        }
+    }
+    db.commit();
+    return "successful remove_event";
+}
+
+string change_event(pqxx::work& db, const vector<string>& command) {
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+    pqxx::result events = db.exec_params("select event_list from events where owner = $1 and date = $2", owner, command[2]);
+
+    cout << "old " << command[3] << endl;
+    cout << "new " << command[4] << endl;
+
+    if (!events.empty()) {
+        string event_list = events[0][0].as<string>();
+        cout << "events - " << event_list << " find - " << command[3] << endl;
+        size_t pos = event_list.find(command[3]);
+        if (pos != string::npos) {
+            cout << "before replace " << event_list << endl;
+            event_list.replace(pos, command[3].length(), command[4]);
+            cout << "after replace " << event_list << endl;
+            db.exec_params("update events set event_list = $1 where owner = $2 and date = $3", event_list, owner, command[2]);
+        }
+    }
+    db.commit();
+    return "successful change_event";
+}
+
+string get_events(pqxx::work& db, const vector<string>& command) {
+    int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
+    pqxx::result events = db.exec_params("select date, event_list from events where owner = $1", owner);
+
+    if (events.empty())
+    {
+        return "no events";
+    }
+
+    string answer = "";
+    for (const auto& event : events) {
+        answer += event[0].as<string>() + ",";
+        for (auto i: split(event[1].as<string>(), ','))
+        {
+            answer += i + ",";
+        }
+        answer += ";";
+    }
+    return answer;
+}
+
 string handle_command(pqxx::work& db, string request)
 {
     vector<string> command = split(request, ' ');
@@ -149343,8 +149599,15 @@ string handle_command(pqxx::work& db, string request)
     switch(token){
         case CommandType::LOGIN: return authorization(db, command);
         case CommandType::REG: return registration(db, command);
+        case CommandType::GET_CONTACTS: return get_contacts(db, command);
         case CommandType::ADD_CONTACT: return add_contact(db, command);
+        case CommandType::REMOVE_CONTACT: return remove_contact(db, command);
+        case CommandType::CHANGE_CONTACT: return change_contact(db, command);
         case CommandType::CHANGE_PASSWORD: return change_password(db, command);
+        case CommandType::ADD_EVENT: return add_event(db, command);
+        case CommandType::REMOVE_EVENT: return remove_event(db, command);
+        case CommandType::CHANGE_EVENT: return change_event(db, command);
+        case CommandType::GET_EVENTS: return get_events(db, command);
         default: return "Wrong command " + command[0];
     }
 }
@@ -149376,13 +149639,13 @@ void start_server(pqxx::work& db) {
     int serverSocket;
 
     if ((serverSocket = socket(
-# 152 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+# 276 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
                               2
-# 152 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+# 276 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
                                      , 
-# 152 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+# 276 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
                                        SOCK_STREAM
-# 152 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+# 276 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
                                                   , 0)) == 0) {
         cerr << "Error of create socket" << endl;
         return;
@@ -149390,13 +149653,13 @@ void start_server(pqxx::work& db) {
 
     int opt = 1;
     if (setsockopt(serverSocket, 
-# 158 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+# 282 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
                                 1
-# 158 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+# 282 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
                                           , 
-# 158 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+# 282 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
                                             2
-# 158 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+# 282 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
                                                         , &opt, sizeof(opt)) == -1) {
         cerr << "Error of setting parameters of socket" << endl;
         return;
@@ -149405,9 +149668,9 @@ void start_server(pqxx::work& db) {
     struct sockaddr_in address;
     string serverIP = "127.0.0.1";
     address.sin_family = 
-# 165 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
+# 289 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp" 3 4
                         2
-# 165 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
+# 289 "/home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp"
                                ;
     address.sin_addr.s_addr = inet_addr(serverIP.c_str());
     address.sin_port = htons(7432);

@@ -11,3 +11,14 @@ vector<string> split(const string& str, char delimiter) {
 
     return splited;
 }
+
+string join(const vector<string>& vec, const string& delimiter) {
+    string result;
+    for (size_t i = 0; i < vec.size(); ++i) {
+        result += vec[i];
+        if (i < vec.size() - 1) {
+            result += delimiter;
+        }
+    }
+    return result;
+}
