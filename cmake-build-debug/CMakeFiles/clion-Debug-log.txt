@@ -1,1 +1,1 @@
-CMakeLists.txt not found in /home/golimghost/Desktop/Curse_work_notepad Select CMakeLists.txt
+CMakeLists.txt not found in /home/golimghost/Desktop/CProj/Curse_work_notepad Select CMakeLists.txt

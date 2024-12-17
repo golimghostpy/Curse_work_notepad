@@ -28,7 +28,7 @@ clientSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 def send_to_server(message):
     try:
         clientSock.sendall(message.encode())
-        response = clientSock.recv(1024)
+        response = clientSock.recv(65536)
         return response.decode()
     except Exception as e:
         print(f"Error communicating with server: {e}")
@@ -673,6 +673,13 @@ class AddContactDialog(QDialog):
         if not(check_contact(self)):
             return None
 
+        if (len(last_name) > 64 or len(first_name) > 64 or len(self.patronymic_entry.text()) > 64 or
+                len(self.city_entry.text()) > 64 or len(self.street_entry.text()) > 64 or
+                len(self.house_number_entry.text()) > 64 or len(self.apartment_number_entry.text()) > 64):
+            QMessageBox.warning(self, 'Ошибка ввода', 'Слишком много данных на 1 поле, максимальная длина - 64 символа')
+            return None
+
+
         if len(phone) != 12:
             QMessageBox.warning(self, 'Phone Error', 'Длина номера телефона - 11 символов')
             return None
@@ -1026,6 +1033,10 @@ class EventListDialog(QDialog):
         if check_sql_injection(event_name, 'simple lable'):
             QMessageBox.warning(self, 'Ошибка добавления', 'Вы можете писать только слова, числа и знаки :-_')
             return
+
+        if len(event_name) > 256:
+            QMessageBox.warning(self, 'Ошибка ввода', 'Слишком длинное мероприятие, максимум - 256 символов')
+            return None
 
         if ok and event_name:
             answer = send_to_server(f"add_event {current_login} {self.date.toString('yyyy-MM-dd')} {'_'.join(event_name.strip().split())}")
