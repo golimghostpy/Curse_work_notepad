@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: db
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_DB: notebook
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ab-320
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+  server:
+    build: 
+      context: ./server
+      args:
+        UID: ${UID}
+        GID: ${GID}
+    restart: always
+    ports:
+      - "7432:7432"
+    environment:
+      TZ: ${TZ}
+    env_file:
+      - .env
+    volumes:
+      - ./server/config.json:/app/config/config.json
+    depends_on:
+      - db

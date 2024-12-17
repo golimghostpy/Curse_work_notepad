@@ -1,4 +1,1 @@
-/home/golimghost/Downloads/clion-2024.3/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/home/golimghost/Downloads/clion-2024.3/bin/ninja/linux/x64/ninja -G Ninja -DPython_EXECUTABLE=/home/golimghost/Desktop/CProj/Curse_work_notepad/.venv/bin/python -DPython3_EXECUTABLE=/home/golimghost/Desktop/CProj/Curse_work_notepad/.venv/bin/python -S /home/golimghost/Desktop/CProj/Curse_work_notepad -B /home/golimghost/Desktop/CProj/Curse_work_notepad/cmake-build-debug
--- Configuring done (0.0s)
--- Generating done (0.0s)
--- Build files have been written to: /home/golimghost/Desktop/CProj/Curse_work_notepad/cmake-build-debug
+CMakeLists.txt not found in /home/golimghost/Desktop/Curse_work_notepad Select CMakeLists.txt

@@ -17,6 +17,8 @@
 #include <valarray>
 #include <openssl/sha.h>
 #include <iomanip>
+#include <fstream>
+#include <nlohmann/json.hpp>
 
 enum class CommandType {
     LOGIN,
@@ -34,5 +36,6 @@ enum class CommandType {
 };
 
 using namespace std;
+using json = nlohmann::json;
 
 #endif //COMMAND_HANDLER_H

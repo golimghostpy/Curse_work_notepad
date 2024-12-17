@@ -203,6 +203,8 @@ string get_events(pqxx::work& db, const vector<string>& command) {
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
     pqxx::result events = db.exec_params("select date, event_list from events where owner = $1", owner);
 
+    cout << join(command, " ") << endl;
+
     if (events.empty())
     {
         return "no events";
@@ -210,6 +212,7 @@ string get_events(pqxx::work& db, const vector<string>& command) {
 
     string answer = "";
     for (const auto& event : events) {
+        cout << event[1].as<string>() << endl;
         answer += event[0].as<string>() + ",";
         for (auto i: split(event[1].as<string>(), ','))
         {
@@ -217,6 +220,7 @@ string get_events(pqxx::work& db, const vector<string>& command) {
         }
         answer += ";";
     }
+    cout << answer << endl;
     return answer;
 }
 
@@ -278,7 +282,7 @@ void start_server(pqxx::work& db) {
     }
 
     struct sockaddr_in address;
-    string serverIP = "127.0.0.1";
+    string serverIP = "0.0.0.0";
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = inet_addr(serverIP.c_str());
     address.sin_port = htons(7432);
@@ -304,7 +308,7 @@ void start_server(pqxx::work& db) {
             continue;
         }
 
-        if(cntThreads <= 50){
+        if(cntThreads <= 100){
             char* clientIP = inet_ntoa(clientAddress.sin_addr);
             cout << "Client[" << clientIP << "] was connected" << endl;
             thread(serve_client, clientSocket, clientIP, ref(db)).detach();
@@ -322,11 +326,27 @@ void start_server(pqxx::work& db) {
 
 int main() {
     try {
-        // Параметры подключения
-        string connection_string = "dbname=notebook user=postgres password=as180371 host=localhost";
+        string filename = "config.json";
 
-        // Создайте объект соединения
-        pqxx::connection db_connection(connection_string);
+        if (!filesystem::exists(filename)) {
+            cout << "File does not exist: " << filename << endl;
+            return 1;
+        }
+
+        ifstream file(filename);
+        if (!file.is_open()) {
+            cout << "Error opening file" << endl;
+            return 1;
+        }
+
+        json config;
+        file >> config;
+
+
+        const string dbname = config["dbname"], user = config["user"], password = config["password"], database_ip = config["database_ip"];
+        int port = config["database_port"];
+
+        pqxx::connection db_connection("dbname=" + dbname + " user=" + user + " password=" + password + " host=" + database_ip + " port=" + to_string(port));
 
         // Проверьте соединение
         if (db_connection.is_open()) {
@@ -341,7 +361,7 @@ int main() {
         start_server(db);
 
         // Закройте соединение
-        db_connection.close();
+        db_connection.disconnect();
     } catch (const exception &e) {
         cerr << e.what() << endl;
         return 1;

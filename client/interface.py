@@ -1,6 +1,6 @@
 import sys
 import socket
-from multiprocessing.connection import answer_challenge
+import json
 
 from PyQt5.QtWidgets import (
     QApplication,
@@ -1164,7 +1164,10 @@ def switch_to_events():
     show_events_window()
 
 if __name__ == '__main__':
-    dbIP, dbPort = "localhost", 7432
+    with open('clientConfig.json', 'r') as config:
+        info = json.loads(config.read())
+        dbPort, dbIP = info['dbPort'], info['dbIP']
+
     serverAddr = (str(dbIP), int(dbPort))
     clientSock.connect(serverAddr)
 

@@ -49,19 +49,19 @@ cmake_ninja_workdir = /home/golimghost/Desktop/CProj/Curse_work_notepad/cmake-bu
 
 build cmake_object_order_depends_target_notebook: phony || .
 
-build CMakeFiles/notebook.dir/command_handler.cpp.o: CXX_COMPILER__notebook_unscanned_Debug /home/golimghost/Desktop/CProj/Curse_work_notepad/command_handler.cpp || cmake_object_order_depends_target_notebook
-  DEP_FILE = CMakeFiles/notebook.dir/command_handler.cpp.o.d
+build CMakeFiles/notebook.dir/server/command_handler.cpp.o: CXX_COMPILER__notebook_unscanned_Debug /home/golimghost/Desktop/CProj/Curse_work_notepad/server/command_handler.cpp || cmake_object_order_depends_target_notebook
+  DEP_FILE = CMakeFiles/notebook.dir/server/command_handler.cpp.o.d
   FLAGS = -g -fdiagnostics-color=always
   INCLUDES = -I/usr/include/postgresql
   OBJECT_DIR = CMakeFiles/notebook.dir
-  OBJECT_FILE_DIR = CMakeFiles/notebook.dir
+  OBJECT_FILE_DIR = CMakeFiles/notebook.dir/server
 
-build CMakeFiles/notebook.dir/general_functions.cpp.o: CXX_COMPILER__notebook_unscanned_Debug /home/golimghost/Desktop/CProj/Curse_work_notepad/general_functions.cpp || cmake_object_order_depends_target_notebook
-  DEP_FILE = CMakeFiles/notebook.dir/general_functions.cpp.o.d
+build CMakeFiles/notebook.dir/server/general_functions.cpp.o: CXX_COMPILER__notebook_unscanned_Debug /home/golimghost/Desktop/CProj/Curse_work_notepad/server/general_functions.cpp || cmake_object_order_depends_target_notebook
+  DEP_FILE = CMakeFiles/notebook.dir/server/general_functions.cpp.o.d
   FLAGS = -g -fdiagnostics-color=always
   INCLUDES = -I/usr/include/postgresql
   OBJECT_DIR = CMakeFiles/notebook.dir
-  OBJECT_FILE_DIR = CMakeFiles/notebook.dir
+  OBJECT_FILE_DIR = CMakeFiles/notebook.dir/server
 
 
 # =============================================================================
@@ -71,7 +71,7 @@ build CMakeFiles/notebook.dir/general_functions.cpp.o: CXX_COMPILER__notebook_un
 #############################################
 # Link the executable notebook
 
-build notebook: CXX_EXECUTABLE_LINKER__notebook_Debug CMakeFiles/notebook.dir/command_handler.cpp.o CMakeFiles/notebook.dir/general_functions.cpp.o | /usr/lib/x86_64-linux-gnu/libcrypto.so /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcrypto.so
+build notebook: CXX_EXECUTABLE_LINKER__notebook_Debug CMakeFiles/notebook.dir/server/command_handler.cpp.o CMakeFiles/notebook.dir/server/general_functions.cpp.o | /usr/lib/x86_64-linux-gnu/libcrypto.so /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcrypto.so
   FLAGS = -g
   LINK_LIBRARIES = -lpqxx  -lpq  /usr/lib/x86_64-linux-gnu/libcrypto.so  /usr/lib/x86_64-linux-gnu/libssl.so  /usr/lib/x86_64-linux-gnu/libcrypto.so
   OBJECT_DIR = CMakeFiles/notebook.dir
