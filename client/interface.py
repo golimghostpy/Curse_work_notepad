@@ -524,8 +524,18 @@ class ContactsWindow(QWidget):
                 item.setText(f"{updated_contact['surname']} {updated_contact['name']} {updated_contact['phone']}")
 
     def logout(self):
-        reply = QMessageBox.question(self, 'Выход', 'Вы уверены, что хотите выйти?',
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Question)
+        msgBox.setText("Выход")
+        msgBox.setInformativeText("Вы уверены, что хотите выйти?")
+        msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msgBox.setDefaultButton(QMessageBox.No)
+
+        msgBox.setButtonText(QMessageBox.Yes, "Да")
+        msgBox.setButtonText(QMessageBox.No, "Нет")
+
+        reply = msgBox.exec_()
+
         if reply == QMessageBox.Yes:
             self.switch_to_login()
 
@@ -943,8 +953,18 @@ class EventsWindow(QWidget):
         dialog.exec_()
 
     def logout(self):
-        reply = QMessageBox.question(self, 'Выход', 'Вы уверены, что хотите выйти?',
-                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Question)
+        msgBox.setText("Выход")
+        msgBox.setInformativeText("Вы уверены, что хотите выйти?")
+        msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+        msgBox.setDefaultButton(QMessageBox.No)
+
+        msgBox.setButtonText(QMessageBox.Yes, "Да")
+        msgBox.setButtonText(QMessageBox.No, "Нет")
+
+        reply = msgBox.exec_()
+
         if reply == QMessageBox.Yes:
             self.switch_to_login()
 
