@@ -285,7 +285,7 @@ void start_server(pqxx::work& db) {
     string serverIP = "0.0.0.0";
     address.sin_family = AF_INET;
     address.sin_addr.s_addr = inet_addr(serverIP.c_str());
-    address.sin_port = htons(7432);
+    address.sin_port = htons(5289);
 
     if (bind(serverSocket, (struct sockaddr *)&address, sizeof(address)) < 0) {
         cerr << "Error of binding" << endl;
