@@ -247,6 +247,7 @@ string handle_command(pqxx::work& db, string request)
 void serve_client(int clientSocket, const char* clientIP, pqxx::work& db) {
     ++cntThreads;
 
+    sleep(1);
     while (true) {
         vector<char> clientBuffer(1024);
 
@@ -259,6 +260,7 @@ void serve_client(int clientSocket, const char* clientIP, pqxx::work& db) {
 
         string request(clientBuffer.data());
 
+        sleep(1);
         string answer = handle_command(db, request);
         send(clientSocket, answer.c_str(), answer.size(), 0);
     }
