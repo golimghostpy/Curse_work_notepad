@@ -244,27 +244,23 @@ string handle_command(pqxx::work& db, string request)
     }
 }
 
-mutex Muter;
 void serve_client(int clientSocket, const char* clientIP, pqxx::work& db) {
     ++cntThreads;
 
     while (true) {
-        {
-            lock_guard<mutex> lock(Muter);
-            vector<char> clientBuffer(1024);
+        vector<char> clientBuffer(1024);
 
-            ssize_t bytesRead = recv(clientSocket, clientBuffer.data(), clientBuffer.size() - 1, 0);
-            if (bytesRead <= 0) {
-                cout << "Client [" << clientIP << "] was disconnected" << endl;
-                break;
-            }
-            clientBuffer[bytesRead] = '\0';
-
-            string request(clientBuffer.data());
-
-            string answer = handle_command(db, request);
-            send(clientSocket, answer.c_str(), answer.size(), 0);
+        ssize_t bytesRead = recv(clientSocket, clientBuffer.data(), clientBuffer.size() - 1, 0);
+        if (bytesRead <= 0) {
+            cout << "Client [" << clientIP << "] was disconnected" << endl;
+            break;
         }
+        clientBuffer[bytesRead] = '\0';
+
+        string request(clientBuffer.data());
+
+        string answer = handle_command(db, request);
+        send(clientSocket, answer.c_str(), answer.size(), 0);
     }
 
     close(clientSocket);
