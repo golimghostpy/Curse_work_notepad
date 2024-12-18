@@ -49,7 +49,7 @@
 2. Пропишите команды:
 
    ```sh
-   pip install pyqt5
+   pip install PyQt5
    pyinstaller --noconsole --onefile --name PeopleAndPlaces interface.py
    ```
    
