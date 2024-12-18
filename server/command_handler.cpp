@@ -2,7 +2,7 @@
 
 atomic<int> cntThreads(1);
 
-CommandType get_com (const string& command){
+CommandType get_com (const string& command){ // получение токена запроса
     if (command == "login") {return CommandType::LOGIN;}
     if (command == "register") {return CommandType::REG;}
     if (command == "get_contacts") {return CommandType::GET_CONTACTS;}
@@ -17,7 +17,7 @@ CommandType get_com (const string& command){
     return CommandType::UNKNOWN;
 }
 
-string hash_password(const string& password)
+string hash_password(const string& password) // хэширование пароля
 {
     unsigned char hash[SHA256_DIGEST_LENGTH];
     SHA256_CTX sha256;
@@ -32,7 +32,7 @@ string hash_password(const string& password)
     return ss.str();
 }
 
-string registration(pqxx::work& db, const vector<string>& command)
+string registration(pqxx::work& db, const vector<string>& command) // регистрация
 {
     string login = command[1], hashed_password = hash_password(command[2]);
 
@@ -50,7 +50,7 @@ string registration(pqxx::work& db, const vector<string>& command)
     return "successful registration";
 }
 
-string change_password(pqxx::work& db, const vector<string>& command)
+string change_password(pqxx::work& db, const vector<string>& command) // смена пароля
 {
     string login = command[1];
     string hashed_new_password = hash_password(command[2]);
@@ -60,7 +60,7 @@ string change_password(pqxx::work& db, const vector<string>& command)
     return "password changed successfully";
 }
 
-string authorization(pqxx::work& db, const vector<string>& command){
+string authorization(pqxx::work& db, const vector<string>& command){ // вход в аккаунт
     string login = command[1], hashed_password = hash_password(command[2]);
 
     pqxx::result user = db.exec_params("select login, password from authentication where login = $1", login);
@@ -78,7 +78,7 @@ string authorization(pqxx::work& db, const vector<string>& command){
     return "successful authorization";
 }
 
-string get_contacts(pqxx::work& db, const vector<string>& command)
+string get_contacts(pqxx::work& db, const vector<string>& command) // получение всех контактов пользователя
 {
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
 
@@ -103,7 +103,7 @@ string get_contacts(pqxx::work& db, const vector<string>& command)
     return answer;
 }
 
-string add_contact(pqxx::work& db, const vector<string>& command)
+string add_contact(pqxx::work& db, const vector<string>& command) // добавление контакта
 {
     // add_contact owner surname name patronymic birthday city street house_num apartment_num phone_num
 
@@ -125,7 +125,7 @@ string add_contact(pqxx::work& db, const vector<string>& command)
     return "successful add_contact";
 }
 
-string remove_contact(pqxx::work& db, const vector<string>& command)
+string remove_contact(pqxx::work& db, const vector<string>& command) // удаление контание
 {
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
 
@@ -134,7 +134,7 @@ string remove_contact(pqxx::work& db, const vector<string>& command)
     return "successful remove_contact";
 }
 
-string change_contact(pqxx::work& db, const vector<string>& command)
+string change_contact(pqxx::work& db, const vector<string>& command) // изменение контакта
 {
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
 
@@ -145,7 +145,7 @@ string change_contact(pqxx::work& db, const vector<string>& command)
     return "contact changed successfully";
 }
 
-string add_event(pqxx::work& db, const vector<string>& command) {
+string add_event(pqxx::work& db, const vector<string>& command) { // добавление события
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
     pqxx::result events = db.exec_params("select event_list from events where owner = $1 and date = $2", owner, command[2]);
 
@@ -161,7 +161,7 @@ string add_event(pqxx::work& db, const vector<string>& command) {
     return "successful add_event";
 }
 
-string remove_event(pqxx::work& db, const vector<string>& command) {
+string remove_event(pqxx::work& db, const vector<string>& command) { // удаление события
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
     pqxx::result events = db.exec_params("select event_list from events where owner = $1 and date = $2", owner, command[2]);
 
@@ -183,15 +183,15 @@ string remove_event(pqxx::work& db, const vector<string>& command) {
     return "successful remove_event";
 }
 
-string change_event(pqxx::work& db, const vector<string>& command) {
+string change_event(pqxx::work& db, const vector<string>& command) { // изменение события
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
     pqxx::result events = db.exec_params("select event_list from events where owner = $1 and date = $2", owner, command[2]);
 
     if (!events.empty()) {
         string event_list = events[0][0].as<string>();
-        size_t pos = event_list.find(command[3]);
+        size_t pos = event_list.find(command[3]); // поиск в строке
         if (pos != string::npos) {
-            event_list.replace(pos, command[3].length(), command[4]);
+            event_list.replace(pos, command[3].length(), command[4]); // замена
             db.exec_params("update events set event_list = $1 where owner = $2 and date = $3", event_list, owner, command[2]);
         }
     }
@@ -199,7 +199,7 @@ string change_event(pqxx::work& db, const vector<string>& command) {
     return "successful change_event";
 }
 
-string get_events(pqxx::work& db, const vector<string>& command) {
+string get_events(pqxx::work& db, const vector<string>& command) { // считывание всех событий пользователя
     int owner = stoi(db.exec_params("select user_id from authentication where login = $1", command[1])[0][0].c_str());
     pqxx::result events = db.exec_params("select date, event_list from events where owner = $1", owner);
 
@@ -224,7 +224,7 @@ string get_events(pqxx::work& db, const vector<string>& command) {
     return answer;
 }
 
-string handle_command(pqxx::work& db, string request)
+string handle_command(pqxx::work& db, string request) // обработка токена
 {
     vector<string> command = split(request, ' ');
     CommandType token = get_com(command[0]);
@@ -245,31 +245,33 @@ string handle_command(pqxx::work& db, string request)
 }
 
 mutex Muter;
-void serve_client(int clientSocket, const char* clientIP, pqxx::work& db) {
+void serve_client(int clientSocket, const char* clientIP, pqxx::work& db) { // получение запроса от клиента
     ++cntThreads;
 
     while (true) {
-        lock_guard<mutex> lock(Muter);
-        vector<char> clientBuffer(1024);
+        {
+            lock_guard<mutex> lock(Muter);
+            vector<char> clientBuffer(1024);
 
-        ssize_t bytesRead = recv(clientSocket, clientBuffer.data(), clientBuffer.size() - 1, 0);
-        if (bytesRead <= 0) {
-            cout << "Client [" << clientIP << "] was disconnected" << endl;
-            break;
+            ssize_t bytesRead = recv(clientSocket, clientBuffer.data(), clientBuffer.size() - 1, 0);
+            if (bytesRead <= 0) {
+                cout << "Client [" << clientIP << "] was disconnected" << endl;
+                break;
+            }
+            clientBuffer[bytesRead] = '\0';
+
+            string request(clientBuffer.data());
+
+            string answer = handle_command(db, request);
+            send(clientSocket, answer.c_str(), answer.size(), 0);
         }
-        clientBuffer[bytesRead] = '\0';
-
-        string request(clientBuffer.data());
-
-        string answer = handle_command(db, request);
-        send(clientSocket, answer.c_str(), answer.size(), 0);
     }
 
     close(clientSocket);
     --cntThreads;
 }
 
-void start_server(pqxx::work& db) {
+void start_server(pqxx::work& db) { // запуск сервера
     int serverSocket;
 
     if ((serverSocket = socket(AF_INET, SOCK_STREAM, 0)) == 0) {
@@ -350,7 +352,6 @@ int main() {
 
         pqxx::connection db_connection("dbname=" + dbname + " user=" + user + " password=" + password + " host=" + database_ip + " port=" + to_string(port));
 
-        // Проверьте соединение
         if (db_connection.is_open()) {
             cout << "Успешное подключение к базе данных: " << db_connection.dbname() << endl;
         } else {
@@ -358,12 +359,10 @@ int main() {
             return 1;
         }
 
-        // Здесь вы можете выполнять SQL-запросы
         pqxx::work db(db_connection);
         start_server(db);
 
-        // Закройте соединение
-        db_connection.disconnect();
+        db_connection.disconnect(); // docker не воспринимает .close()
     } catch (const exception &e) {
         cerr << e.what() << endl;
         return 1;

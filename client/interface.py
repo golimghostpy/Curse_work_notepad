@@ -2,7 +2,7 @@ import sys
 import socket
 import json
 
-from PyQt5.QtWidgets import (
+from PyQt5.QtWidgets import ( # подключение всех необходимых виджетов для интерфейса
     QApplication,
     QWidget,
     QLabel,
@@ -23,9 +23,9 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, QDate, QPoint
 from PyQt5.QtGui import QPainter, QColor
 
-clientSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+clientSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # привязка сокета
 
-def send_to_server(message):
+def send_to_server(message): # отправка сообщения на сервер и получение ответа
     try:
         clientSock.sendall(message.encode())
         response = clientSock.recv(65536)
@@ -33,7 +33,7 @@ def send_to_server(message):
     except Exception as e:
         print(f"Error communicating with server: {e}")
 
-class CustomCalendarWidget(QCalendarWidget):
+class CustomCalendarWidget(QCalendarWidget): # модифицируем календарь для отображения событий
     def __init__(self, parent=None):
         super().__init__(parent)
         self.events = {}
@@ -42,7 +42,7 @@ class CustomCalendarWidget(QCalendarWidget):
         super().paintCell(painter, rect, date)
         if date in self.events:
             painter.setBrush(QColor(255, 0, 0))
-            painter.drawEllipse(rect.topLeft() + QPoint(3, 3), 3, 3)
+            painter.drawEllipse(rect.topLeft() + QPoint(3, 3), 3, 3) # нарисуем красные точки в углу, если есть данные
 
     def setEvent(self, date, event):
         if date not in self.events:
@@ -60,7 +60,7 @@ class CustomCalendarWidget(QCalendarWidget):
                 del self.events[date]
             self.updateCell(date)
 
-def check_sql_injection(to_check, what_to_check):
+def check_sql_injection(to_check, what_to_check): # ограничение используемых символов в полях ввода
     for i in to_check:
         if what_to_check == 'login' and not (i.isalnum() or i == '_'):
             return True
@@ -77,14 +77,14 @@ def check_sql_injection(to_check, what_to_check):
 
 current_login = None
 
-class LoginWindow(QWidget):
+class LoginWindow(QWidget): # окно авторизации
     def __init__(self, switch_to_register, switch_to_main):
         super().__init__()
         self.switch_to_register = switch_to_register
         self.switch_to_main = switch_to_main
         self.initUI()
 
-    def initUI(self):
+    def initUI(self): # отрисовка интерфейса
         self.setWindowTitle('Login')
 
         self.label_username = QLabel('Имя пользователя:', self)
@@ -107,9 +107,9 @@ class LoginWindow(QWidget):
         layout.addWidget(self.register_button)
 
         self.setLayout(layout)
-        self.setStyleSheet(self.get_stylesheet())
+        self.setStyleSheet(self.get_stylesheet()) # подключаем стиль
 
-    def login_user(self):
+    def login_user(self): # авторизация
         global current_login
         username = self.entry_username.text()
         password = self.entry_password.text()
@@ -132,17 +132,17 @@ class LoginWindow(QWidget):
             QMessageBox.warning(self, 'Ошибка пароля', 'Запрещенные символы в пароле (могут быть только буквы, цифры и !#$%&()*+-:;<=>?@[]^_{|}~)')
             return
 
-        answer = send_to_server(f"login {username} {password}")
+        answer = send_to_server(f"login {username} {password}") # пробуем войти
 
-        if answer == "wrong login":
+        if answer == "wrong login": # нет пользователя
             QMessageBox.warning(self, 'Ошибка логина', 'Несуществующее имя пользователя')
-        elif answer == "wrong password":
+        elif answer == "wrong password": # неверный пароль
             QMessageBox.warning(self, 'Ошибка пароля', 'Неверный пароль')
         else:
             current_login = username
-            self.switch_to_main()
+            self.switch_to_main() # переключение на окно контактов
 
-    def get_stylesheet(self):
+    def get_stylesheet(self): # стиль
         return """
             QWidget {
                 background-color: #f0f0f0;
@@ -174,13 +174,13 @@ class LoginWindow(QWidget):
             }
         """
 
-class RegistrationWindow(QWidget):
+class RegistrationWindow(QWidget): # окно регистрации
     def __init__(self, switch_to_login):
         super().__init__()
         self.switch_to_login = switch_to_login
         self.initUI()
 
-    def initUI(self):
+    def initUI(self): # отрисовка интерфейса
         self.setWindowTitle('Registration')
 
         self.label_username = QLabel('Имя пользователя:', self)
@@ -208,9 +208,9 @@ class RegistrationWindow(QWidget):
         layout.addWidget(self.back_button)
 
         self.setLayout(layout)
-        self.setStyleSheet(self.get_stylesheet())
+        self.setStyleSheet(self.get_stylesheet()) # подключение стиля
 
-    def register_user(self):
+    def register_user(self): # регистрация пользователя
         username = self.entry_username.text()
         password = self.entry_password.text()
         confirm_password = self.entry_confirm_password.text()
@@ -237,19 +237,19 @@ class RegistrationWindow(QWidget):
             QMessageBox.warning(self, 'Ошибка пароля', 'Запрещенные символы в пароле (могут быть только буквы, цифры и !#$%&()*+-:;<=>?@[]^_{|}~)')
             return
 
-        answer = send_to_server(f"register {username} {password} {confirm_password}")
+        answer = send_to_server(f"register {username} {password} {confirm_password}") # пробуем зарегистрировать
 
-        if answer == "login already exists":
+        if answer == "login already exists": # пользователь уже существует
             QMessageBox.warning(self, 'Ошибка логина', 'Пользователь с таким именем уже существует')
             return
 
-        QMessageBox.information(self, 'Регистрация', f'Пользователь {username} успешно зарегистрирован')
+        QMessageBox.information(self, 'Регистрация', f'Пользователь {username} успешно зарегистрирован') # выводим оповещение
         self.entry_username.clear()
         self.entry_password.clear()
         self.entry_confirm_password.clear()
-        switch_to_login()
+        switch_to_login() # переключаемся на меню входа
 
-    def get_stylesheet(self):
+    def get_stylesheet(self): # стиль
         return """
             QWidget {
                 background-color: #f0f0f0;
@@ -281,14 +281,14 @@ class RegistrationWindow(QWidget):
             }
         """
 
-class ChangePasswordWindow(QWidget):
+class ChangePasswordWindow(QWidget): # окно смены пароля
     def __init__(self, switch_to_contacts, switch_to_events):
         super().__init__()
         self.switch_to_contacts = switch_to_contacts
         self.switch_to_events = switch_to_events
         self.initUI()
 
-    def initUI(self):
+    def initUI(self): # отрисовка интерфейса
         self.setWindowTitle('Change password')
 
         self.label_change_password = QLabel('Сменить пароль:', self)
@@ -322,13 +322,13 @@ class ChangePasswordWindow(QWidget):
         layout.addLayout(button_layout)
 
         self.setLayout(layout)
-        self.setStyleSheet(self.get_stylesheet())
+        self.setStyleSheet(self.get_stylesheet()) # подключение стиля
 
         self.change_password_button.clicked.connect(self.change_password)
         self.contacts_button.clicked.connect(self.switch_to_contacts)
         self.events_button.clicked.connect(self.switch_to_events)
 
-    def change_password(self):
+    def change_password(self): # смена пароля
         global current_login
         old_password = self.entry_old_password.text()
         new_password = self.entry_new_password.text()
@@ -338,7 +338,7 @@ class ChangePasswordWindow(QWidget):
             QMessageBox.warning(self, 'Ошибка ввода', 'Заполните все поля')
             return
 
-        check_old = send_to_server(f'login {current_login} {old_password}')
+        check_old = send_to_server(f'login {current_login} {old_password}') # проверяем, точно ли пользователь знает прежний пароль
         if check_old == 'wrong password':
             QMessageBox.warning(self, 'Ошибка пароля', 'Старый пароль неверный')
             return
@@ -359,14 +359,16 @@ class ChangePasswordWindow(QWidget):
             QMessageBox.warning(self, 'Ошибка пароля', 'Нельзя оставить старый пароль')
             return
 
-        answer = send_to_server(f"change_password {current_login} {new_password}")
+        answer = send_to_server(f"change_password {current_login} {new_password}") # отправляем запрос на смену пароля
 
-        QMessageBox.information(self, 'Смена пароля', f'Пароль успешно изменен')
+        QMessageBox.information(self, 'Смена пароля', f'Пароль успешно изменен') # оповещение
+
+        # очищаем формы
         self.entry_old_password.clear()
         self.entry_new_password.clear()
         self.entry_confirm_new_password.clear()
 
-    def get_stylesheet(self):
+    def get_stylesheet(self): # стиль
         return """
             QWidget {
                 background-color: #f0f0f0;
@@ -399,7 +401,7 @@ class ChangePasswordWindow(QWidget):
         """
 
 contacts = []
-class ContactsWindow(QWidget):
+class ContactsWindow(QWidget): # окно контактов
     def __init__(self, switch_to_events, switch_to_main, switch_to_login):
         super().__init__()
         self.switch_to_events = switch_to_events
@@ -408,7 +410,7 @@ class ContactsWindow(QWidget):
         self.initUI()
         self.load_contacts()
 
-    def load_contacts(self):
+    def load_contacts(self): # прогрузка контактов из бд
         global contacts, current_login
 
         answer = send_to_server(f'get_contacts {current_login}')
@@ -418,7 +420,7 @@ class ContactsWindow(QWidget):
 
         contact_matrix = [[j for j in i.split(',')] for i in answer[:-1].split(';')]
         for contact in contact_matrix:
-            contacts.append({
+            contacts.append({ # добавление в список
                 'surname': contact[0],
                 'name': contact[1],
                 'patronymic': contact[2],
@@ -430,9 +432,9 @@ class ContactsWindow(QWidget):
                 'phone': contact[8]
             })
 
-            self.list_widget.addItem(QListWidgetItem(f"{contact[0]} {contact[1]} {contact[8]}"))
+            self.list_widget.addItem(QListWidgetItem(f"{contact[0]} {contact[1]} {contact[8]}")) # добавление отображения
 
-    def initUI(self):
+    def initUI(self): # отрисовка интерфейса
         self.setWindowTitle('Contacts')
 
         self.list_widget = QListWidget(self)
@@ -462,7 +464,7 @@ class ContactsWindow(QWidget):
         layout.addLayout(logout_layout)
 
         self.setLayout(layout)
-        self.setStyleSheet(self.get_stylesheet())
+        self.setStyleSheet(self.get_stylesheet()) # подключение стиля
 
         self.add_button.clicked.connect(self.add_contact)
         self.remove_button.clicked.connect(self.remove_contact)
@@ -470,11 +472,11 @@ class ContactsWindow(QWidget):
         self.change_password_button.clicked.connect(self.switch_to_main)
         self.logout_button.clicked.connect(self.logout)
 
-    def add_contact(self):
+    def add_contact(self): # добавление контакта
         global contacts, current_login
-        dialog = AddContactDialog(self)
+        dialog = AddContactDialog(self) # создаем окно добавление контакта
         if dialog.exec_():
-            contact = dialog.get_contact()
+            contact = dialog.get_contact() # считывание данных с формы
             if contact:
                 request = f'add_contact {current_login} '
                 for i in contact.values():
@@ -482,34 +484,34 @@ class ContactsWindow(QWidget):
 
                 answer = send_to_server(request.strip())
 
-                if answer == 'contact with this phone number is already exists':
+                if answer == 'contact with this phone number is already exists': # нельзя добавить контакт с уже существующим номером
                     QMessageBox.warning(self, 'Ошибка контакта', 'Контакт с таким номером уже существует')
                     return
 
-                contacts.append(contact)
-                self.list_widget.addItem(QListWidgetItem(f"{contact['surname']} {contact['name']} {contact['phone']}"))
+                contacts.append(contact) # добавляем контакт
+                self.list_widget.addItem(QListWidgetItem(f"{contact['surname']} {contact['name']} {contact['phone']}")) # отображаем
             else:
                 self.add_contact()
 
-    def remove_contact(self):
+    def remove_contact(self): # удаление контакта
         global contacts, current_login
-        selected_items = self.list_widget.selectedItems()
+        selected_items = self.list_widget.selectedItems() # берем выбранный элемент
         if not selected_items:
             return
         for item in selected_items:
             index = self.list_widget.row(item)
             self.list_widget.takeItem(index)
 
-            request = f'remove_contact {current_login} {contacts[index]['phone']}'
+            request = f'remove_contact {current_login} {contacts[index]['phone']}' # удаляем контакт
             send_to_server(request)
 
             del contacts[index]
 
-    def change_contact(self, item):
+    def change_contact(self, item): # изменить контакт
         global contacts
         index = self.list_widget.row(item)
         contact = contacts[index]
-        dialog = EditContactDialog(contact, self)
+        dialog = EditContactDialog(contact, self) # выводим окно изменения контакта
         if dialog.exec_():
             updated_contact = dialog.get_contact()
             if updated_contact:
@@ -518,28 +520,18 @@ class ContactsWindow(QWidget):
                 for i in updated_contact.values():
                     request += i + ' '
 
-                send_to_server(request.strip())
+                send_to_server(request.strip()) # отправляем запрос на изменение
 
-                QMessageBox.information(self, 'Изменение контакта', f'Контакт успешно изменен')
+                QMessageBox.information(self, 'Изменение контакта', f'Контакт успешно изменен') # оповещение
                 item.setText(f"{updated_contact['surname']} {updated_contact['name']} {updated_contact['phone']}")
 
-    def logout(self):
-        msgBox = QMessageBox()
-        msgBox.setIcon(QMessageBox.Question)
-        msgBox.setText("Выход")
-        msgBox.setInformativeText("Вы уверены, что хотите выйти?")
-        msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        msgBox.setDefaultButton(QMessageBox.No)
-
-        msgBox.setButtonText(QMessageBox.Yes, "Да")
-        msgBox.setButtonText(QMessageBox.No, "Нет")
-
-        reply = msgBox.exec_()
-
+    def logout(self): # выход из аккаунта
+        reply = QMessageBox.question(self, 'Выход', 'Вы уверены, что хотите выйти?',
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
             self.switch_to_login()
 
-    def get_stylesheet(self):
+    def get_stylesheet(self): # стиль
         return """
             QWidget {
                 background-color: #f0f0f0;
@@ -577,12 +569,12 @@ class ContactsWindow(QWidget):
             }
         """
 
-class PhoneInput(QLineEdit):
+class PhoneInput(QLineEdit): # поле ввода номера телефона
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setInputMask("+00000000000;_")
+        self.setInputMask("+00000000000;_") # маска
 
-def check_contact(self):
+def check_contact(self): # проверка полей контакта на соответствие формату
     if check_sql_injection(self.surname_entry.text(), 'word'):
         QMessageBox.warning(self, 'Ошибка фамилии', 'Фамилия - одно слово')
         return None
@@ -613,12 +605,12 @@ def check_contact(self):
 
     return 'ok'
 
-class AddContactDialog(QDialog):
+class AddContactDialog(QDialog): # окно добавления контакта
     def __init__(self, parent=None):
         super().__init__(parent)
         self.initUI()
 
-    def initUI(self):
+    def initUI(self): # отрисовка интерфейса
         self.setWindowTitle('Add Contact')
 
         self.form_layout = QFormLayout()
@@ -669,9 +661,9 @@ class AddContactDialog(QDialog):
         layout.addWidget(self.button_box)
 
         self.setLayout(layout)
-        self.setStyleSheet(self.get_stylesheet())
+        self.setStyleSheet(self.get_stylesheet()) # подключение стиля
 
-    def get_contact(self):
+    def get_contact(self): # получение контакта из формы
         last_name = self.surname_entry.text()
         first_name = self.name_entry.text()
         phone = self.phone_entry.text()
@@ -685,7 +677,7 @@ class AddContactDialog(QDialog):
 
         if (len(last_name) > 64 or len(first_name) > 64 or len(self.patronymic_entry.text()) > 64 or
                 len(self.city_entry.text()) > 64 or len(self.street_entry.text()) > 64 or
-                len(self.house_number_entry.text()) > 64 or len(self.apartment_number_entry.text()) > 64):
+                len(self.house_number_entry.text()) > 64 or len(self.apartment_number_entry.text()) > 64): # проверка длины
             QMessageBox.warning(self, 'Ошибка ввода', 'Слишком много данных на 1 поле, максимальная длина - 64 символа')
             return None
 
@@ -706,7 +698,7 @@ class AddContactDialog(QDialog):
             'phone': phone
         }
 
-    def get_stylesheet(self):
+    def get_stylesheet(self): # стиль
         return """
             QWidget {
                 background-color: #f0f0f0;
@@ -738,14 +730,14 @@ class AddContactDialog(QDialog):
             }
         """
 
-class EditContactDialog(QDialog):
+class EditContactDialog(QDialog): # окно изменение контакта
     def __init__(self, contact, parent=None):
         super().__init__(parent)
         self.contact = contact
         self.original_contact = contact.copy()
         self.initUI()
 
-    def initUI(self):
+    def initUI(self): # отрисовка интерфейса
         self.setWindowTitle('Edit Contact')
 
         self.form_layout = QFormLayout()
@@ -816,16 +808,16 @@ class EditContactDialog(QDialog):
         layout.addWidget(self.button_box)
 
         self.setLayout(layout)
-        self.setStyleSheet(self.get_stylesheet())
+        self.setStyleSheet(self.get_stylesheet()) # подключение стиля
 
-    def check_changes(self):
+    def check_changes(self): # проверка изменений
         current_contact = self.get_contact()
         if current_contact != self.original_contact:
             self.button_box.button(QDialogButtonBox.Save).setEnabled(True)
         else:
             self.button_box.button(QDialogButtonBox.Save).setEnabled(False)
 
-    def save_contact(self):
+    def save_contact(self): # сохранение изменений
         current_contact = self.get_contact()
         if current_contact == self.original_contact:
             QMessageBox.warning(self, 'Нет изменений', 'Никаких изменений не произведено.')
@@ -834,7 +826,7 @@ class EditContactDialog(QDialog):
         else:
             self.accept()
 
-    def get_contact(self):
+    def get_contact(self): # получение контакта из формы
         surname = self.surname_entry.text()
         name = self.name_entry.text()
         phone = self.phone_entry.text()
@@ -857,7 +849,7 @@ class EditContactDialog(QDialog):
             'phone': phone
         }
 
-    def get_stylesheet(self):
+    def get_stylesheet(self): # стиль
         return """
             QWidget {
                 background-color: #f0f0f0;
@@ -889,7 +881,7 @@ class EditContactDialog(QDialog):
             }
         """
 
-class EventsWindow(QWidget):
+class EventsWindow(QWidget): # окно событий
     def __init__(self, switch_to_contacts, switch_to_main, switch_to_login):
         super().__init__()
         self.switch_to_contacts = switch_to_contacts
@@ -898,7 +890,7 @@ class EventsWindow(QWidget):
         self.initUI()
         self.load_events()
 
-    def initUI(self):
+    def initUI(self): # отрисовка интерфейса
         self.setWindowTitle('Events')
 
         self.calendar = CustomCalendarWidget(self)
@@ -925,13 +917,13 @@ class EventsWindow(QWidget):
         layout.addLayout(logout_layout)
 
         self.setLayout(layout)
-        self.setStyleSheet(self.get_stylesheet())
+        self.setStyleSheet(self.get_stylesheet()) # подключение стиля
 
         self.contacts_button.clicked.connect(self.switch_to_contacts)
         self.change_password_button.clicked.connect(self.switch_to_main)
         self.logout_button.clicked.connect(self.logout)
 
-    def load_events(self):
+    def load_events(self): # загрузка событий из бд
         global current_login
         answer = send_to_server(f"get_events {current_login}")
 
@@ -948,27 +940,17 @@ class EventsWindow(QWidget):
                     for i in events:
                         self.calendar.setEvent(date, ' '.join(i.split('_')))
 
-    def show_events_for_date(self, date):
-        dialog = EventListDialog(date, self.calendar, self)
+    def show_events_for_date(self, date): # показать события на дату
+        dialog = EventListDialog(date, self.calendar, self) # создаем окно со списком событий
         dialog.exec_()
 
-    def logout(self):
-        msgBox = QMessageBox()
-        msgBox.setIcon(QMessageBox.Question)
-        msgBox.setText("Выход")
-        msgBox.setInformativeText("Вы уверены, что хотите выйти?")
-        msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
-        msgBox.setDefaultButton(QMessageBox.No)
-
-        msgBox.setButtonText(QMessageBox.Yes, "Да")
-        msgBox.setButtonText(QMessageBox.No, "Нет")
-
-        reply = msgBox.exec_()
-
+    def logout(self): # выйти из аккаунта
+        reply = QMessageBox.question(self, 'Выход', 'Вы уверены, что хотите выйти?',
+                                     QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
         if reply == QMessageBox.Yes:
             self.switch_to_login()
 
-    def get_stylesheet(self):
+    def get_stylesheet(self): # стиль
         return """
             QWidget {
                 background-color: #f0f0f0;
@@ -995,7 +977,7 @@ class EventsWindow(QWidget):
             }
         """
 
-class EventListDialog(QDialog):
+class EventListDialog(QDialog): # список событий
     def __init__(self, date, calendar, parent=None):
         super().__init__(parent)
         self.date = date
@@ -1032,22 +1014,22 @@ class EventListDialog(QDialog):
         self.remove_button.clicked.connect(self.remove_event)
         self.close_button.clicked.connect(self.close)
 
-    def change_event(self, item):
+    def change_event(self, item): # изменение события
         old_event_name = item.text()
         new_event_name, ok = QInputDialog.getText(self, 'Смена мероприятия', 'Введите название мероприятия:', text=old_event_name)
 
-        if check_sql_injection(new_event_name, 'simple lable'):
+        if check_sql_injection(new_event_name, 'simple lable'): # проверка символов
             QMessageBox.warning(self, 'Ошибка изменения', 'Вы можете писать только слова, числа и знаки :-_')
             return
 
         if ok and new_event_name:
             answer = send_to_server(f"change_event {current_login} {self.date.toString('yyyy-MM-dd')} {'_'.join(old_event_name.strip().split())} {'_'.join(new_event_name.strip().split())}")
-            if answer == "successful change_event":
+            if answer == "successful change_event": # успешное изменение
                 self.calendar.removeEvent(self.date, old_event_name)
                 self.calendar.setEvent(self.date, new_event_name)
                 item.setText(new_event_name)
 
-    def add_event(self):
+    def add_event(self): # добавление события
         event_name, ok = QInputDialog.getText(self, 'Добавить', 'Введите название мероприятия:')
 
         if check_sql_injection(event_name, 'simple lable'):
@@ -1059,23 +1041,23 @@ class EventListDialog(QDialog):
             return None
 
         if ok and event_name:
-            answer = send_to_server(f"add_event {current_login} {self.date.toString('yyyy-MM-dd')} {'_'.join(event_name.strip().split())}")
+            answer = send_to_server(f"add_event {current_login} {self.date.toString('yyyy-MM-dd')} {'_'.join(event_name.strip().split())}") # отправка запроса на добавление
             if answer == "successful add_event":
                 self.list_widget.addItem(QListWidgetItem(event_name))
                 self.calendar.setEvent(self.date, event_name)
 
-    def remove_event(self):
+    def remove_event(self): # удаление события
         selected_items = self.list_widget.selectedItems()
-        if not selected_items:
+        if not selected_items: # если ничего не выбрано
             return
         for item in selected_items:
             event_name = item.text()
-            answer = send_to_server(f"remove_event {current_login} {self.date.toString('yyyy-MM-dd')} {'_'.join(event_name.strip().split())}")
+            answer = send_to_server(f"remove_event {current_login} {self.date.toString('yyyy-MM-dd')} {'_'.join(event_name.strip().split())}") # запрос на удаление
             if answer == "successful remove_event":
                 self.calendar.removeEvent(self.date, event_name)
                 self.list_widget.takeItem(self.list_widget.row(item))
 
-    def get_stylesheet(self):
+    def get_stylesheet(self): # стиль
         return """
             QWidget {
                 background-color: #f0f0f0;
@@ -1119,43 +1101,43 @@ change_password_window = None
 contacts_window = None
 events_window = None
 
-def show_login_window():
+def show_login_window(): # открыть окно авторизации
     global login_window
     login_window = LoginWindow(switch_to_registration, switch_to_contacts)
     login_window.resize(300, 300)
     login_window.show()
 
-def show_registration_window():
+def show_registration_window(): # открыть окно регистрации
     global registration_window
     registration_window = RegistrationWindow(switch_to_login)
     registration_window.resize(300, 300)
     registration_window.show()
 
-def show_change_password_window():
+def show_change_password_window(): # открыть окно смены пароля
     global change_password_window
     change_password_window = ChangePasswordWindow(switch_to_contacts, switch_to_events)
     change_password_window.resize(300, 400)
     change_password_window.show()
 
-def show_contacts_window():
+def show_contacts_window(): # открыть окно контактов
     global contacts_window
     contacts_window = ContactsWindow(switch_to_events, switch_to_change_password, switch_to_login)
     contacts_window.resize(300, 400)
     contacts_window.show()
 
-def show_events_window():
+def show_events_window(): # открыть окно событий
     global events_window
     events_window = EventsWindow(switch_to_contacts, switch_to_change_password, switch_to_login)
     events_window.resize(300, 400)
     events_window.show()
 
-def switch_to_registration():
+def switch_to_registration(): # переключиться на регистрацию
     global login_window, registration_window
     if login_window:
         login_window.close()
     show_registration_window()
 
-def switch_to_login():
+def switch_to_login(): # переключиться на вход
     global registration_window, login_window, contacts_window, events_window, contacts, current_login
     if registration_window:
         registration_window.close()
@@ -1167,7 +1149,7 @@ def switch_to_login():
         events_window.close()
     show_login_window()
 
-def switch_to_change_password():
+def switch_to_change_password(): # переключиться на смену пароля
     global change_password_window, contacts_window, events_window
 
     if contacts_window:
@@ -1176,7 +1158,7 @@ def switch_to_change_password():
         events_window.close()
     show_change_password_window()
 
-def switch_to_contacts():
+def switch_to_contacts(): # переключиться на окно контактов
     global change_password_window, contacts_window, login_window
     if change_password_window:
         change_password_window.close()
@@ -1186,7 +1168,7 @@ def switch_to_contacts():
         login_window.close()
     show_contacts_window()
 
-def switch_to_events():
+def switch_to_events(): # переключиться на окно событий
     global change_password_window, events_window
     if change_password_window:
         change_password_window.close()

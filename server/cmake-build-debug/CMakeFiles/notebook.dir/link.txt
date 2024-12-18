@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic CMakeFiles/notebook.dir/command_handler.cpp.o CMakeFiles/notebook.dir/general_functions.cpp.o -o notebook  -lpqxx -lpq /usr/lib/x86_64-linux-gnu/libcrypto.so /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libcrypto.so
