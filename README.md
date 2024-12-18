@@ -50,13 +50,13 @@
 
    ```sh
    pip install PyQt5
-   pyinstaller --noconsole --onefile --name PeopleAndPlaces interface.py
+   pyinstaller --noconsole --onefile --name people_and_places interface.py
    ```
    
 3. Перейдите в директорию ./dist/ и запустите файл PeopleAndPlaces:
 
    ```sh
-   ./PeopleAndPlaces
+   ./people_and_places
    ```
 
 4. Рекомендуется изменить параметры файла `./dist/clientConfig.json` в соответствии с вашими данными.
