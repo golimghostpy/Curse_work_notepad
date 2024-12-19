@@ -261,13 +261,11 @@ string handle_command(pqxx::work& db, string request) // обработка то
     }
 }
 
-mutex Muter;
 void serve_client(int clientSocket, const char* clientIP, pqxx::work& db) { // получение запроса от клиента
     ++cntThreads;
 
     while (true) {
         {
-            lock_guard<mutex> lock(Muter);
             vector<char> clientBuffer(1024);
 
             ssize_t bytesRead = recv(clientSocket, clientBuffer.data(), clientBuffer.size() - 1, 0);
