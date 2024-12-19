@@ -1,5 +1,22 @@
 #include "command_handler.h"
 
+CommandType get_com(const string&);
+string hash_password(const string&);
+string registration(pqxx::work&, const vector<string>&);
+string change_password(pqxx::work&, const vector<string>&);
+string authorization(pqxx::work&, const vector<string>&);
+string get_contacts(pqxx::work&, const vector<string>&);
+string add_contact(pqxx::work&, const vector<string>&);
+string remove_contact(pqxx::work&, const vector<string>&);
+string change_contact(pqxx::work&, const vector<string>&);
+string add_event(pqxx::work&, const vector<string>&);
+string remove_event(pqxx::work&, const vector<string>&);
+string change_event(pqxx::work&, const vector<string>&);
+string get_events(pqxx::work&, const vector<string>&);
+string handle_command(pqxx::work&, string);
+void serve_client(int, const char*, pqxx::work&);
+void start_server(pqxx::work&);
+
 atomic<int> cntThreads(1);
 
 CommandType get_com (const string& command){ // получение токена запроса
